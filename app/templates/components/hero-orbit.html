@@ -1,0 +1,33 @@
+{#
+  hero-orbit.html
+  Hero image plus the crossed orbit system: two permanently visible
+  elliptical SVG paths and the four labels that travel along them. All
+  positioning math happens in orbit-animation.js; this template only
+  provides the static structure it hooks into.
+#}
+{% from "macros/hero-label.html" import hero_label %}
+
+<div class="comrade-hero__stage hero-reveal-scale" aria-hidden="true">
+  <div class="comrade-hero__atmosphere"></div>
+
+  <div class="comrade-hero__image-frame">
+    <img
+      src="{{ url_for('static', filename='images/hero-artwork.png') }}"
+      alt=""
+      class="comrade-hero__image"
+      width="1233"
+      height="1276"
+      loading="eager"
+      decoding="async"
+    >
+  </div>
+
+  <svg class="hero-orbit-svg" viewBox="0 0 500 500" focusable="false">
+    <ellipse class="hero-orbit-path hero-orbit-path--a"></ellipse>
+    <ellipse class="hero-orbit-path hero-orbit-path--b"></ellipse>
+  </svg>
+
+  {% for label in orbit_labels %}
+    {{ hero_label(label.text, label.orbit, label.phase) }}
+  {% endfor %}
+</div>

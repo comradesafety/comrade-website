@@ -1,0 +1,130 @@
+/*
+  orbit.css
+  The crossed elliptical orbit system: static SVG paths plus the four
+  labels that travel along them. Positioning math lives in
+  orbit-animation.js; this file only handles appearance and layering.
+*/
+
+.hero-orbit-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--comrade-z-orbit-path);
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--comrade-transition-slow);
+}
+
+.hero-orbit-svg.is-visible {
+  opacity: 1;
+}
+
+.hero-orbit-path {
+  fill: none;
+  stroke: var(--comrade-primary);
+  stroke-width: 1.25;
+  opacity: 0.35;
+  vector-effect: non-scaling-stroke;
+}
+
+.hero-orbit-path--a {
+  opacity: 0.4;
+}
+
+.hero-orbit-path--b {
+  opacity: 0.28;
+}
+
+/*
+  Each label is a small dot sitting exactly on the orbit path plus a
+  floating text pill offset beside it. The wrapper itself carries only
+  the per-frame position (translate3d from orbit-animation.js); the dot
+  and text are positioned relative to that same origin point so they
+  travel together as one object.
+*/
+.hero-orbit-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--comrade-z-orbit-label);
+  will-change: transform;
+  /* Positioned every frame via transform from orbit-animation.js. */
+  transform: translate3d(-9999px, -9999px, 0);
+  opacity: 0;
+  transition: opacity var(--comrade-transition-normal);
+}
+
+.hero-orbit-label.is-visible {
+  opacity: 1;
+}
+
+.hero-orbit-label__dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--comrade-primary);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 5px var(--comrade-primary-light), 0 0 12px rgba(151, 7, 71, 0.4);
+  animation: comrade-orbit-dot-pulse 4.5s ease-in-out infinite;
+}
+
+/* A restrained glass treatment: translucent cream, minimal blur, a hair
+   of a border. Not a solid card, not a heavy frosted-glass effect. */
+.hero-orbit-label__text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--comrade-text);
+  padding: 0.32rem 0.8rem;
+  border-radius: var(--comrade-radius-pill);
+  background-color: rgba(253, 246, 238, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 16px var(--comrade-shadow-soft);
+  transition: transform var(--comrade-transition-fast);
+}
+
+/* Text offset direction, kept in sync with the dot's current side of the
+   ellipse by orbit-animation.js (only written when the side changes). */
+.hero-orbit-label__text[data-side="right"] {
+  transform: translate(14px, -50%);
+}
+
+.hero-orbit-label__text[data-side="left"] {
+  transform: translate(calc(-100% - 14px), -50%);
+}
+
+.hero-orbit-label__text[data-side="top"] {
+  transform: translate(-50%, calc(-100% - 12px));
+}
+
+.hero-orbit-label__text[data-side="bottom"] {
+  transform: translate(-50%, 12px);
+}
+
+/* Very subtle secondary motion on the dot only, purely decorative. */
+@keyframes comrade-orbit-dot-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 5px var(--comrade-primary-light), 0 0 12px rgba(151, 7, 71, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 7px var(--comrade-primary-light-strong), 0 0 16px rgba(151, 7, 71, 0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orbit-label__dot {
+    animation: none;
+  }
+}

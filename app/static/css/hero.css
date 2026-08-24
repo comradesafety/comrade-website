@@ -1,0 +1,100 @@
+/*
+  hero.css
+  Hero section layout: two-column composition (copy left, image + orbit
+  right), headline treatment, and hero-only spacing. Orbit-specific rules
+  live in orbit.css; the image's soft-edge blending and atmosphere glow
+  live in image-blend.css.
+*/
+
+.comrade-hero {
+  position: relative;
+  padding-top: var(--comrade-space-xl);
+  padding-bottom: var(--comrade-space-xl);
+  overflow: hidden;
+}
+
+.comrade-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--comrade-space-xl);
+}
+
+.comrade-hero__content {
+  max-width: 560px;
+}
+
+.comrade-hero__headline {
+  margin-top: var(--comrade-space-sm);
+  font-size: clamp(2.75rem, 5vw, 4.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: var(--comrade-text);
+}
+
+.comrade-hero__highlight {
+  color: var(--comrade-primary);
+}
+
+.comrade-hero__description {
+  margin-top: var(--comrade-space-md);
+  max-width: 42ch;
+  font-size: 1.08rem;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--comrade-space-sm);
+  margin-top: var(--comrade-space-lg);
+}
+
+.comrade-hero__visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comrade-hero__stage {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+}
+
+.comrade-hero__image-frame {
+  position: absolute;
+  inset: 6%;
+  z-index: 1;
+  /* Soft-edge masking lives in image-blend.css. */
+  animation: comrade-hero-float 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.comrade-hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Subtle floating micro-motion, disabled under reduced motion. */
+@keyframes comrade-hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comrade-hero__image-frame {
+    animation: none;
+  }
+}

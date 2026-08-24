@@ -1,0 +1,97 @@
+/*
+  animations.css
+  Shared, reusable animation classes: scroll-triggered reveals (paired
+  with scroll-reveal.js) and the homepage entrance sequence (paired with
+  hero-animation.js). Keyframes and transition timing are centralized
+  here so no other stylesheet needs to redefine them.
+*/
+
+/* ---- Scroll reveal system (IntersectionObserver driven) ---- */
+
+.reveal-on-scroll {
+  opacity: 0;
+  transition: opacity var(--comrade-transition-slow),
+    transform var(--comrade-transition-slow);
+}
+
+.reveal-up {
+  transform: translateY(28px);
+}
+
+.reveal-left {
+  transform: translateX(-28px);
+}
+
+.reveal-right {
+  transform: translateX(28px);
+}
+
+.reveal-scale {
+  transform: scale(0.94);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+/* ---- Homepage hero entrance sequence ---- */
+
+.hero-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--comrade-transition-slow),
+    transform var(--comrade-transition-slow);
+}
+
+.hero-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity var(--comrade-transition-slow),
+    transform var(--comrade-transition-slow);
+}
+
+.hero-reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Staggered entrance delays, applied as classes so no inline styles
+   are needed anywhere in the templates. */
+.comrade-delay-1 {
+  transition-delay: 80ms;
+}
+
+.comrade-delay-2 {
+  transition-delay: 180ms;
+}
+
+.comrade-delay-3 {
+  transition-delay: 280ms;
+}
+
+.comrade-delay-4 {
+  transition-delay: 380ms;
+}
+
+.comrade-delay-5 {
+  transition-delay: 480ms;
+}
+
+.comrade-delay-6 {
+  transition-delay: 580ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .hero-reveal,
+  .hero-reveal-scale {
+    transition: opacity var(--comrade-transition-fast);
+    transform: none !important;
+  }
+}

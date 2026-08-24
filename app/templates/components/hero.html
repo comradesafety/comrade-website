@@ -1,0 +1,31 @@
+{#
+  hero.html
+  Homepage hero section: eyebrow, headline, description, and CTAs on the
+  left; hero image and orbit system on the right. Composed from smaller
+  components rather than written as one large block.
+#}
+
+<section class="comrade-hero" id="hero">
+  <div class="comrade-container comrade-hero__grid">
+    <div class="comrade-hero__content">
+      <p class="comrade-eyebrow hero-reveal">Women's safety, reimagined</p>
+
+      <h1 class="comrade-hero__headline hero-reveal comrade-delay-1">
+        Safety that<br>
+        <span class="comrade-hero__highlight">stays</span> with<br>
+        you.
+      </h1>
+
+      <p class="comrade-hero__description hero-reveal comrade-delay-2">
+        Comrade is a pioneering force in women's safety, dedicated
+        to empowering women through innovation.
+      </p>
+
+      {% include "components/cta-buttons.html" %}
+    </div>
+
+    <div class="comrade-hero__visual">
+      {% include "components/hero-orbit.html" %}
+    </div>
+  </div>
+</section>

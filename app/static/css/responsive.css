@@ -1,0 +1,145 @@
+/*
+  responsive.css
+  Breakpoint overrides only. Base styles in each component file are
+  already fluid; this file handles structural changes: navbar collapse,
+  hero stacking, orbit scaling, and footer reflow.
+*/
+
+/* ---- Tablet and below: collapse navbar, reduce navbar height ---- */
+@media (max-width: 992px) {
+  .comrade-navbar__links,
+  .comrade-navbar__actions .comrade-btn--primary {
+    display: none;
+  }
+
+  .comrade-navbar__toggle {
+    display: inline-flex;
+  }
+
+  :root {
+    --comrade-navbar-height: 100px;
+    --comrade-navbar-height-scrolled: 80px;
+  }
+
+  .comrade-navbar__logo {
+    height: 68px;
+  }
+
+  .navbar-scrolled .comrade-navbar__logo {
+    height: 52px;
+  }
+
+  .comrade-hero__grid {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .comrade-hero__content {
+    max-width: none;
+  }
+
+  .comrade-hero__stage {
+    max-width: 440px;
+  }
+
+  .comrade-footer__top {
+    grid-template-columns: 1fr;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .comrade-footer__cta-wrapper {
+    align-items: flex-start;
+    text-align: left;
+    margin-top: var(--comrade-space-md);
+  }
+
+  .comrade-footer__middle {
+    grid-template-columns: 1fr 1fr;
+    row-gap: var(--comrade-space-xl);
+  }
+
+  .comrade-footer__brand {
+    grid-column: 1 / -1;
+    max-width: 100%;
+  }
+}
+
+/* ---- Small tablet / large phone ---- */
+@media (max-width: 768px) {
+  .comrade-hero {
+    padding-top: var(--comrade-space-lg);
+    padding-bottom: var(--comrade-space-lg);
+  }
+
+  .comrade-hero__stage {
+    max-width: 380px;
+  }
+
+  .hero-orbit-label__text {
+    padding: 0.28rem 0.65rem;
+    font-size: 0.72rem;
+  }
+
+  .hero-orbit-label__text[data-side="right"] {
+    transform: translate(11px, -50%);
+  }
+
+  .hero-orbit-label__text[data-side="left"] {
+    transform: translate(calc(-100% - 11px), -50%);
+  }
+
+  .hero-orbit-label__text[data-side="top"] {
+    transform: translate(-50%, calc(-100% - 10px));
+  }
+
+  .hero-orbit-label__text[data-side="bottom"] {
+    transform: translate(-50%, 10px);
+  }
+
+  .comrade-footer__middle {
+    grid-template-columns: 1fr;
+    gap: var(--comrade-space-lg);
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 576px) {
+  .comrade-container {
+    padding-inline: var(--comrade-space-md);
+  }
+
+  .comrade-navbar__logo {
+    height: 60px;
+  }
+
+  .navbar-scrolled .comrade-navbar__logo {
+    height: 48px;
+  }
+
+  .comrade-hero__headline {
+    font-size: clamp(2.25rem, 9vw, 2.75rem);
+  }
+
+  .comrade-hero__description {
+    max-width: none;
+  }
+
+  .comrade-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .comrade-hero__actions .comrade-btn {
+    justify-content: center;
+  }
+
+  .comrade-hero__stage {
+    max-width: 300px;
+  }
+
+  .comrade-footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

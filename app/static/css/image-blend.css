@@ -1,0 +1,55 @@
+/*
+  image-blend.css
+  Makes the hero image dissolve into the cream page background instead of
+  sitting on top of it as a rectangular photo card. Two techniques do the
+  work together:
+
+  1. comrade-hero__atmosphere: a soft blurred glow behind the image,
+     using the brand colors, so the area around the image doesn't look
+     like flat empty background.
+  2. comrade-hero__image-frame: an elliptical mask that fades the image's
+     own edges to transparent, so its corners and sides dissolve rather
+     than ending in a hard rectangle.
+
+  No border, no box-shadow, no rounded-rectangle card: the fade itself is
+  what reads as the edge.
+*/
+
+.comrade-hero__atmosphere {
+  position: absolute;
+  inset: -10%;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 55% 55% at 50% 45%,
+    var(--comrade-primary-light) 0%,
+    rgba(151, 7, 71, 0.05) 45%,
+    transparent 72%
+  );
+  filter: blur(36px);
+  pointer-events: none;
+}
+
+.comrade-hero__image-frame {
+  mask-image: radial-gradient(
+    ellipse 58% 56% at 50% 46%,
+    #000 48%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 92%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 58% 56% at 50% 46%,
+    #000 48%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 92%
+  );
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comrade-hero__atmosphere {
+    filter: blur(28px);
+  }
+}

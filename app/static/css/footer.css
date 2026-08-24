@@ -1,0 +1,224 @@
+/*
+  footer.css
+  Asymmetric editorial footer styles.
+*/
+
+.comrade-footer {
+  position: relative;
+  background-color: var(--comrade-bg);
+  color: var(--comrade-text);
+  overflow: hidden;
+  padding-top: var(--comrade-space-xxl);
+}
+
+/* --- Watermark --- */
+.comrade-footer__watermark {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 15%);
+  font-size: 28vw;
+  font-weight: 900;
+  color: var(--comrade-primary);
+  opacity: 0.02;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 0.75;
+}
+
+/* --- Top Section (Statement & CTA) --- */
+.comrade-footer__top {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--comrade-space-xl);
+  align-items: end;
+  padding-bottom: var(--comrade-space-xxl);
+  border-bottom: 1px solid var(--comrade-border);
+}
+
+.comrade-footer__orbit-line {
+  position: absolute;
+  top: -40px;
+  left: -5%;
+  width: 40%;
+  height: 40px;
+  opacity: 0.4;
+  color: var(--comrade-primary);
+}
+
+.comrade-footer__orbit-dot {
+  fill: var(--comrade-primary);
+}
+
+.comrade-footer__closing-statement {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.comrade-footer__cta-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--comrade-space-md);
+  max-width: 300px;
+  text-align: right;
+}
+
+.comrade-footer__supporting-text {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-footer__cta-button {
+  box-shadow: 0 4px 12px rgba(151, 7, 71, 0.15);
+}
+
+/* --- Middle Section (Brand & Nav) --- */
+.comrade-footer__middle {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--comrade-space-xl);
+  padding-block: var(--comrade-space-xl);
+}
+
+.comrade-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--comrade-space-md);
+  max-width: 400px;
+}
+
+.comrade-footer__logo {
+  height: 42px;
+  width: auto;
+}
+
+.comrade-footer__brand-desc {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-footer__heading {
+  margin-bottom: var(--comrade-space-sm);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--comrade-text-muted);
+}
+
+/* --- Navigation & Links --- */
+.comrade-footer__nav,
+.comrade-footer__social {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.comrade-footer__nav-link {
+  position: relative;
+  width: fit-content;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--comrade-text);
+  padding-bottom: 2px;
+  transition: color var(--comrade-transition-normal);
+}
+
+.comrade-footer__nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--comrade-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--comrade-transition-normal);
+}
+
+.comrade-footer__nav-link:hover {
+  color: var(--comrade-primary);
+}
+
+.comrade-footer__nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* --- Social Links --- */
+.comrade-footer__social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.comrade-footer__social-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--comrade-text);
+  transition: transform var(--comrade-transition-fast), color var(--comrade-transition-fast);
+}
+
+.comrade-footer__social-link svg {
+  color: var(--comrade-text-muted);
+  transition: color var(--comrade-transition-fast);
+}
+
+.comrade-footer__social-link:hover {
+  color: var(--comrade-primary);
+  transform: translateX(4px);
+}
+
+.comrade-footer__social-link:hover svg {
+  color: var(--comrade-primary);
+}
+
+/* --- Bottom Section (Legal Row) --- */
+.comrade-footer__bottom {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--comrade-border);
+  padding-block: var(--comrade-space-md);
+  margin-top: var(--comrade-space-lg);
+}
+
+.comrade-footer__bottom-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--comrade-space-sm);
+  font-size: 0.85rem;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-footer__legal-links {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.comrade-footer__legal-links a {
+  color: var(--comrade-text-muted);
+  transition: color var(--comrade-transition-fast);
+}
+
+.comrade-footer__legal-links a:hover {
+  color: var(--comrade-primary);
+}

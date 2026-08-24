@@ -1,0 +1,18 @@
+{#
+  placeholder-section.html
+  Shared "coming soon" section for every page that isn't fully designed
+  yet (About, Vision, Products, Contact). One shared template means all
+  four stay visually identical and can each be swapped for a real design
+  later without touching their routes.
+
+  Expects a `copy` dict with `title` and `message` keys.
+#}
+{% from "macros/buttons.html" import comrade_button %}
+
+<section class="comrade-section comrade-placeholder">
+  <div class="comrade-container comrade-placeholder__inner reveal-on-scroll reveal-up">
+    <p class="comrade-eyebrow">{{ copy.title }}</p>
+    <h1 class="comrade-placeholder__heading">{{ copy.message }}</h1>
+    {{ comrade_button("Back to home", url_for('home.index'), "primary") }}
+  </div>
+</section>

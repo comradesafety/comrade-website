@@ -1,0 +1,56 @@
+{#
+  navbar.html
+  Global site navbar: brand, primary links, "Coming Soon" CTA, and the
+  mobile menu toggle. Link list is defined once and looped for both the
+  desktop and mobile menus so it never has to be written out twice.
+#}
+{% from "macros/icons.html" import icon %}
+{% from "macros/buttons.html" import comrade_button %}
+
+{% macro nav_link(endpoint, label, css_class) %}
+<a href="{{ url_for(endpoint) }}" class="{{ css_class }}{{ ' active' if request.endpoint == endpoint else '' }}">{{ label }}</a>
+{%- endmacro %}
+
+<header class="comrade-navbar">
+  <div class="comrade-container comrade-navbar__inner">
+    <a href="{{ url_for('home.index') }}" class="comrade-navbar__brand" aria-label="Comrade home">
+      <img
+        src="{{ url_for('static', filename='images/logo.png') }}"
+        alt="Comrade"
+        class="comrade-navbar__logo"
+      >
+    </a>
+
+    <nav class="comrade-navbar__links" aria-label="Primary navigation">
+      {% for endpoint, label in main_nav_items %}
+        {{ nav_link(endpoint, label, "comrade-navbar__link") }}
+      {% endfor %}
+    </nav>
+
+    <div class="comrade-navbar__actions">
+      {{ comrade_button("Coming Soon", url_for('pages.products'), "primary") }}
+
+      <button
+        type="button"
+        class="comrade-navbar__toggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="comradeMobileMenu"
+      >
+        <span class="comrade-navbar__toggle-icon comrade-navbar__toggle-icon--menu">{{ icon("menu") }}</span>
+        <span class="comrade-navbar__toggle-icon comrade-navbar__toggle-icon--close">{{ icon("close") }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="comrade-navbar__mobile-menu" id="comradeMobileMenu">
+    <div class="comrade-navbar__mobile-menu-inner">
+      <nav class="comrade-navbar__mobile-links" aria-label="Mobile navigation">
+        {% for endpoint, label in main_nav_items %}
+          {{ nav_link(endpoint, label, "comrade-navbar__mobile-link") }}
+        {% endfor %}
+        {{ comrade_button("Coming Soon", url_for('pages.products'), "primary", "comrade-navbar__mobile-cta") }}
+      </nav>
+    </div>
+  </div>
+</header>

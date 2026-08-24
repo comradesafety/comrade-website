@@ -1,0 +1,86 @@
+/*
+  buttons.css
+  Reusable Comrade button system. Overrides Bootstrap's default button
+  look entirely; these classes are used instead of .btn-primary etc.
+*/
+
+.comrade-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--comrade-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  transition: transform var(--comrade-transition-fast),
+    box-shadow var(--comrade-transition-fast),
+    background-color var(--comrade-transition-fast),
+    border-color var(--comrade-transition-fast),
+    color var(--comrade-transition-fast);
+}
+
+.comrade-btn__icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--comrade-transition-fast);
+}
+
+.comrade-btn__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.comrade-btn:hover .comrade-btn__icon {
+  transform: translate(3px, -3px);
+}
+
+.comrade-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* Primary: burgundy background, white text, soft shadow, lift on hover */
+.comrade-btn--primary {
+  background-color: var(--comrade-primary);
+  color: var(--comrade-text-on-primary);
+  box-shadow: 0 10px 24px var(--comrade-shadow);
+}
+
+.comrade-btn--primary:hover {
+  background-color: var(--comrade-primary-hover);
+  color: var(--comrade-text-on-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 30px var(--comrade-shadow);
+}
+
+/* Secondary: cream background, thin border, dark text */
+.comrade-btn--secondary {
+  background-color: var(--comrade-surface);
+  color: var(--comrade-text);
+  border-color: var(--comrade-border-strong);
+}
+
+.comrade-btn--secondary:hover {
+  background-color: var(--comrade-surface-soft);
+  border-color: var(--comrade-primary);
+  color: var(--comrade-primary);
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comrade-btn,
+  .comrade-btn__icon {
+    transition: background-color var(--comrade-transition-fast),
+      color var(--comrade-transition-fast);
+  }
+
+  .comrade-btn:hover,
+  .comrade-btn:active {
+    transform: none;
+  }
+
+  .comrade-btn:hover .comrade-btn__icon {
+    transform: none;
+  }
+}

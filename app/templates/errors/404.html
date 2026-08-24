@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found | Comrade{% endblock %}
+
+{% block content %}
+<section class="comrade-section comrade-placeholder">
+  <div class="comrade-container comrade-placeholder__inner">
+    <p class="comrade-eyebrow">404</p>
+    <h1 class="comrade-placeholder__heading">This page could not be found.</h1>
+    <p class="comrade-hero__description">
+      The link may be broken, or the page may have moved. Let's get you
+      back to somewhere safe.
+    </p>
+    {% from "macros/buttons.html" import comrade_button %}
+    {{ comrade_button("Back to home", url_for('home.index'), "primary") }}
+  </div>
+</section>
+{% endblock %}

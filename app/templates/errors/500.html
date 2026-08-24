@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Something Went Wrong | Comrade{% endblock %}
+
+{% block content %}
+<section class="comrade-section comrade-placeholder">
+  <div class="comrade-container comrade-placeholder__inner">
+    <p class="comrade-eyebrow">500</p>
+    <h1 class="comrade-placeholder__heading">Something went wrong on our end.</h1>
+    <p class="comrade-hero__description">
+      We are looking into it. Please try again in a moment.
+    </p>
+    {% from "macros/buttons.html" import comrade_button %}
+    {{ comrade_button("Back to home", url_for('home.index'), "primary") }}
+  </div>
+</section>
+{% endblock %}

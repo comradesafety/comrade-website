@@ -1,0 +1,11 @@
+{#
+  cta-buttons.html
+  The two hero call-to-action buttons. Kept as its own component so the
+  same pair could be reused elsewhere without touching hero.html.
+#}
+{% from "macros/buttons.html" import comrade_button %}
+
+<div class="comrade-hero__actions hero-reveal comrade-delay-3">
+  {{ comrade_button("Explore Our Vision", url_for('pages.vision'), "primary") }}
+  {{ comrade_button("What's Coming", url_for('pages.products'), "secondary") }}
+</div>

@@ -1,0 +1,14 @@
+{#
+  buttons.html
+  Single reusable Comrade button macro. Every call site gets the same
+  markup, styling hook, and arrow icon, so button structure never has to
+  be repeated by hand.
+#}
+{% from "macros/icons.html" import icon %}
+
+{% macro comrade_button(text, href, variant="primary", extra_class="") %}
+<a href="{{ href }}" class="comrade-btn comrade-btn--{{ variant }} {{ extra_class }}">
+  <span>{{ text }}</span>
+  <span class="comrade-btn__icon">{{ icon("arrow-up-right") }}</span>
+</a>
+{%- endmacro %}
