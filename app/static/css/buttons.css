@@ -13,18 +13,18 @@
   font-size: 0.875rem;
   font-weight: 700;
   border: 1px solid transparent;
-  transition: transform var(--comrade-transition-fast),
-    box-shadow var(--comrade-transition-fast),
-    background-color var(--comrade-transition-fast),
-    border-color var(--comrade-transition-fast),
-    color var(--comrade-transition-fast);
+  transition: transform var(--comrade-transition-hover),
+    box-shadow var(--comrade-transition-hover),
+    background-color var(--comrade-transition-hover),
+    border-color var(--comrade-transition-hover),
+    color var(--comrade-transition-hover);
 }
 
 .comrade-btn__icon {
   display: inline-flex;
   width: 14px;
   height: 14px;
-  transition: transform var(--comrade-transition-fast);
+  transition: transform var(--comrade-transition-hover);
 }
 
 .comrade-btn__icon svg {
@@ -36,7 +36,11 @@
   transform: translate(3px, -3px);
 }
 
+/* Press feedback stays fast even though hovering-in is slow: a click
+   should always feel immediate, only the hover "popup" is meant to be
+   slow and smooth. */
 .comrade-btn:active {
+  transition-duration: var(--comrade-transition-fast);
   transform: translateY(1px) scale(0.98);
 }
 

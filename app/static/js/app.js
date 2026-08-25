@@ -10,6 +10,8 @@ import { initializeMobileMenu } from "./mobile-menu.js";
 import { initializeHeroAnimation } from "./hero-animation.js";
 import { initializeOrbitAnimation } from "./orbit-animation.js";
 import { initializeScrollReveal } from "./scroll-reveal.js";
+import { initializeHeadlineMagnification } from "./headline-magnification.js";
+import { initializeSafetyOrbit } from "./safety-orbit-animation.js";
 
 function initializeComradeApp() {
   initializeNavbarScroll();
@@ -17,6 +19,8 @@ function initializeComradeApp() {
   initializeHeroAnimation();
   initializeOrbitAnimation();
   initializeScrollReveal();
+  initializeHeadlineMagnification();
+  initializeSafetyOrbit();
 }
 
 if (document.readyState === "loading") {

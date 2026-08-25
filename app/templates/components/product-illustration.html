@@ -1,0 +1,66 @@
+{#
+  product-illustration.html
+  Abstract, animated, non-revealing illustrations for the Products page
+  cards. Each renders as a self-contained SVG built entirely from
+  circles, lines, and rects (no raster images), styled and animated in
+  product-illustrations.css. The macro takes a `type` naming which
+  concept to render, the same branch-on-a-name pattern icons.html's
+  icon(name) macro already uses for a reusable, data-driven set — new
+  product concepts get a new branch here, not a new template.
+
+  These are deliberately NOT literal device renders: every shape here
+  is a generic signal/field/enclosure motif chosen to represent what a
+  product is about, never what it looks like. See product-illustrations.css
+  for why every animated motion here is pure CSS (no JS): none of the
+  three needs pointer tracking or cross-element geometry, the two
+  things that would actually justify a requestAnimationFrame loop (see
+  safety-orbit-animation.js for a case that does need one).
+#}
+
+{% macro product_illustration(type) %}
+{%- if type == "pulse" -%}
+{#
+  Comrade Pulse: a safety signal. One steady core, three concentric
+  waves expanding outward and fading in a continuous loop — reads as
+  "always broadcasting, always watching", not a literal device.
+#}
+<svg class="comrade-product-illustration comrade-product-illustration--pulse" viewBox="0 0 200 160" focusable="false" aria-hidden="true">
+  <circle class="comrade-pulse__wave comrade-pulse__wave--1" cx="100" cy="80" r="30"></circle>
+  <circle class="comrade-pulse__wave comrade-pulse__wave--2" cx="100" cy="80" r="30"></circle>
+  <circle class="comrade-pulse__wave comrade-pulse__wave--3" cx="100" cy="80" r="30"></circle>
+  <circle class="comrade-pulse__core-glow" cx="100" cy="80" r="18"></circle>
+  <circle class="comrade-pulse__core" cx="100" cy="80" r="8"></circle>
+</svg>
+{%- elif type == "aura" -%}
+{#
+  Comrade Aura: a protective field. A soft outer boundary and inner
+  halo breathe gently in place; one small node orbits the boundary at
+  a slow, constant pace — a presence circling, not a device shape.
+#}
+<svg class="comrade-product-illustration comrade-product-illustration--aura" viewBox="0 0 200 160" focusable="false" aria-hidden="true">
+  <circle class="comrade-aura__field" cx="100" cy="80" r="58"></circle>
+  <circle class="comrade-aura__halo" cx="100" cy="80" r="38"></circle>
+  <g class="comrade-aura__orbit">
+    <circle class="comrade-aura__node" cx="100" cy="22" r="5"></circle>
+  </g>
+  <circle class="comrade-aura__core" cx="100" cy="80" r="7"></circle>
+</svg>
+{%- elif type == "essentials" -%}
+{#
+  Comrade Essentials: everyday reliability. Three small elements sit
+  inside a soft protective enclosure, gently drifting and reconnecting
+  around a central indicator that pulses at a calm, steady rate —
+  routine and dependable, never a specific object.
+#}
+<svg class="comrade-product-illustration comrade-product-illustration--essentials" viewBox="0 0 200 160" focusable="false" aria-hidden="true">
+  <rect class="comrade-essentials__enclosure" x="45" y="25" width="110" height="110" rx="24"></rect>
+  <line class="comrade-essentials__link comrade-essentials__link--a" x1="72" y1="55" x2="128" y2="55"></line>
+  <line class="comrade-essentials__link comrade-essentials__link--b" x1="128" y1="55" x2="100" y2="108"></line>
+  <line class="comrade-essentials__link comrade-essentials__link--c" x1="100" y1="108" x2="72" y2="55"></line>
+  <circle class="comrade-essentials__node comrade-essentials__node--a" cx="72" cy="55" r="5"></circle>
+  <circle class="comrade-essentials__node comrade-essentials__node--b" cx="128" cy="55" r="5"></circle>
+  <circle class="comrade-essentials__node comrade-essentials__node--c" cx="100" cy="108" r="5"></circle>
+  <circle class="comrade-essentials__indicator" cx="100" cy="80" r="4.5"></circle>
+</svg>
+{%- endif -%}
+{%- endmacro %}

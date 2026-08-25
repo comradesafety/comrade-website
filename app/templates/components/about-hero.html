@@ -1,11 +1,13 @@
 {#
   about-hero.html
   About page hero: eyebrow + large editorial headline on the left, a
-  supporting description and pull-quote on the right, with a small
-  static echo of the homepage's orbit motif purely as a decorative
-  accent (no animation, no JS: this page never needs the full orbital
-  system, just a consistent visual nod to it).
+  supporting description and pull-quote on the right, with the safety
+  orbit visualization (templates/components/safety-orbit.html) as a
+  decorative accent underneath. Sized down slightly from that
+  component's own default so it sits comfortably in this aside column
+  rather than competing with the description/quote above it.
 #}
+{% from "components/safety-orbit.html" import safety_orbit %}
 
 <section class="comrade-about-hero comrade-section">
   <div class="comrade-container comrade-about-hero__grid">
@@ -21,12 +23,8 @@
         <p>&ldquo;{{ hero.quote }}&rdquo;</p>
       </blockquote>
 
-      <div class="comrade-about-hero__orbit" aria-hidden="true">
-        <svg viewBox="0 0 200 200" focusable="false">
-          <circle class="comrade-about-hero__orbit-ring" cx="100" cy="100" r="92"></circle>
-          <circle class="comrade-about-hero__orbit-ring comrade-about-hero__orbit-ring--inner" cx="100" cy="100" r="66"></circle>
-          <circle class="comrade-about-hero__orbit-dot" cx="168" cy="48" r="5"></circle>
-        </svg>
+      <div class="comrade-about-hero__orbit-slot">
+        {{ safety_orbit(size="compact") }}
       </div>
     </div>
   </div>

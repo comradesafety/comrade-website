@@ -33,7 +33,8 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--comrade-border-strong);
-  border-radius: var(--comrade-radius-full, 8px);
+  border-radius: var(--comrade-radius-pill);
+  transition: background-color var(--comrade-transition-hover);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -63,7 +64,7 @@ h4 {
 
 a {
   color: var(--comrade-primary);
-  transition: color var(--comrade-transition-fast);
+  transition: color var(--comrade-transition-hover);
 }
 
 a:hover {

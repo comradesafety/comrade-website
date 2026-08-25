@@ -1,0 +1,78 @@
+{#
+  safety-orbit.html
+  Reusable "safety orbital" visualization: a stable central shield
+  surrounded by concentric protection rings, a slow-rotating ring of
+  safety words, a scanning arc, and a handful of connected safety
+  nodes. See safety-orbit.css for appearance and
+  safety-orbit-geometry.js / safety-orbit-animation.js for the single
+  requestAnimationFrame loop that drives every moving part.
+
+  Purely decorative (aria-hidden): the words and shield don't carry
+  information that isn't already in the surrounding page copy, the
+  same reasoning the About hero's own headline/description already
+  cover the page's meaning without this needing its own accessible
+  text.
+
+  Configurable via macro arguments, without touching this file or the
+  CSS/JS:
+    shield_icon   - name from macros/icons.html (default "safety")
+    words         - list of 5-8 short uppercase safety-related words
+    center_label  - optional short label under the shield (default: none)
+    size          - a named size variant ("default" or "compact"), not
+                    an arbitrary CSS length: applied as a modifier
+                    class (safety-orbit.css defines each variant's
+                    --safety-orbit-size), deliberately not as an inline
+                    style. The site's CSP has no style-src exception
+                    for inline styles, and just as importantly, an
+                    inline-set custom property would always outrank the
+                    component's own phone-width media query (inline
+                    beats any stylesheet rule regardless of
+                    specificity), permanently defeating the mobile
+                    simplification for any caller that set a custom
+                    size. A class-based variant lets the cascade (and
+                    that media query) work normally.
+#}
+{% from "macros/icons.html" import icon %}
+
+{% macro safety_orbit(shield_icon="safety", words=None, center_label=None, size="default") %}
+{% set safety_words = words or ["PROTECTION", "AWARENESS", "CONFIDENCE", "SECURITY", "STRENGTH", "COMRADE"] %}
+<div class="comrade-safety-orbit{{ ' comrade-safety-orbit--' ~ size if size != 'default' }}" data-safety-orbit aria-hidden="true">
+  <svg class="comrade-safety-orbit__svg" viewBox="0 0 300 300" focusable="false">
+    <defs>
+      <linearGradient id="comrade-safety-orbit-scan-gradient" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="var(--comrade-primary)" stop-opacity="0" />
+        <stop offset="50%" stop-color="var(--comrade-primary)" stop-opacity="0.6" />
+        <stop offset="100%" stop-color="var(--comrade-primary)" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+
+    <circle class="comrade-safety-orbit__ring comrade-safety-orbit__ring--outer" cx="150" cy="150" r="96"></circle>
+    <circle class="comrade-safety-orbit__ring comrade-safety-orbit__ring--mid" cx="150" cy="150" r="74"></circle>
+    <circle class="comrade-safety-orbit__ring comrade-safety-orbit__ring--inner" cx="150" cy="150" r="52"></circle>
+
+    <circle class="comrade-safety-orbit__pulse-ring" cx="150" cy="150" r="52"></circle>
+
+    <path class="comrade-safety-orbit__scan-arc"></path>
+
+    <g class="comrade-safety-orbit__nodes">
+      {% for i in range(6) %}
+      <line class="comrade-safety-orbit__node-link{{ ' comrade-safety-orbit__node-link--visible' if i in (0, 3) }}" data-node="{{ i }}"></line>
+      {% endfor %}
+      {% for i in range(6) %}
+      <circle class="comrade-safety-orbit__node comrade-safety-orbit__node--delay-{{ i }}" r="3.4"></circle>
+      {% endfor %}
+    </g>
+  </svg>
+
+  <div class="comrade-safety-orbit__center">
+    <span class="comrade-safety-orbit__shield">{{ icon(shield_icon) }}</span>
+    {% if center_label %}<span class="comrade-safety-orbit__center-label">{{ center_label }}</span>{% endif %}
+  </div>
+
+  <div class="comrade-safety-orbit__text-ring">
+    {% for word in safety_words %}
+    <span class="comrade-safety-orbit__word{{ ' comrade-safety-orbit__word--secondary' if loop.index0 % 2 == 1 }}">{{ word }}</span>
+    {% endfor %}
+  </div>
+</div>
+{%- endmacro %}

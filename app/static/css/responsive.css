@@ -61,11 +61,19 @@
     grid-template-columns: 1fr;
   }
 
-  .comrade-about-hero__orbit {
-    margin-inline: 0;
+  /* The safety orbit itself scales and simplifies at phone width via
+     its own component styles (safety-orbit.css); once the hero grid
+     stacks, it just needs to sit centered under the text instead of
+     pinned to the right of a now-gone second column. */
+  .comrade-about-hero__orbit-slot {
+    margin-inline: auto;
   }
 
   .comrade-about-values__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .comrade-products-how__grid {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -119,6 +127,34 @@
 
   .comrade-about-philosophy__grid {
     grid-template-columns: 1fr;
+  }
+
+  .comrade-products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* The side-by-side photo + info layout needs real horizontal room:
+     the exec card's fixed-width photo plus its padding/gap leaves the
+     info column too narrow to fit the three contact icons anywhere in
+     the ~577-768px range, so stack photo above info a full breakpoint
+     earlier than the general mobile cutoff below, rather than fighting
+     that squeeze with ever-smaller internal spacing. */
+  .comrade-about-team__execs {
+    grid-template-columns: 1fr;
+  }
+
+  .comrade-team-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .comrade-team-card__contacts {
+    justify-content: center;
+  }
+
+  .comrade-team-card--lead .comrade-team-card__photo {
+    width: 160px;
   }
 }
 
@@ -252,8 +288,11 @@
     grid-template-columns: 1fr;
   }
 
-  .comrade-about-team__execs {
+  .comrade-products-how__grid {
     grid-template-columns: 1fr;
-    justify-items: center;
   }
+
+  /* Team card stacking (.comrade-about-team__execs, .comrade-team-card,
+     etc.) already applies from the 768px breakpoint above; no
+     phone-specific override needed here. */
 }

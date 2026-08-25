@@ -1,0 +1,30 @@
+{#
+  vision-hero.html
+  Vision page hero: a single continuous editorial statement, so single
+  column rather than About hero's headline-plus-aside layout. Eyebrow,
+  a large headline with one burgundy-highlighted word, a description
+  paragraph, and a left-bordered status callout echoing the pull-quote
+  treatment About's hero already uses for its own short emphasized
+  line.
+#}
+
+<section class="comrade-vision-hero comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-vision-hero__inner reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">{{ hero.eyebrow }}</p>
+
+      <h1 class="comrade-vision-hero__headline">
+        At Comrade, we believe safety should never limit <span class="comrade-vision__highlight">freedom</span>.
+      </h1>
+
+      <p class="comrade-vision-hero__description">{{ hero.description }}</p>
+
+      <div class="comrade-vision-hero__status">
+        <p class="comrade-vision-hero__status-line">{{ hero.status }}</p>
+        <p class="comrade-vision-hero__status-line comrade-vision-hero__status-line--emphasis">
+          The vision is clear. <span class="comrade-vision__highlight">The reveal is coming.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

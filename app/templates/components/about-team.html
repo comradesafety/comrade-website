@@ -1,27 +1,57 @@
 {#
   about-team.html
-  The team: one featured Founder & CEO card, then the CTO and CMO side
-  by side below it at a slightly smaller size, reflecting that
-  hierarchy visually rather than just in text. Real names/photos are
-  not set yet (see ABOUT_TEAM_LEAD/ABOUT_TEAM_EXECS in routes/pages.py);
-  each card shows a placeholder avatar and "Name coming soon" until
-  they are. Sits on the "deep" band, alternating with philosophy above.
+  Founder & CEO gets the full card width; CTO and CMO sit side by side
+  below at half width each, using the exact same internal layout so the
+  only real difference is size, not concept. Each card: a square,
+  rounded-corner photo on the left, then to its right the role, name,
+  a row of contact icons (LinkedIn/Instagram/email), and the person's
+  own short message underneath the name.
+
+  Real names/photos/links/messages are not set yet (see
+  ABOUT_TEAM_LEAD/ABOUT_TEAM_EXECS in routes/pages.py); every field
+  degrades to a clearly-a-placeholder state until they are: a generic
+  person icon instead of a photo, "Name coming soon", a short "Message
+  coming soon." line, and contact icons rendered as inert (unlinked)
+  until a real URL/address exists, rather than pointing anywhere
+  misleading. Sits on the "deep" band, alternating with philosophy
+  above.
 #}
 {% from "macros/icons.html" import icon %}
 
+{% macro contact_icon(url, icon_name, label) %}
+{%- if url -%}
+<a href="{{ url }}" class="comrade-team-card__contact-link" aria-label="{{ label }}" target="_blank" rel="noopener noreferrer">{{ icon(icon_name) }}</a>
+{%- else -%}
+<span class="comrade-team-card__contact-link comrade-team-card__contact-link--pending" aria-hidden="true">{{ icon(icon_name) }}</span>
+{%- endif -%}
+{%- endmacro %}
+
 {% macro team_card(member, size) %}
 <div class="comrade-team-card comrade-team-card--{{ size }} reveal-on-scroll reveal-up">
-  <div class="comrade-team-card__avatar">
+  <div class="comrade-team-card__photo">
     {% if member.photo %}
       <img src="{{ url_for('static', filename=member.photo) }}" alt="{{ member.name }}">
     {% else %}
       {{ icon("person") }}
     {% endif %}
   </div>
-  <p class="comrade-team-card__role">{{ member.role }}</p>
-  <p class="comrade-team-card__name{{ ' comrade-team-card__name--pending' if not member.name }}">
-    {{ member.name or "Name coming soon" }}
-  </p>
+
+  <div class="comrade-team-card__info">
+    <p class="comrade-team-card__role">{{ member.role }}</p>
+    <h3 class="comrade-team-card__name{{ ' comrade-team-card__name--pending' if not member.name }}">
+      {{ member.name or "Name coming soon" }}
+    </h3>
+
+    <div class="comrade-team-card__contacts">
+      {{ contact_icon(member.linkedin, "linkedin", member.name ~ " on LinkedIn" if member.name else "LinkedIn") }}
+      {{ contact_icon(member.instagram, "instagram", member.name ~ " on Instagram" if member.name else "Instagram") }}
+      {{ contact_icon("mailto:" ~ member.email if member.email else none, "mail", "Email " ~ (member.name or "")) }}
+    </div>
+
+    <p class="comrade-team-card__message{{ ' comrade-team-card__message--pending' if not member.message }}">
+      {{ member.message or "Message coming soon." }}
+    </p>
+  </div>
 </div>
 {%- endmacro %}
 

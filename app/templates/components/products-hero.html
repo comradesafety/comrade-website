@@ -1,0 +1,52 @@
+{#
+  products-hero.html
+  Products page hero: eyebrow, headline with one burgundy-highlighted
+  phrase, a short description, then a 3-up grid of product cards. Each
+  card's illustration comes from product-illustration.html, a separate
+  reusable component — see that file for why.
+#}
+{% from "components/product-illustration.html" import product_illustration %}
+
+<section class="comrade-products-hero comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-products-hero__inner reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">{{ hero.eyebrow }}</p>
+
+      {#
+        The <br> here is deliberately conditional (see
+        .comrade-products-hero__headline-break in products.css): on
+        wide-enough screens it forces the composition "The future of
+        safety is / taking shape.", the preferred two-line balance.
+        Below that width the <br> is switched off (display: none, which
+        genuinely suppresses a <br>'s break) and the literal space right
+        after it becomes the only break opportunity there, so the line
+        just wraps naturally instead — never forcing an overflow, and
+        thanks to headline-magnification.js's per-word grouping, never
+        splitting a word either way.
+      #}
+      <h1 class="comrade-products-hero__headline">
+        The future of safety is<br class="comrade-products-hero__headline-break"> <span class="comrade-products__highlight">taking shape.</span>
+      </h1>
+
+      <p class="comrade-products-hero__description">{{ hero.description }}</p>
+    </div>
+
+    <div class="comrade-products-grid">
+      {% for product in products %}
+      <div class="comrade-product-card reveal-on-scroll reveal-up comrade-delay-{{ loop.index }}">
+        <div class="comrade-product-card__stage">
+          <span class="comrade-product-card__badge comrade-product-card__badge--{{ 'solid' if product.status == 'coming-soon' else 'outline' }}">
+            {%- if product.status == 'coming-soon' %}<span class="comrade-product-card__badge-dot" aria-hidden="true"></span>{% endif -%}
+            {{ product.status_label }}
+          </span>
+          {{ product_illustration(product.illustration) }}
+        </div>
+        <div class="comrade-product-card__body">
+          <h3 class="comrade-product-card__name">{{ product.name }}</h3>
+          <p class="comrade-product-card__description">{{ product.description }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,272 @@
+/*
+  product-illustrations.css
+  Appearance and motion for the three Products page card illustrations
+  (see product-illustration.html for markup). Every animation here is
+  plain CSS @keyframes, deliberately, not JavaScript: none of the three
+  needs pointer tracking or geometry shared across elements — the two
+  things that actually justify a requestAnimationFrame loop (compare
+  safety-orbit-animation.js, which needs both). A single rotating group
+  or a handful of independent opacity/transform keyframes cover
+  everything asked for here, and CSS-driven animation is cheaper, needs
+  no lifecycle code (visibility pausing, resize handling), and can't
+  drift out of sync with itself the way a hand-rolled loop could.
+
+  Every transform-origin below is a literal viewBox coordinate (each
+  SVG's viewBox is "0 0 200 160", so its own center is (100, 80)) rather
+  than `transform-box: fill-box; transform-origin: center`: every
+  animated shape here already happens to sit at, or needs to rotate
+  around, that exact point, so the simpler literal-coordinate form (the
+  same one about.css's and safety-orbit.css's SVG animations already
+  use) is enough — no need for the fill-box box model at all.
+*/
+
+.comrade-product-illustration {
+  overflow: visible;
+  transition: transform var(--comrade-transition-hover);
+}
+
+/* The one hover response that applies to all three alike ("the
+   illustration slightly scales"); each concept's own file section
+   below adds its own additional hover response on top of this. */
+.comrade-product-card:hover .comrade-product-illustration {
+  transform: scale(1.045);
+}
+
+/* ================= Pulse: a safety signal ================= */
+/* One steady core, three rings expanding outward and fading on a
+   staggered loop — reads as "always broadcasting, always watching". */
+
+.comrade-pulse__wave {
+  fill: none;
+  stroke: var(--comrade-primary);
+  stroke-width: 2.5;
+  opacity: 0;
+  transform-origin: 100px 80px;
+  animation: comrade-pulse-wave 3.6s ease-out infinite;
+}
+
+.comrade-pulse__wave--2 {
+  animation-delay: 1.2s;
+}
+
+.comrade-pulse__wave--3 {
+  animation-delay: 2.4s;
+}
+
+@keyframes comrade-pulse-wave {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.55;
+  }
+  70% {
+    opacity: 0.12;
+  }
+  100% {
+    transform: scale(2.05);
+    opacity: 0;
+  }
+}
+
+.comrade-pulse__core-glow {
+  fill: var(--comrade-primary-light);
+  animation: comrade-pulse-glow 3.6s ease-in-out infinite;
+}
+
+@keyframes comrade-pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.comrade-pulse__core {
+  fill: var(--comrade-primary);
+  filter: drop-shadow(0 2px 4px var(--comrade-shadow-soft));
+}
+
+.comrade-product-card:hover .comrade-pulse__wave {
+  animation-duration: 2.4s;
+}
+
+.comrade-product-card:hover .comrade-pulse__core-glow {
+  opacity: 1;
+}
+
+/* ================= Aura: a protective field ================= */
+/* A soft field and inner halo breathe in place; one small node orbits
+   the boundary at a slow, constant pace — a presence circling, not a
+   device shape. */
+
+.comrade-aura__field {
+  fill: var(--comrade-primary-light);
+  stroke: var(--comrade-primary);
+  stroke-width: 1;
+  opacity: 0.5;
+  transform-origin: 100px 80px;
+  animation: comrade-aura-breathe 4.5s ease-in-out infinite;
+}
+
+.comrade-aura__halo {
+  fill: none;
+  stroke: var(--comrade-primary);
+  stroke-width: 1.5;
+  opacity: 0.32;
+}
+
+@keyframes comrade-aura-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.62;
+  }
+}
+
+.comrade-aura__orbit {
+  transform-origin: 100px 80px;
+  animation: comrade-aura-orbit 16s linear infinite;
+}
+
+@keyframes comrade-aura-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.comrade-aura__node {
+  fill: var(--comrade-primary);
+  transition: opacity var(--comrade-transition-hover);
+}
+
+.comrade-aura__core {
+  fill: var(--comrade-primary);
+  filter: drop-shadow(0 2px 4px var(--comrade-shadow-soft));
+}
+
+.comrade-product-card:hover .comrade-aura__orbit {
+  animation-duration: 7s;
+}
+
+.comrade-product-card:hover .comrade-aura__field {
+  animation-duration: 2.6s;
+}
+
+/* ================= Essentials: everyday reliability ================= */
+/* Three small elements drift gently inside a soft enclosure around a
+   central indicator that pulses at a calm, steady rate. */
+
+.comrade-essentials__enclosure {
+  fill: none;
+  stroke: var(--comrade-border-strong);
+  stroke-width: 1.5;
+  opacity: 0.6;
+}
+
+.comrade-essentials__link {
+  stroke: var(--comrade-primary);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+  opacity: 0.4;
+}
+
+.comrade-essentials__node {
+  fill: var(--comrade-primary);
+  animation: comrade-essentials-drift 5s ease-in-out infinite;
+}
+
+.comrade-essentials__node--a {
+  animation-delay: 0s;
+}
+
+.comrade-essentials__node--b {
+  animation-delay: 1.6s;
+}
+
+.comrade-essentials__node--c {
+  animation-delay: 3.2s;
+}
+
+@keyframes comrade-essentials-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, -2px);
+  }
+}
+
+.comrade-essentials__indicator {
+  fill: var(--comrade-primary);
+  transform-origin: 100px 80px;
+  animation: comrade-essentials-indicator 3s ease-in-out infinite;
+}
+
+@keyframes comrade-essentials-indicator {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+
+.comrade-product-card:hover .comrade-essentials__indicator {
+  animation-duration: 1.8s;
+}
+
+.comrade-product-card:hover .comrade-essentials__link {
+  opacity: 0.6;
+}
+
+/* ================= Reduced motion ================= */
+/* Every continuous animation stops; the composition stays fully
+   visible at a deliberately staggered static state (not just whatever
+   frame each animation happened to freeze on) so it still reads as
+   "concentric rings" / "a field with an orbiting node" / "connected
+   elements" at rest, not a flat, collapsed shape. Colors are
+   untouched. */
+@media (prefers-reduced-motion: reduce) {
+  .comrade-pulse__wave,
+  .comrade-pulse__core-glow,
+  .comrade-aura__field,
+  .comrade-aura__orbit,
+  .comrade-essentials__node,
+  .comrade-essentials__indicator {
+    animation: none;
+  }
+
+  .comrade-pulse__wave {
+    opacity: 0.32;
+  }
+  .comrade-pulse__wave--1 {
+    transform: scale(0.75);
+    opacity: 0.5;
+  }
+  .comrade-pulse__wave--2 {
+    transform: scale(1.15);
+  }
+  .comrade-pulse__wave--3 {
+    transform: scale(1.55);
+    opacity: 0.18;
+  }
+
+  .comrade-aura__field {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+
+  .comrade-essentials__indicator {
+    transform: scale(1.15);
+    opacity: 0.85;
+  }
+}

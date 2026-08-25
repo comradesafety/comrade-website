@@ -1,0 +1,90 @@
+/*
+  vision.css
+  Styles specific to the Vision page: a single-column hero statement
+  followed by one closing line on the "deep" alternating band (see
+  --comrade-surface-deep, the same band About's Values section sits
+  on). Typography scale is deliberately the same as about.css's hero
+  headline, not a new one, so the two pages read as the same site.
+*/
+
+/* ---- Hero: one continuous editorial statement, left-aligned, capped
+   to a comfortable reading width rather than spanning the full
+   container the way a two-column layout would need to. ---- */
+.comrade-vision-hero__inner {
+  max-width: 760px;
+}
+
+.comrade-vision-hero__headline {
+  margin-top: var(--comrade-space-sm);
+  font-size: clamp(2.25rem, 4.4vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  color: var(--comrade-text);
+}
+
+.comrade-vision-hero__description {
+  margin-top: var(--comrade-space-md);
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: var(--comrade-text-muted);
+}
+
+/* Status callout: two short lines in the same left-bordered "pull
+   quote" family About's hero uses for its own emphasized line, just
+   with a quieter first line ahead of the punchier second one instead
+   of a single sentence. */
+.comrade-vision-hero__status {
+  margin-top: var(--comrade-space-lg);
+  padding-left: var(--comrade-space-md);
+  border-left: 3px solid var(--comrade-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.comrade-vision-hero__status-line {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-vision-hero__status-line--emphasis {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--comrade-text);
+}
+
+/* Shared by both sections on this page, not scoped to the hero: see
+   vision-why.html for its other use. */
+.comrade-vision__highlight {
+  color: var(--comrade-primary);
+}
+
+/* ---- Why: the "deep" band, one centered closing statement, echoing
+   About's Values section treatment exactly. ---- */
+.comrade-vision-why {
+  background-color: var(--comrade-surface-deep);
+}
+
+.comrade-vision-why__inner {
+  max-width: 700px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.comrade-vision-why__headline {
+  margin-top: var(--comrade-space-sm);
+  font-size: clamp(1.85rem, 3.8vw, 2.85rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+  color: var(--comrade-text);
+}
+
+@media (max-width: 576px) {
+  .comrade-vision-hero__status {
+    padding-left: var(--comrade-space-sm);
+  }
+}

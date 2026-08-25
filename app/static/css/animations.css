@@ -1,9 +1,11 @@
 /*
   animations.css
   Shared, reusable animation classes: scroll-triggered reveals (paired
-  with scroll-reveal.js) and the homepage entrance sequence (paired with
-  hero-animation.js). Keyframes and transition timing are centralized
-  here so no other stylesheet needs to redefine them.
+  with scroll-reveal.js), the homepage entrance sequence (paired with
+  hero-animation.js), and the cursor-proximity headline magnification
+  (paired with headline-magnification.js). Keyframes and transition
+  timing are centralized here so no other stylesheet needs to redefine
+  them.
 */
 
 /* ---- Scroll reveal system (IntersectionObserver driven) ---- */
@@ -93,5 +95,46 @@
   .hero-reveal-scale {
     transition: opacity var(--comrade-transition-fast);
     transform: none !important;
+  }
+}
+
+/* ---- Cursor-proximity headline magnification ----
+   headline-magnification.js wraps each character of every targeted
+   large display headline (hero, footer statement, About hero, About
+   section headings, Vision and Products headlines — see
+   HEADLINE_SELECTORS in that file) in a .headline-char span at
+   runtime, only on devices this media query also matches — a second,
+   independent guarantee alongside the JS's own capability check — and
+   drives its scale every frame from pointer distance. inline-block
+   gives each character its own stable transform-origin without ever
+   pulling neighboring characters out of normal text flow.
+
+   .headline-word (also written by that same JS) is not decorative: an
+   atomic inline-level box like inline-block gets an implicit soft-wrap
+   opportunity on both sides per the CSS Text spec, so without
+   grouping each word's character spans under one nowrap wrapper, the
+   browser is free to break a line between any two letters, not just
+   at real spaces — which is exactly what once split "taking" into
+   "taki" / "ng" mid-word. The word span itself stays plain inline
+   (non-atomic), so only real spaces between words remain valid break
+   points, same as normal text.
+
+   No transition is declared here on purpose: the magnification's
+   smoothing (easing each character's scale toward its target over
+   several frames) is done in JS, in step with its own
+   requestAnimationFrame loop. A CSS transition racing that same
+   per-frame value would fight it rather than help it, the same reason
+   the orbit dot's position (orbit.css) is never CSS-transitioned
+   either. */
+@media (hover: hover) and (pointer: fine) {
+  .headline-word {
+    white-space: nowrap;
+  }
+
+  .headline-char {
+    display: inline-block;
+    transform: scale(1);
+    transform-origin: center center;
+    will-change: transform;
   }
 }

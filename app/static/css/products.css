@@ -1,0 +1,198 @@
+/*
+  products.css
+  Styles specific to the Products page: the hero (headline, description,
+  3-up product card grid) and the closing "How We Build" band. The
+  card illustrations themselves live in product-illustrations.css, a
+  separate file (see product-illustration.html); this file only covers
+  the card shell (badge, stage background, name/description) around
+  them. That closing section's cards intentionally reuse about.css's
+  .comrade-about-card / .comrade-icon-badge classes rather than
+  duplicating them here, see products-how.html; this file only adds its
+  own grid wrapper and headline for that section.
+*/
+
+/* ---- Hero ---- */
+.comrade-products-hero__inner {
+  max-width: 760px;
+}
+
+.comrade-products-hero__headline {
+  margin-top: var(--comrade-space-sm);
+  font-size: clamp(2.25rem, 4.4vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  color: var(--comrade-text);
+}
+
+/* Off by default (mobile-first): the headline just wraps wherever it
+   naturally needs to, on however many lines that takes. From this
+   width up, there's reliably enough room for "The future of safety
+   is" to read as one comfortable line, so the forced break turns on
+   for the preferred two-line composition. display: none genuinely
+   suppresses a <br>'s line break (not just visually hides it); revert
+   here restores the browser's normal <br> behavior rather than
+   guessing a display value of our own. */
+.comrade-products-hero__headline-break {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .comrade-products-hero__headline-break {
+    display: revert;
+  }
+}
+
+.comrade-products-hero__description {
+  margin-top: var(--comrade-space-md);
+  max-width: 56ch;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+/* Shared by both headlines on this page (hero and "how we build"). */
+.comrade-products__highlight {
+  color: var(--comrade-primary);
+}
+
+/* ---- Product cards ---- */
+.comrade-products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--comrade-space-md);
+  margin-top: var(--comrade-space-xl);
+}
+
+.comrade-product-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-border);
+  border-radius: var(--comrade-radius-lg);
+  overflow: hidden;
+  transition: transform var(--comrade-transition-hover),
+    box-shadow var(--comrade-transition-hover),
+    border-color var(--comrade-transition-hover);
+}
+
+.comrade-product-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--comrade-primary);
+  box-shadow: 0 18px 34px var(--comrade-shadow-soft);
+}
+
+.comrade-product-card__stage {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--comrade-space-md);
+  background-color: var(--comrade-surface);
+  background-image: radial-gradient(
+    ellipse 75% 75% at 62% 42%,
+    var(--comrade-primary-light) 0%,
+    transparent 72%
+  );
+  border-bottom: 1px solid var(--comrade-border);
+  transition: background-color var(--comrade-transition-hover);
+}
+
+.comrade-product-card:hover .comrade-product-card__stage {
+  background-color: var(--comrade-primary-light);
+}
+
+.comrade-product-card__stage svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.comrade-product-card__badge {
+  position: absolute;
+  top: var(--comrade-space-sm);
+  left: var(--comrade-space-sm);
+  padding: 0.32rem 0.85rem;
+  border-radius: var(--comrade-radius-pill);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.comrade-product-card__badge--solid {
+  background-color: var(--comrade-primary);
+  color: var(--comrade-text-on-primary);
+}
+
+.comrade-product-card__badge--outline {
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-primary);
+  color: var(--comrade-primary);
+}
+
+.comrade-product-card__badge-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  vertical-align: 1px;
+  animation: comrade-badge-dot-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes comrade-badge-dot-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.comrade-product-card__body {
+  padding: var(--comrade-space-md) var(--comrade-space-md) var(--comrade-space-lg);
+}
+
+.comrade-product-card__name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--comrade-text);
+}
+
+.comrade-product-card__description {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--comrade-text-muted);
+}
+
+/* ---- How we build: centered heading, then the shared about-card grid
+   (see products-how.html for why the cards themselves reuse about.css). ---- */
+.comrade-products-how {
+  background-color: var(--comrade-surface-deep);
+}
+
+.comrade-products-how__inner {
+  max-width: 640px;
+}
+
+.comrade-products-how__headline {
+  margin-top: var(--comrade-space-sm);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--comrade-text);
+}
+
+.comrade-products-how__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--comrade-space-md);
+  margin-top: var(--comrade-space-xl);
+}

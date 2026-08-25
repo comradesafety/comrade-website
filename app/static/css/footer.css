@@ -51,6 +51,11 @@
     grid-template-columns: 1fr;
     gap: 3rem;
   }
+
+  .comrade-footer__right {
+    flex-direction: column;
+    padding-top: 0;
+  }
 }
 
 /* --- Left Side: Brand Statement --- */
@@ -95,13 +100,6 @@
   padding-top: 0.5rem;
 }
 
-@media (max-width: 768px) {
-  .comrade-footer__right {
-    flex-direction: column;
-    padding-top: 0;
-  }
-}
-
 .comrade-footer__heading {
   margin: 0 0 1rem 0;
   font-size: 0.8rem;
@@ -137,7 +135,7 @@
   background-color: var(--comrade-primary);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform var(--comrade-transition-fast);
+  transition: transform var(--comrade-transition-hover);
 }
 
 .comrade-footer__nav-link:hover {
@@ -155,7 +153,7 @@
   font-size: 1rem;
   font-weight: 500;
   color: var(--comrade-text);
-  transition: color var(--comrade-transition-fast);
+  transition: color var(--comrade-transition-hover);
   text-decoration: none;
 }
 
@@ -164,7 +162,7 @@
   align-items: center;
   justify-content: center;
   color: var(--comrade-text-muted);
-  transition: color var(--comrade-transition-fast);
+  transition: color var(--comrade-transition-hover);
 }
 
 .comrade-footer__contact-icon svg {
@@ -204,7 +202,7 @@
 
 .comrade-footer__legal-links a {
   color: var(--comrade-text-muted);
-  transition: color var(--comrade-transition-fast);
+  transition: color var(--comrade-transition-hover);
   text-decoration: none;
 }
 

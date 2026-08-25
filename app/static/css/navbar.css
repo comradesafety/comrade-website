@@ -93,11 +93,11 @@
   left: 0;
   bottom: -2px;
   width: 100%;
-  height: 2px;
+  height: 1px;
   background-color: var(--comrade-primary);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform var(--comrade-transition-fast);
+  transition: transform var(--comrade-transition-hover);
 }
 
 .comrade-navbar__link:hover {
@@ -138,8 +138,8 @@
   border-radius: 50%;
   background-color: var(--comrade-surface-soft);
   color: var(--comrade-text);
-  transition: background-color var(--comrade-transition-fast),
-    color var(--comrade-transition-fast);
+  transition: background-color var(--comrade-transition-hover),
+    color var(--comrade-transition-hover);
 }
 
 .comrade-navbar__toggle:hover,
@@ -226,7 +226,7 @@
   padding: 0.5rem 0.25rem;
   gap: 0.35rem;
   color: var(--comrade-text);
-  transition: color var(--comrade-transition-fast), transform var(--comrade-transition-fast);
+  transition: color var(--comrade-transition-hover), transform var(--comrade-transition-hover);
   text-align: center;
 }
 
@@ -249,11 +249,11 @@
   left: 50%;
   bottom: 0;
   width: 24px;
-  height: 2px;
+  height: 1px;
   border-radius: var(--comrade-radius-pill);
   background-color: var(--comrade-primary);
   transform: translateX(-50%) scaleX(0);
-  transition: transform var(--comrade-transition-fast);
+  transition: transform var(--comrade-transition-hover);
 }
 
 .comrade-navbar__mobile-link.active,

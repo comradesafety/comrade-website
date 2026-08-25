@@ -1,0 +1,306 @@
+/*
+  safety-orbit.css
+  Appearance for the safety orbital visualization (see
+  templates/components/safety-orbit.html for markup and
+  safety-orbit-animation.js for the motion). Split three ways on
+  purpose: the shield/rings/nodes/scan/text below are all styling only
+  (color, size, static shape); the shield's glow pulse and protection
+  ripple and the per-node opacity breathing are self-contained CSS
+  @keyframes, since neither needs synchronized geometry; the rotating
+  text/scan/nodes' actual per-frame positions are written entirely by
+  JS as inline transforms/attributes, never by a CSS transition or
+  animation here, so nothing fights the rAF loop for those properties
+  (the same reason orbit.css never transitions the homepage dot).
+
+  Sits directly on the page background wherever it's placed, no card,
+  no border around the whole composition, no fill behind the rings: it
+  should read as floating on the cream page itself.
+*/
+
+.comrade-safety-orbit {
+  --safety-orbit-size: 360px;
+  position: relative;
+  width: var(--safety-orbit-size);
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+/* Size variants: see the "size" macro argument in safety-orbit.html.
+   A plain class rather than a JS/inline-set custom property, so the
+   phone-width override below always has the final say regardless of
+   which variant a caller chose (inline custom properties would
+   outrank it no matter what). */
+.comrade-safety-orbit--compact {
+  --safety-orbit-size: 300px;
+}
+
+.comrade-safety-orbit__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---- Protection rings: thin, quiet, varying only in radius/opacity/
+   stroke, never neon, never thick. ---- */
+.comrade-safety-orbit__ring {
+  fill: none;
+  stroke: var(--comrade-primary);
+  vector-effect: non-scaling-stroke;
+  transition: opacity var(--comrade-transition-hover);
+}
+
+.comrade-safety-orbit__ring--outer {
+  stroke-width: 1;
+  opacity: 0.22;
+}
+
+.comrade-safety-orbit__ring--mid {
+  stroke-width: 1;
+  opacity: 0.15;
+}
+
+.comrade-safety-orbit__ring--inner {
+  stroke-width: 1.25;
+  opacity: 0.3;
+}
+
+.comrade-safety-orbit.is-hovered .comrade-safety-orbit__ring--outer {
+  opacity: 0.32;
+}
+
+.comrade-safety-orbit.is-hovered .comrade-safety-orbit__ring--mid {
+  opacity: 0.24;
+}
+
+.comrade-safety-orbit.is-hovered .comrade-safety-orbit__ring--inner {
+  opacity: 0.4;
+}
+
+/* ---- Protection ripple: one soft ring expanding from the shield's own
+   radius and fading, on a slow, calm cycle. Purely CSS since it never
+   needs to share timing with anything else moving. ---- */
+.comrade-safety-orbit__pulse-ring {
+  fill: none;
+  stroke: var(--comrade-primary);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-origin: 150px 150px;
+  animation: comrade-safety-ripple 3.6s ease-out infinite;
+}
+
+@keyframes comrade-safety-ripple {
+  0% {
+    transform: scale(0.82);
+    opacity: 0.32;
+  }
+  65% {
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.32);
+    opacity: 0;
+  }
+}
+
+/* ---- Scanning arc: a short gradient-stroked segment sweeping the
+   outer ring, fading at both ends via the gradient defined in the
+   markup rather than a hard-edged stroke. ---- */
+.comrade-safety-orbit__scan-arc {
+  fill: none;
+  stroke: url(#comrade-safety-orbit-scan-gradient);
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---- Safety nodes and their connectors: small, quiet, only a couple
+   ever connected inward, never a technical-looking web. ---- */
+.comrade-safety-orbit__node {
+  fill: var(--comrade-primary);
+  opacity: 0.55;
+  animation: comrade-safety-node-pulse 4s ease-in-out infinite;
+}
+
+.comrade-safety-orbit__node-link {
+  stroke: var(--comrade-primary);
+  stroke-width: 0.75;
+  opacity: 0;
+  vector-effect: non-scaling-stroke;
+}
+
+.comrade-safety-orbit__node-link--visible {
+  opacity: 0.16;
+  transition: opacity var(--comrade-transition-hover);
+}
+
+.comrade-safety-orbit.is-hovered .comrade-safety-orbit__node {
+  opacity: 0.85;
+}
+
+.comrade-safety-orbit.is-hovered .comrade-safety-orbit__node-link--visible {
+  opacity: 0.3;
+}
+
+@keyframes comrade-safety-node-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+/* Each node staggers its own pulse so they breathe independently
+   rather than flashing in unison. */
+.comrade-safety-orbit__node--delay-0 {
+  animation-delay: 0s;
+}
+.comrade-safety-orbit__node--delay-1 {
+  animation-delay: 0.6s;
+}
+.comrade-safety-orbit__node--delay-2 {
+  animation-delay: 1.2s;
+}
+.comrade-safety-orbit__node--delay-3 {
+  animation-delay: 1.8s;
+}
+.comrade-safety-orbit__node--delay-4 {
+  animation-delay: 2.4s;
+}
+.comrade-safety-orbit__node--delay-5 {
+  animation-delay: 3s;
+}
+
+/* ---- Center: the stable anchor. A soft raised surface rather than a
+   dashboard widget, warm cream, thin burgundy border, a slow ambient
+   glow breathing in sync with the ripple above. Never rotates, never
+   translates: only its own glow intensity ever changes. ---- */
+.comrade-safety-orbit__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34%;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  border-radius: 50%;
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-border);
+  box-shadow: var(--comrade-neumo-raised), 0 0 32px var(--comrade-primary-light);
+  animation: comrade-safety-glow-pulse 3.6s ease-in-out infinite;
+}
+
+.comrade-safety-orbit.is-hovered .comrade-safety-orbit__center {
+  border-color: var(--comrade-primary);
+  box-shadow: var(--comrade-neumo-raised-hover), 0 0 44px var(--comrade-primary-light-strong);
+}
+
+@keyframes comrade-safety-glow-pulse {
+  0%,
+  100% {
+    box-shadow: var(--comrade-neumo-raised), 0 0 26px var(--comrade-primary-light);
+  }
+  50% {
+    box-shadow: var(--comrade-neumo-raised), 0 0 40px var(--comrade-primary-light-strong);
+  }
+}
+
+.comrade-safety-orbit__shield {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42%;
+  color: var(--comrade-primary);
+  filter: drop-shadow(0 2px 5px var(--comrade-shadow-soft));
+  transition: filter var(--comrade-transition-hover);
+}
+
+.comrade-safety-orbit__shield svg {
+  width: 100%;
+  height: 100%;
+}
+
+.comrade-safety-orbit.is-hovered .comrade-safety-orbit__shield {
+  filter: drop-shadow(0 3px 8px var(--comrade-shadow));
+}
+
+.comrade-safety-orbit__center-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--comrade-text-muted);
+}
+
+/* ---- Rotating safety words: small, quiet, uppercase, always upright
+   (their angle around the ring changes every frame in JS, but their
+   own rotation never does, per the "readability over mechanically
+   rotating letters" brief). Positioned off-screen until the animation
+   module places them, the same init pattern hero-orbit-label uses. ---- */
+.comrade-safety-orbit__text-ring {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.comrade-safety-orbit__word {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate3d(-9999px, -9999px, 0);
+  white-space: nowrap;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--comrade-text);
+  opacity: 0.78;
+}
+
+.comrade-safety-orbit__word--secondary {
+  opacity: 0.5;
+}
+
+/* ---- Interaction: the whole composition sits directly on the page,
+   so the hover target is the bounding box itself, not a visible
+   card. ---- */
+.comrade-safety-orbit {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comrade-safety-orbit__pulse-ring,
+  .comrade-safety-orbit__node,
+  .comrade-safety-orbit__center {
+    animation: none;
+  }
+
+  /* Composition stays fully intact at each element's single resting
+     position (safety-orbit-animation.js never starts the loop under
+     reduced motion, so these are simply wherever the one-shot initial
+     render placed them) — only the continuous motion stops. */
+}
+
+@media (max-width: 576px) {
+  .comrade-safety-orbit {
+    --safety-orbit-size: 220px;
+  }
+
+  /* Fewer words in the ring at phone width, not a smaller font: with
+     six words this small an orbit already reads as "a ring of text";
+     dropping every other word keeps that reading clear instead of the
+     remaining words overlapping. */
+  .comrade-safety-orbit__word--secondary {
+    display: none;
+  }
+
+  .comrade-safety-orbit__node-link {
+    display: none;
+  }
+}

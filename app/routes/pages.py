@@ -1,10 +1,10 @@
 """Routes for pages that are not the homepage.
 
-About is now fully designed (see templates/pages/about.html and its
-components). Vision, Products, and Contact are still the shared minimal
-"coming soon" template; when one of them is ready to be fully designed,
+About, Vision, and Products are now fully designed (see their
+templates/pages/*.html and components). Contact is still the shared
+minimal "coming soon" template; when it's ready to be fully designed,
 give it its own template and point its route at that instead, the same
-way about() below no longer uses PLACEHOLDER_COPY.
+way about()/vision()/products() below no longer use PLACEHOLDER_COPY.
 """
 
 from flask import Blueprint, render_template
@@ -12,14 +12,6 @@ from flask import Blueprint, render_template
 pages_bp = Blueprint("pages", __name__)
 
 PLACEHOLDER_COPY = {
-    "vision": {
-        "title": "Vision",
-        "message": "Our vision page is being crafted with care. Coming soon.",
-    },
-    "products": {
-        "title": "Products",
-        "message": "Product details are on the way. Coming soon.",
-    },
     "contact": {
         "title": "Contact",
         "message": "A dedicated contact page is coming soon.",
@@ -104,14 +96,132 @@ ABOUT_TEAM_HEADING = {
     "headline": "The people behind Comrade",
 }
 
-# Real names/photos to follow. The card design (see about-team.html and
-# about.css) already renders correctly with a "name coming soon" state,
-# so adding them later is a one-line data change here, not a template
-# change: set "name" (and, once available, a "photo" static path).
-ABOUT_TEAM_LEAD = {"role": "Founder & CEO", "name": None, "photo": None}
+# Real names/photos/links/messages to follow. The card design (see
+# about-team.html and about.css) already renders correctly with a
+# "coming soon" state for every one of these, so adding the real
+# details later is a one-line data change here, not a template change:
+# set "name", "photo" (a static path), "linkedin"/"instagram" (full
+# URLs), "email", and "message" (a short first-person note).
+ABOUT_TEAM_LEAD = {
+    "role": "Founder & CEO",
+    "name": None,
+    "photo": None,
+    "linkedin": None,
+    "instagram": None,
+    "email": None,
+    "message": None,
+}
 ABOUT_TEAM_EXECS = [
-    {"role": "Chief Technology Officer", "name": None, "photo": None},
-    {"role": "Chief Marketing Officer", "name": None, "photo": None},
+    {
+        "role": "Chief Technology Officer",
+        "name": None,
+        "photo": None,
+        "linkedin": None,
+        "instagram": None,
+        "email": None,
+        "message": None,
+    },
+    {
+        "role": "Chief Marketing Officer",
+        "name": None,
+        "photo": None,
+        "linkedin": None,
+        "instagram": None,
+        "email": None,
+        "message": None,
+    },
+]
+
+
+# The headline sentences themselves (with their one highlighted word or
+# phrase each) are hardcoded directly in vision-hero.html / vision-why.html,
+# the same way the homepage hero and footer statement hardcode their own
+# highlight span rather than templating it: the highlighted word's
+# position is fixed content, not configuration. Everything here is the
+# copy that has no highlight to keep in sync with markup.
+VISION_HERO = {
+    "eyebrow": "Our vision",
+    "description": (
+        "Our vision is to reshape the way people experience personal "
+        "safety through innovation, thoughtful design, and a deep "
+        "understanding of everyday life. We envision a world where "
+        "people can move, explore, and live with greater confidence, "
+        "without allowing fear to define their choices."
+    ),
+    "status": "We're still building, testing, and refining what comes next.",
+}
+
+VISION_WHY = {
+    "eyebrow": "Why Comrade",
+}
+
+
+# The two headline sentences (each with one highlighted phrase) are
+# hardcoded directly in products-hero.html / products-how.html, the
+# same reasoning as VISION_HERO above: a highlight's position is fixed
+# content, not configuration.
+PRODUCTS_HERO = {
+    "eyebrow": "What we're exploring",
+    "description": (
+        "Comrade is exploring a new generation of everyday products "
+        "designed with personal safety at their core."
+    ),
+}
+
+# "illustration" names a macro branch in products-hero.html (own small
+# abstract composition per product, not a shared icon), the same
+# pattern icons.html's icon(name) macro uses. "status" drives which
+# badge style renders: "coming-soon" is the solid pill, anything else
+# (here just "in-development") is the outline pill.
+PRODUCTS = [
+    {
+        "name": "Comrade Pulse",
+        "status": "coming-soon",
+        "status_label": "Coming Soon",
+        "description": "Intelligent safety, designed to feel like second nature.",
+        "illustration": "pulse",
+    },
+    {
+        "name": "Comrade Aura",
+        "status": "coming-soon",
+        "status_label": "Coming Soon",
+        "description": "A new way to think about everyday safety.",
+        "illustration": "aura",
+    },
+    {
+        "name": "Comrade Essentials",
+        "status": "in-development",
+        "status_label": "In Development",
+        "description": "Everyday objects. A deeper sense of protection.",
+        "illustration": "essentials",
+    },
+]
+
+PRODUCTS_HOW_HEADING = {
+    "eyebrow": "How we build",
+}
+
+PRODUCTS_HOW = [
+    {
+        "icon": "share",
+        "title": "Connected Thinking",
+        "description": "Exploring ways technology can help people stay better connected.",
+    },
+    {
+        "icon": "eye-off",
+        "title": "Discreet by Design",
+        "description": "Safety solutions should integrate naturally into everyday products.",
+    },
+    {
+        "icon": "accessibility",
+        "title": "Thoughtful Interaction",
+        "description": "Designed with simplicity and accessibility in mind.",
+    },
+    {
+        "icon": "infinity",
+        "title": "Built for Real Life",
+        "description": "Technology should support people without getting in the way.",
+    },
 ]
 
 
@@ -132,12 +242,22 @@ def about():
 
 @pages_bp.route("/vision", methods=["GET"])
 def vision():
-    return render_template("pages/vision.html", copy=PLACEHOLDER_COPY["vision"])
+    return render_template(
+        "pages/vision.html",
+        hero=VISION_HERO,
+        why=VISION_WHY,
+    )
 
 
 @pages_bp.route("/products", methods=["GET"])
 def products():
-    return render_template("pages/products.html", copy=PLACEHOLDER_COPY["products"])
+    return render_template(
+        "pages/products.html",
+        hero=PRODUCTS_HERO,
+        products=PRODUCTS,
+        how_heading=PRODUCTS_HOW_HEADING,
+        how=PRODUCTS_HOW,
+    )
 
 
 @pages_bp.route("/contact", methods=["GET"])

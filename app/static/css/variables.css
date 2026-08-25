@@ -22,8 +22,8 @@
   /* Brand */
   --comrade-primary: #970747;
   --comrade-primary-hover: #7a0339;
-  --comrade-primary-light: rgba(151, 7, 71, 0.08);
-  --comrade-primary-light-strong: rgba(151, 7, 71, 0.14);
+  --comrade-primary-light: rgba(151, 7, 71, 0.04);
+  --comrade-primary-light-strong: rgba(151, 7, 71, 0.08);
 
   /* Text */
   --comrade-text: #221a18;
@@ -54,10 +54,22 @@
   --comrade-font-body: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system,
     sans-serif;
 
-  /* Transitions */
+  /* Transitions
+     - fast/normal/slow: general-purpose easing, unrelated to hover.
+       slow is reserved for one-shot entrance reveals (scroll-in,
+       orbit fade-in), never for a repeatedly-triggered interaction.
+     - hover: the single timing every hover-triggered popup uses
+       site-wide — buttons, cards, nav/footer links, contact icons,
+       heading fills. One token here means "make hovers feel slower"
+       is always a one-line change, and every hover across the site
+       moves at the exact same speed instead of drifting apart as
+       components are added. Press/active feedback intentionally stays
+       on --comrade-transition-fast at its own call sites so clicking
+       still feels immediate even though hovering-in is slow. */
   --comrade-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --comrade-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --comrade-transition-slow: 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  --comrade-transition-hover: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Navbar */
   --comrade-navbar-height: 110px;
