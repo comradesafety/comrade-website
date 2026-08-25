@@ -21,6 +21,31 @@ body {
   min-height: 100vh;
 }
 
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--comrade-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--comrade-border-strong);
+  border-radius: var(--comrade-radius-full, 8px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--comrade-primary);
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--comrade-border-strong) var(--comrade-bg);
+}
+
 main#main-content {
   flex: 1;
 }
