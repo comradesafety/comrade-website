@@ -66,8 +66,8 @@ textarea:focus-visible,
   align-items: center;
   gap: var(--comrade-space-xs);
   font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-weight: 400;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--comrade-text-muted);
 }
@@ -76,8 +76,7 @@ textarea:focus-visible,
   content: "";
   display: inline-block;
   width: 28px;
-  height: 3px;
-  border-radius: var(--comrade-radius-pill);
+  height: 1px;
   background: var(--comrade-primary);
 }
 
