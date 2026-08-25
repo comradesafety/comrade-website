@@ -14,15 +14,13 @@
     <div class="comrade-about-hero__headline-col reveal-on-scroll reveal-up">
       <p class="comrade-eyebrow">{{ hero.eyebrow }}</p>
       <h1 class="comrade-about-hero__headline">{{ hero.headline }}</h1>
-    </div>
-
-    <div class="comrade-about-hero__aside-col reveal-on-scroll reveal-up comrade-delay-2">
       <p class="comrade-about-hero__description">{{ hero.description }}</p>
-
       <blockquote class="comrade-about-hero__quote">
         <p>&ldquo;{{ hero.quote }}&rdquo;</p>
       </blockquote>
+    </div>
 
+    <div class="comrade-about-hero__aside-col reveal-on-scroll reveal-up comrade-delay-2">
       <div class="comrade-about-hero__orbit-slot">
         {{ safety_orbit(size="compact") }}
       </div>

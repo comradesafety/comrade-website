@@ -122,13 +122,14 @@
 }
 
 .comrade-about-hero__description {
+  margin-top: var(--comrade-space-lg);
   font-size: 1.08rem;
   line-height: 1.6;
   color: var(--comrade-text-muted);
 }
 
 .comrade-about-hero__quote {
-  margin: var(--comrade-space-md) 0 0;
+  margin: var(--comrade-space-lg) 0 0;
   padding-left: var(--comrade-space-md);
   border-left: 3px solid var(--comrade-primary);
 }
@@ -145,7 +146,7 @@
    this column. All the visualization's own appearance and motion live
    in that shared component's own files, not here. ---- */
 .comrade-about-hero__orbit-slot {
-  margin: var(--comrade-space-xl) 0 0 auto;
+  margin: 0 auto;
   width: fit-content;
 }
 
