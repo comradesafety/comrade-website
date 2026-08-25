@@ -1,29 +1,71 @@
 /*
   footer.css
-  Footer: a centered brand statement, a full-width divider, a
-  three-column row (brand + social, navigate, get in touch), and a
-  legal bottom bar with its own divider. The statement and bottom bar
-  wrappers are full-bleed (border spans the whole viewport); only the
-  content inside each is width-constrained via .comrade-container.
+  Footer: an editorial asymmetric composition.
 */
 
 .comrade-footer {
+  position: relative;
   background-color: var(--comrade-bg);
   color: var(--comrade-text);
+  border-top: 1px solid var(--comrade-border); /* Top border for the whole footer */
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  overflow: hidden;
 }
 
-/* --- Statement --- */
-.comrade-footer__statement-section {
-  border-bottom: 1px solid var(--comrade-border);
-  padding-block: var(--comrade-space-xl);
+/* --- Decorative Orbit --- */
+.comrade-footer__orbit-decoration {
+  position: absolute;
+  top: -40px;
+  right: -20px;
+  width: 400px;
+  height: 400px;
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+}
+.comrade-footer__orbit-svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+}
+.comrade-footer__orbit-path {
+  stroke: var(--comrade-border-strong);
+  stroke-width: 1px;
+}
+.comrade-footer__orbit-node {
+  fill: var(--comrade-primary);
+}
+
+/* --- Main Grid --- */
+.comrade-footer__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+@media (max-width: 768px) {
+  .comrade-footer__grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+/* --- Left Side: Brand Statement --- */
+.comrade-footer__left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .comrade-footer__statement {
-  margin: 0;
-  text-align: center;
-  font-size: clamp(1.75rem, 5vw, 3.5rem);
+  margin: 0 0 1.25rem 0;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  line-height: 0.95;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   color: var(--comrade-text);
 }
@@ -32,97 +74,57 @@
   color: var(--comrade-primary);
 }
 
-/* --- Columns: brand + social / navigate / get in touch --- */
-.comrade-footer__columns {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: var(--comrade-space-xl);
-  padding-block: var(--comrade-space-xl);
-}
-
-.comrade-footer__brand {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--comrade-space-sm);
-  max-width: 340px;
-}
-
-.comrade-footer__logo {
-  height: 60px; /* was 44px: too small to read as a real brand mark */
-  width: auto;
-}
-
 .comrade-footer__tagline {
-  font-size: 0.95rem;
-  line-height: 1.55;
+  margin: 0;
+  font-size: clamp(1.05rem, 2vw, 1.15rem);
+  line-height: 1.5;
   color: var(--comrade-text-muted);
+  max-width: 380px;
 }
 
-/*
-  The footer's one deliberately tactile moment (see item 12/14 of the
-  neumorphism pass): a small raised circle that lifts on hover and
-  presses in on click, sitting on the same cream family as the page so
-  the shadow pair reads as depth rather than a separate white chip.
-*/
-.comrade-footer__social-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  margin-top: 0.25rem;
-  border-radius: 50%;
-  border: 1px solid var(--comrade-border);
-  background-color: var(--comrade-surface-soft);
-  color: var(--comrade-text);
-  box-shadow: var(--comrade-neumo-raised);
-  transition: color var(--comrade-transition-fast),
-    border-color var(--comrade-transition-fast),
-    box-shadow var(--comrade-transition-fast),
-    transform var(--comrade-transition-fast);
+.comrade-footer__cta {
+  margin-top: auto; /* Push CTA to bottom if needed, though with flex column it stays below */
 }
 
-.comrade-footer__social-button svg {
-  width: 18px;
-  height: 18px;
+/* --- Right Side: Utilities --- */
+.comrade-footer__right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 0.5rem;
 }
 
-.comrade-footer__social-button:hover {
-  color: var(--comrade-primary);
-  border-color: var(--comrade-primary);
-  box-shadow: var(--comrade-neumo-raised-hover);
-  transform: translateY(-2px);
-}
-
-.comrade-footer__social-button:active {
-  box-shadow: var(--comrade-neumo-pressed);
-  transform: translateY(0) scale(0.94);
+@media (max-width: 768px) {
+  .comrade-footer__right {
+    flex-direction: column;
+    padding-top: 0;
+  }
 }
 
 .comrade-footer__heading {
-  margin-bottom: var(--comrade-space-sm);
-  font-size: 0.76rem;
+  margin: 0 0 1rem 0;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--comrade-primary);
+  color: var(--comrade-text-muted);
 }
 
-.comrade-footer__nav,
-.comrade-footer__contact {
+.comrade-footer__nav-list,
+.comrade-footer__contact-list {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
 .comrade-footer__nav-link {
   position: relative;
   width: fit-content;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--comrade-text);
+  text-decoration: none;
 }
 
 .comrade-footer__nav-link::after {
@@ -149,11 +151,12 @@
 .comrade-footer__contact-row {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.95rem;
+  gap: 0.8rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--comrade-text);
   transition: color var(--comrade-transition-fast);
+  text-decoration: none;
 }
 
 .comrade-footer__contact-icon {
@@ -165,8 +168,8 @@
 }
 
 .comrade-footer__contact-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
 .comrade-footer__contact-row:hover {
@@ -180,7 +183,7 @@
 /* --- Bottom legal bar --- */
 .comrade-footer__bottom {
   border-top: 1px solid var(--comrade-border);
-  padding-block: var(--comrade-space-md);
+  padding-block: clamp(0.5rem, 1.5vw, 0.75rem);
 }
 
 .comrade-footer__bottom-inner {
@@ -188,7 +191,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--comrade-space-sm);
+  gap: 1.5rem;
   font-size: 0.85rem;
   color: var(--comrade-text-muted);
 }
@@ -196,30 +199,15 @@
 .comrade-footer__legal-links {
   display: flex;
   align-items: center;
-  gap: var(--comrade-space-md);
+  gap: 1.5rem;
 }
 
 .comrade-footer__legal-links a {
   color: var(--comrade-text-muted);
   transition: color var(--comrade-transition-fast);
+  text-decoration: none;
 }
 
 .comrade-footer__legal-links a:hover {
-  color: var(--comrade-primary);
-}
-
-/* Reduced motion: the raised/hover/pressed shadow states still apply
-   (that is styling, not motion), only the lift and press transform and
-   the transition speed are removed. */
-@media (prefers-reduced-motion: reduce) {
-  .comrade-footer__social-button {
-    transition: color var(--comrade-transition-fast),
-      border-color var(--comrade-transition-fast),
-      box-shadow var(--comrade-transition-fast);
-  }
-
-  .comrade-footer__social-button:hover,
-  .comrade-footer__social-button:active {
-    transform: none;
-  }
+  color: var(--comrade-text);
 }

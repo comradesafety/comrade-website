@@ -1,64 +1,61 @@
 {#
   footer.html
-  Global site footer: a full-width brand statement, a divider, a
-  three-column row (brand + social / navigate / get in touch), and a
-  legal bottom bar. Loaded once through base.html so every page shares
-  the exact same footer.
+  Global site footer: editorial asymmetric layout with a strong
+  brand statement on the left and navigation/connect utilities on the right.
 #}
 {% from "macros/icons.html" import icon %}
 
-<footer class="comrade-footer reveal-on-scroll reveal-up">
-  <div class="comrade-footer__statement-section">
-    <div class="comrade-container">
-      <h2 class="comrade-footer__statement">
-        Comrades born to <span class="comrade-footer__statement-highlight">defy</span>
-      </h2>
+<footer class="comrade-footer">
+  <div class="comrade-container comrade-footer__grid">
+    <!-- Optional abstract decorative orbital curve -->
+    <div class="comrade-footer__orbit-decoration" aria-hidden="true">
+      <svg viewBox="0 0 100 100" class="comrade-footer__orbit-svg">
+        <path d="M -10,110 C -10,40 40,-10 110,-10" class="comrade-footer__orbit-path" />
+        <circle cx="20" cy="80" r="2.5" class="comrade-footer__orbit-node" />
+      </svg>
     </div>
-  </div>
 
-  <div class="comrade-container comrade-footer__columns">
-    <div class="comrade-footer__brand">
-      <img
-        src="{{ url_for('static', filename='images/logo.png') }}"
-        alt="Comrade"
-        class="comrade-footer__logo"
-      >
+    <!-- Left side: Brand Statement -->
+    <div class="comrade-footer__left">
+      <h2 class="comrade-footer__statement">
+        Comrades<br>
+        born to<br>
+        <span class="comrade-footer__statement-highlight">defy.</span>
+      </h2>
       <p class="comrade-footer__tagline">
         Personal safety, reimagined for the way you actually live.
       </p>
-      <a
-        href="https://www.instagram.com/comradesafe/"
-        class="comrade-footer__social-button"
-        aria-label="Comrade on Instagram"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {{ icon("instagram") }}
-      </a>
     </div>
 
-    <nav class="comrade-footer__nav" aria-label="Footer navigation">
-      <p class="comrade-footer__heading">Navigate</p>
-      {% for endpoint, label in main_nav_items %}
-        <a href="{{ url_for(endpoint) }}" class="comrade-footer__nav-link">{{ label }}</a>
-      {% endfor %}
-    </nav>
+    <!-- Right side: Utilities -->
+    <div class="comrade-footer__right">
+      <nav class="comrade-footer__nav" aria-label="Footer navigation">
+        <p class="comrade-footer__heading">Explore</p>
+        <div class="comrade-footer__nav-list">
+        {% for endpoint, label in main_nav_items %}
+          <a href="{{ url_for(endpoint) }}" class="comrade-footer__nav-link">{{ label }}</a>
+        {% endfor %}
+        </div>
+      </nav>
 
-    <div class="comrade-footer__contact" aria-label="Get in touch">
-      <p class="comrade-footer__heading">Get in touch</p>
-      <a href="mailto:comradessafety@gmail.com" class="comrade-footer__contact-row">
-        <span class="comrade-footer__contact-icon">{{ icon("mail") }}</span>
-        comradessafety@gmail.com
-      </a>
-      <a
-        href="https://www.instagram.com/comradesafe/"
-        class="comrade-footer__contact-row"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span class="comrade-footer__contact-icon">{{ icon("instagram") }}</span>
-        @comradesafe
-      </a>
+      <div class="comrade-footer__contact" aria-label="Get in touch">
+        <p class="comrade-footer__heading">Connect</p>
+        <div class="comrade-footer__contact-list">
+          <a href="mailto:comradessafety@gmail.com" class="comrade-footer__contact-row">
+            <span class="comrade-footer__contact-icon">{{ icon("mail") }}</span>
+            comradessafety@gmail.com
+          </a>
+          <a
+            href="https://www.instagram.com/comradesafe/"
+            class="comrade-footer__contact-row"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="comrade-footer__contact-icon">{{ icon("instagram") }}</span>
+            @comradesafe
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
