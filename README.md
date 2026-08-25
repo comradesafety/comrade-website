@@ -86,6 +86,7 @@ tests/
 | `base.css` | Global typography, links, focus states, containers |
 | `navbar.css` | Navbar, scroll-shrink state, mobile menu |
 | `hero.css` | Hero layout and headline |
+| `image-blend.css` | Soft-edge mask and atmosphere glow blending the hero image into the page |
 | `orbit.css` | The crossed orbit paths and moving labels |
 | `buttons.css` | The Comrade button system |
 | `animations.css` | Scroll-reveal and hero entrance animation classes |
@@ -101,7 +102,8 @@ tests/
 | `navbar-scroll.js` | Adds/removes `navbar-scrolled` on scroll |
 | `mobile-menu.js` | Opens/closes the mobile navigation drawer |
 | `hero-animation.js` | Homepage entrance sequence timing |
-| `orbit-animation.js` | Orbit ellipse geometry and continuous label motion |
+| `orbit-geometry.js` | Pure ellipse math: single source of truth for orbit shape, shared by the SVG paths and every moving dot |
+| `orbit-animation.js` | The centralized animation loop: delta-time motion, resize/visibility lifecycle, writing label transforms |
 | `scroll-reveal.js` | Generic `IntersectionObserver` reveal-on-scroll system |
 
 ## Security notes

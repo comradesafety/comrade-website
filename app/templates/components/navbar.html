@@ -28,7 +28,7 @@
     </nav>
 
     <div class="comrade-navbar__actions">
-      {{ comrade_button("Coming Soon", url_for('pages.products'), "primary") }}
+      {{ comrade_button("Coming Soon", url_for('pages.products'), "secondary") }}
 
       <button
         type="button"
@@ -49,7 +49,7 @@
         {% for endpoint, label in main_nav_items %}
           {{ nav_link(endpoint, label, "comrade-navbar__mobile-link") }}
         {% endfor %}
-        {{ comrade_button("Coming Soon", url_for('pages.products'), "primary", "comrade-navbar__mobile-cta") }}
+        {{ comrade_button("Coming Soon", url_for('pages.products'), "secondary", "comrade-navbar__mobile-cta") }}
       </nav>
     </div>
   </div>

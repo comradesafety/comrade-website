@@ -1,21 +1,39 @@
 {#
   hero-label.html
-  Reusable macro for a single moving orbit annotation: a small dot that
-  sits exactly on the orbit path, plus a floating text label offset
-  beside it. The four hero labels are all produced from this one macro
-  instead of four hand-written copies of the same markup.
+  Reusable macros for a single moving orbit annotation: a small dot that
+  sits exactly on the orbit path, plus an icon badge and text pill (the
+  "chip") floating beside it. The four hero labels are all produced from
+  these macros instead of four hand-written copies of the same markup.
 
   orbit: "a" or "b", identifies which ellipse the label travels along.
   phase: starting angle in degrees along that ellipse. The two labels on
          the same orbit must be 180 degrees apart so they never collide.
 
-  The text's side (right/left/top/bottom) is set and kept in sync by
-  orbit-animation.js via the [data-side] attribute, not by this markup.
-#}
+  Two separate macros, deliberately: orbit_dot() renders an SVG <circle>
+  meant to live inside the same <svg> as the orbit paths themselves, so
+  the dot and the line are drawn by the exact same rendering pipeline
+  and can never be a pixel apart. hero_label() renders the plain-HTML
+  chip (icon + text), positioned to the identical (x, y) point
+  separately by orbit-animation.js, since it needs normal HTML/CSS
+  layout. The two are paired at runtime by matching [data-orbit] and
+  [data-phase].
 
-{% macro hero_label(text, orbit, phase) %}
+  The chip's side (right/left/top/bottom, which also decides whether the
+  icon or the text sits closer to the dot, see orbit.css) is set once by
+  orbit-animation.js at startup via the [data-side] attribute on the
+  chip, and never changes after that.
+#}
+{% from "macros/icons.html" import icon %}
+
+{% macro orbit_dot(orbit, phase) %}
+<circle class="hero-orbit-dot" data-orbit="{{ orbit }}" data-phase="{{ phase }}" r="4.5"></circle>
+{%- endmacro %}
+
+{% macro hero_label(text, icon_name, orbit, phase) %}
 <div class="hero-orbit-label" data-orbit="{{ orbit }}" data-phase="{{ phase }}">
-  <span class="hero-orbit-label__dot" aria-hidden="true"></span>
-  <span class="hero-orbit-label__text" data-side="right">{{ text }}</span>
+  <div class="hero-orbit-label__chip" data-side="right">
+    <span class="hero-orbit-label__icon" aria-hidden="true">{{ icon(icon_name) }}</span>
+    <span class="hero-orbit-label__text">{{ text }}</span>
+  </div>
 </div>
 {%- endmacro %}

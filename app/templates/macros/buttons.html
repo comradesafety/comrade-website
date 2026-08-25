@@ -4,11 +4,14 @@
   markup, styling hook, and arrow icon, so button structure never has to
   be repeated by hand.
 #}
-{% from "macros/icons.html" import icon %}
+{# Aliased on import: the macro below takes its own "icon" parameter
+   (which icon to render), so the render function itself needs a
+   different local name to avoid the parameter shadowing it. #}
+{% from "macros/icons.html" import icon as render_icon %}
 
-{% macro comrade_button(text, href, variant="primary", extra_class="") %}
-<a href="{{ href }}" class="comrade-btn comrade-btn--{{ variant }} {{ extra_class }}">
+{% macro comrade_button(text, href, variant="primary", extra_classes="", icon="arrow-up-right") %}
+<a href="{{ href }}" class="comrade-btn comrade-btn--{{ variant }} {{ extra_classes }}">
   <span>{{ text }}</span>
-  <span class="comrade-btn__icon">{{ icon("arrow-up-right") }}</span>
+  <span class="comrade-btn__icon">{{ render_icon(icon) }}</span>
 </a>
 {%- endmacro %}

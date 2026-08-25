@@ -1,8 +1,11 @@
 /*
   orbit.css
-  The crossed elliptical orbit system: static SVG paths plus the four
-  labels that travel along them. Positioning math lives in
-  orbit-animation.js; this file only handles appearance and layering.
+  The crossed elliptical orbit system: static SVG paths, the four SVG
+  dots that travel along them, and the four HTML text labels that
+  travel alongside those dots. Positioning math lives in
+  orbit-geometry.js and orbit-animation.js; this file only handles
+  appearance and layering, never transform (that stays entirely
+  JavaScript-owned so nothing fights the per-frame position updates).
 */
 
 .hero-orbit-svg {
@@ -38,11 +41,42 @@
 }
 
 /*
-  Each label is a small dot sitting exactly on the orbit path plus a
-  floating text pill offset beside it. The wrapper itself carries only
-  the per-frame position (translate3d from orbit-animation.js); the dot
-  and text are positioned relative to that same origin point so they
-  travel together as one object.
+  The moving dot lives INSIDE this same <svg>, as an SVG <circle>, not
+  as an HTML element layered on top (see hero-label.html). That is
+  deliberate: it guarantees the dot is rasterized by the exact same
+  rendering pipeline, in the exact same coordinate space, as the orbit
+  path itself, so there is no possible sub-pixel disagreement between
+  two different rendering systems drawing what is meant to be the same
+  point.
+
+  Its neumorphic depth (see the #comrade-neumo-dot filter in
+  hero-orbit.html) is deliberately tiny: a soft glow makes a dot's true
+  center ambiguous to the eye even when it is mathematically exact, and
+  this is the one place on the page where "is it actually on the line"
+  matters more than tactility. The filter only changes how the circle
+  is painted, never its transform, so the mathematically-exact position
+  orbit-animation.js writes every frame is completely unaffected.
+*/
+.hero-orbit-dot {
+  fill: var(--comrade-primary);
+  vector-effect: non-scaling-stroke;
+  filter: url(#comrade-neumo-dot);
+  opacity: 0;
+  transition: opacity var(--comrade-transition-normal);
+  /* Positioned every frame via an SVG transform from orbit-animation.js. */
+}
+
+.hero-orbit-dot.is-visible {
+  opacity: 1;
+}
+
+/*
+  The floating icon + text chip is plain HTML/CSS (it needs normal text
+  layout), positioned to the identical (x, y) coordinate separately,
+  alongside its paired SVG dot. See hero-label.html for how the two are
+  paired. This wrapper only carries the shared position; the chip
+  inside it (see .hero-orbit-label__chip below) carries the per-side
+  offset and layout.
 */
 .hero-orbit-label {
   position: absolute;
@@ -60,71 +94,88 @@
   opacity: 1;
 }
 
-.hero-orbit-label__dot {
+/*
+  The chip is an icon badge and a text pill riding together as one
+  group, offset from the dot. orbit-animation.js sets data-side exactly
+  once per label, from its starting position, and never changes it
+  again: the chip stays on one fixed side of the dot for the whole
+  animation instead of re-anchoring as the dot travels around the
+  ellipse. The icon is always the element closest to the dot (an
+  anchor) and the text always the furthest (for readability against the
+  image); which physical edge that means depends on the side, so each
+  [data-side] variant below also sets the flex order, not just the
+  offset.
+*/
+.hero-orbit-label__chip {
   position: absolute;
   top: 0;
   left: 0;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background-color: var(--comrade-primary);
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 5px var(--comrade-primary-light), 0 0 12px rgba(151, 7, 71, 0.4);
-  animation: comrade-orbit-dot-pulse 4.5s ease-in-out infinite;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-/* A restrained glass treatment: translucent cream, minimal blur, a hair
-   of a border. Not a solid card, not a heavy frosted-glass effect. */
+.hero-orbit-label__chip[data-side="right"] {
+  flex-direction: row;
+  transform: translate(14px, -50%);
+}
+
+.hero-orbit-label__chip[data-side="left"] {
+  flex-direction: row-reverse;
+  transform: translate(calc(-100% - 14px), -50%);
+}
+
+.hero-orbit-label__chip[data-side="top"] {
+  flex-direction: column-reverse;
+  transform: translate(-50%, calc(-100% - 12px));
+}
+
+.hero-orbit-label__chip[data-side="bottom"] {
+  flex-direction: column;
+  transform: translate(-50%, 12px);
+}
+
+/*
+  A restrained glass LOOK without an actual backdrop-filter. This is
+  deliberate: backdrop-filter forces the browser to resample and
+  recomposite everything behind the element, and this element moves
+  every animation frame, so a live blur here is a real, continuous
+  compositing cost on top of the position update, not a one-time cost.
+  A single slightly-more-opaque flat color plus a soft border and
+  shadow reads as "light, translucent surface" without that ongoing
+  per-frame cost. Likewise the dot's glow above is a static box-shadow,
+  not a looping CSS animation, for the same reason: nothing should be
+  continuously repainting on an element that is also continuously
+  moving via JavaScript.
+*/
+.hero-orbit-label__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: rgba(253, 246, 238, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 12px var(--comrade-shadow-soft);
+  color: var(--comrade-primary);
+}
+
+.hero-orbit-label__icon svg {
+  width: 15px;
+  height: 15px;
+}
+
 .hero-orbit-label__text {
-  position: absolute;
-  top: 0;
-  left: 0;
   white-space: nowrap;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   color: var(--comrade-text);
-  padding: 0.32rem 0.8rem;
+  padding: 0.4rem 0.9rem;
   border-radius: var(--comrade-radius-pill);
-  background-color: rgba(253, 246, 238, 0.55);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: rgba(253, 246, 238, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 6px 16px var(--comrade-shadow-soft);
-  transition: transform var(--comrade-transition-fast);
-}
-
-/* Text offset direction, kept in sync with the dot's current side of the
-   ellipse by orbit-animation.js (only written when the side changes). */
-.hero-orbit-label__text[data-side="right"] {
-  transform: translate(14px, -50%);
-}
-
-.hero-orbit-label__text[data-side="left"] {
-  transform: translate(calc(-100% - 14px), -50%);
-}
-
-.hero-orbit-label__text[data-side="top"] {
-  transform: translate(-50%, calc(-100% - 12px));
-}
-
-.hero-orbit-label__text[data-side="bottom"] {
-  transform: translate(-50%, 12px);
-}
-
-/* Very subtle secondary motion on the dot only, purely decorative. */
-@keyframes comrade-orbit-dot-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 5px var(--comrade-primary-light), 0 0 12px rgba(151, 7, 71, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 7px var(--comrade-primary-light-strong), 0 0 16px rgba(151, 7, 71, 0.55);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-orbit-label__dot {
-    animation: none;
-  }
 }

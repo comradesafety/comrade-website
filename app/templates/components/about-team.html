@@ -1,0 +1,45 @@
+{#
+  about-team.html
+  The team: one featured Founder & CEO card, then the CTO and CMO side
+  by side below it at a slightly smaller size, reflecting that
+  hierarchy visually rather than just in text. Real names/photos are
+  not set yet (see ABOUT_TEAM_LEAD/ABOUT_TEAM_EXECS in routes/pages.py);
+  each card shows a placeholder avatar and "Name coming soon" until
+  they are. Sits on the "deep" band, alternating with philosophy above.
+#}
+{% from "macros/icons.html" import icon %}
+
+{% macro team_card(member, size) %}
+<div class="comrade-team-card comrade-team-card--{{ size }} reveal-on-scroll reveal-up">
+  <div class="comrade-team-card__avatar">
+    {% if member.photo %}
+      <img src="{{ url_for('static', filename=member.photo) }}" alt="{{ member.name }}">
+    {% else %}
+      {{ icon("person") }}
+    {% endif %}
+  </div>
+  <p class="comrade-team-card__role">{{ member.role }}</p>
+  <p class="comrade-team-card__name{{ ' comrade-team-card__name--pending' if not member.name }}">
+    {{ member.name or "Name coming soon" }}
+  </p>
+</div>
+{%- endmacro %}
+
+<section class="comrade-about-team comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-about-section-heading comrade-about-section-heading--centered reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">{{ team_heading.eyebrow }}</p>
+      <h2>{{ team_heading.headline }}</h2>
+    </div>
+
+    <div class="comrade-about-team__lead">
+      {{ team_card(team_lead, "lead") }}
+    </div>
+
+    <div class="comrade-about-team__execs">
+      {% for member in team_execs %}
+        {{ team_card(member, "exec") }}
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -27,6 +27,16 @@ class Config:
     # request, guaranteeing correctness over raw cache-hit speed.
     SEND_FILE_MAX_AGE_DEFAULT = 0
 
+    # Flask ties Jinja's template auto-reload to DEBUG by default, so a
+    # process running with DEBUG off silently keeps serving whatever
+    # templates were on disk at startup, no matter what changes on disk
+    # afterward. Explicit and unconditional here for the same reason as
+    # SEND_FILE_MAX_AGE_DEFAULT above: the cost (a cheap mtime check per
+    # render) is negligible at this project's scale, and it removes an
+    # entire class of "I edited the file, why didn't anything change"
+    # confusion regardless of which config/environment is active.
+    TEMPLATES_AUTO_RELOAD = True
+
 
 class DevelopmentConfig(Config):
     """Local development configuration."""

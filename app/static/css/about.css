@@ -1,0 +1,301 @@
+/*
+  about.css
+  Styles specific to the About page: hero, values band, philosophy, and
+  team sections. Section spacing itself comes from the shared
+  .comrade-section utility (base.css); this file only adds what's
+  unique to About. Three small shared patterns (section heading, icon
+  badge, card) are defined once near the top and reused by every
+  section below rather than repeated per section.
+*/
+
+/* ---- Shared: section heading ---- */
+.comrade-about-section-heading {
+  max-width: 640px;
+  margin-bottom: var(--comrade-space-lg);
+}
+
+.comrade-about-section-heading h2 {
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--comrade-text);
+}
+
+.comrade-about-section-heading p {
+  margin-top: var(--comrade-space-sm);
+  font-size: 1.05rem;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-about-section-heading--centered {
+  max-width: 620px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.comrade-about-section-heading__rule {
+  display: block;
+  width: 40px;
+  height: 3px;
+  margin: var(--comrade-space-sm) auto 0;
+  border-radius: var(--comrade-radius-pill);
+  background-color: var(--comrade-primary);
+}
+
+/* ---- Shared: icon badge, reused by value/philosophy cards and, at a
+   different size, the team avatars below ---- */
+.comrade-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-border);
+  color: var(--comrade-primary);
+  transition: background-color var(--comrade-transition-normal),
+    border-color var(--comrade-transition-normal);
+}
+
+.comrade-icon-badge svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ---- Shared: card, used by both the values grid and the philosophy
+   grid. A single hover treatment (lift + burgundy border/shadow + the
+   icon badge tinting) is defined once here so both grids behave
+   identically. ---- */
+.comrade-about-card {
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-border);
+  border-radius: var(--comrade-radius-lg);
+  padding: var(--comrade-space-lg);
+  transition: transform var(--comrade-transition-normal),
+    box-shadow var(--comrade-transition-normal),
+    border-color var(--comrade-transition-normal);
+}
+
+.comrade-about-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--comrade-primary);
+  box-shadow: 0 18px 34px var(--comrade-shadow-soft);
+}
+
+.comrade-about-card:hover .comrade-icon-badge {
+  background-color: var(--comrade-primary-light);
+  border-color: var(--comrade-primary);
+}
+
+.comrade-about-card__title {
+  margin-top: var(--comrade-space-md);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--comrade-text);
+}
+
+.comrade-about-card__description {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--comrade-text-muted);
+}
+
+/* ---- Hero ---- */
+.comrade-about-hero__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--comrade-space-xl);
+  align-items: start;
+}
+
+.comrade-about-hero__headline {
+  margin-top: var(--comrade-space-sm);
+  font-size: clamp(2.25rem, 4.4vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  color: var(--comrade-text);
+}
+
+.comrade-about-hero__description {
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-about-hero__quote {
+  margin: var(--comrade-space-md) 0 0;
+  padding-left: var(--comrade-space-md);
+  border-left: 3px solid var(--comrade-primary);
+}
+
+.comrade-about-hero__quote p {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--comrade-text);
+}
+
+/* Purely decorative, static echo of the homepage orbit motif: no
+   animation and no JS, just a consistent visual thread between pages. */
+.comrade-about-hero__orbit {
+  width: 150px;
+  margin: var(--comrade-space-xl) 0 0 auto;
+}
+
+.comrade-about-hero__orbit-ring {
+  fill: none;
+  stroke: var(--comrade-primary);
+  stroke-width: 1;
+  opacity: 0.3;
+}
+
+.comrade-about-hero__orbit-ring--inner {
+  opacity: 0.2;
+}
+
+.comrade-about-hero__orbit-dot {
+  fill: var(--comrade-primary);
+}
+
+/* ---- Values: sits on the "deep" alternating band ---- */
+.comrade-about-values {
+  background-color: var(--comrade-surface-deep);
+}
+
+.comrade-about-values__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--comrade-space-md);
+}
+
+/* ---- Philosophy: plain page background, alternating with Values and
+   Team on either side of it ---- */
+.comrade-about-philosophy__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--comrade-space-md);
+}
+
+.comrade-about-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.comrade-about-card__number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--comrade-border-strong);
+}
+
+/* ---- Team: the "deep" band again, closing the page the way it
+   opened. One featured Founder & CEO card, then CTO/CMO side by side
+   at a smaller size below it, so the hierarchy reads visually, not
+   just from the copy. ---- */
+.comrade-about-team {
+  background-color: var(--comrade-surface-deep);
+}
+
+.comrade-about-team__lead {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--comrade-space-md);
+}
+
+.comrade-about-team__execs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 280px));
+  justify-content: center;
+  gap: var(--comrade-space-md);
+}
+
+.comrade-team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-border);
+  border-radius: var(--comrade-radius-lg);
+  padding: var(--comrade-space-lg);
+  transition: transform var(--comrade-transition-normal),
+    box-shadow var(--comrade-transition-normal),
+    border-color var(--comrade-transition-normal);
+}
+
+.comrade-team-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--comrade-primary);
+  box-shadow: 0 18px 34px var(--comrade-shadow-soft);
+}
+
+.comrade-team-card--lead {
+  width: 100%;
+  max-width: 320px;
+}
+
+.comrade-team-card--exec {
+  width: 100%;
+}
+
+.comrade-team-card__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--comrade-surface);
+  border: 1px solid var(--comrade-border);
+  color: var(--comrade-primary);
+  overflow: hidden;
+}
+
+.comrade-team-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comrade-team-card--lead .comrade-team-card__avatar {
+  width: 120px;
+  height: 120px;
+}
+
+.comrade-team-card--lead .comrade-team-card__avatar svg {
+  width: 46px;
+  height: 46px;
+}
+
+.comrade-team-card--exec .comrade-team-card__avatar {
+  width: 92px;
+  height: 92px;
+}
+
+.comrade-team-card--exec .comrade-team-card__avatar svg {
+  width: 34px;
+  height: 34px;
+}
+
+.comrade-team-card__role {
+  margin-top: var(--comrade-space-md);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--comrade-text);
+}
+
+.comrade-team-card__name {
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-team-card__name--pending {
+  font-style: italic;
+  opacity: 0.75;
+}

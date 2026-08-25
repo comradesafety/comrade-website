@@ -7,10 +7,10 @@
 .comrade-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.85rem 1.6rem;
+  gap: 0.45rem;
+  padding: 0.62rem 1.3rem;
   border-radius: var(--comrade-radius-pill);
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 700;
   border: 1px solid transparent;
   transition: transform var(--comrade-transition-fast),
@@ -22,8 +22,8 @@
 
 .comrade-btn__icon {
   display: inline-flex;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   transition: transform var(--comrade-transition-fast);
 }
 
@@ -40,25 +40,49 @@
   transform: translateY(1px) scale(0.98);
 }
 
-/* Primary: burgundy background, white text, soft shadow, lift on hover */
+/*
+  Primary: burgundy background, white text. Brand color always wins
+  here, neumorphism only adds a tactile bevel on top of it (a hairline
+  inset highlight along the top edge, a soft inset shadow along the
+  bottom), so the button still reads as unmistakably burgundy, just
+  with a touch of physical depth. Pressed briefly flattens the outer
+  elevation and deepens the inset instead, reading as "pushed in".
+*/
 .comrade-btn--primary {
   background-color: var(--comrade-primary);
   color: var(--comrade-text-on-primary);
-  box-shadow: 0 10px 24px var(--comrade-shadow);
+  box-shadow: 0 10px 24px var(--comrade-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.12);
 }
 
 .comrade-btn--primary:hover {
   background-color: var(--comrade-primary-hover);
   color: var(--comrade-text-on-primary);
   transform: translateY(-3px);
-  box-shadow: 0 16px 30px var(--comrade-shadow);
+  box-shadow: 0 16px 30px var(--comrade-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.14);
 }
 
-/* Secondary: cream background, thin border, dark text */
+.comrade-btn--primary:active {
+  box-shadow: 0 4px 10px var(--comrade-shadow-soft),
+    inset 0 2px 5px rgba(0, 0, 0, 0.22), inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/*
+  Secondary: the stronger neumorphic candidate, since it already shares
+  the page's own cream surface family (unlike primary's saturated
+  burgundy). Sits on --comrade-surface-soft rather than pure white so it
+  reads as "carved from the same material" as the page background, not
+  a separate white card. The border is kept, but faint: the dual
+  light/dark shadow does the main work of defining its edge.
+*/
 .comrade-btn--secondary {
-  background-color: var(--comrade-surface);
+  background-color: var(--comrade-surface-soft);
   color: var(--comrade-text);
-  border-color: var(--comrade-border-strong);
+  border-color: var(--comrade-border);
+  box-shadow: var(--comrade-neumo-raised);
 }
 
 .comrade-btn--secondary:hover {
@@ -66,6 +90,11 @@
   border-color: var(--comrade-primary);
   color: var(--comrade-primary);
   transform: translateY(-3px);
+  box-shadow: var(--comrade-neumo-raised-hover);
+}
+
+.comrade-btn--secondary:active {
+  box-shadow: var(--comrade-neumo-pressed);
 }
 
 @media (prefers-reduced-motion: reduce) {

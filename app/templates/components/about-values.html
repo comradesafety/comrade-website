@@ -1,0 +1,26 @@
+{#
+  about-values.html
+  A centered heading followed by a 4-up grid of value cards. Sits on the
+  "deep" alternating section band, see about.css.
+#}
+{% from "macros/icons.html" import icon %}
+
+<section class="comrade-about-values comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-about-section-heading reveal-on-scroll reveal-up">
+      <h2>{{ values_heading.headline }}</h2>
+      <span class="comrade-about-section-heading__rule" aria-hidden="true"></span>
+      <p>{{ values_heading.description }}</p>
+    </div>
+
+    <div class="comrade-about-values__grid">
+      {% for value in values %}
+        <div class="comrade-about-card reveal-on-scroll reveal-up comrade-delay-{{ loop.index }}">
+          <span class="comrade-icon-badge">{{ icon(value.icon) }}</span>
+          <h3 class="comrade-about-card__title">{{ value.title }}</h3>
+          <p class="comrade-about-card__description">{{ value.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -16,10 +16,10 @@ home_bp = Blueprint("home", __name__)
 # starts 180 degrees apart on its ellipse so the two labels can never
 # collide, see orbit-animation.js.
 ORBIT_LABELS = [
-    {"text": "Freedom", "orbit": "a", "phase": 0},
-    {"text": "Safety", "orbit": "a", "phase": 180},
-    {"text": "Confidence", "orbit": "b", "phase": 0},
-    {"text": "Strength", "orbit": "b", "phase": 180},
+    {"text": "Freedom", "icon": "freedom", "orbit": "a", "phase": 0},
+    {"text": "Safety", "icon": "safety", "orbit": "a", "phase": 180},
+    {"text": "Confidence", "icon": "confidence", "orbit": "b", "phase": 0},
+    {"text": "Strength", "icon": "strength", "orbit": "b", "phase": 180},
 ]
 
 

@@ -1,0 +1,29 @@
+{#
+  about-philosophy.html
+  A centered eyebrow + headline followed by a 3-up grid of numbered
+  philosophy cards. Sits on the plain page background, alternating with
+  the "deep" band above and below it (see about.css).
+#}
+{% from "macros/icons.html" import icon %}
+
+<section class="comrade-about-philosophy comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-about-section-heading comrade-about-section-heading--centered reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">{{ philosophy_heading.eyebrow }}</p>
+      <h2>{{ philosophy_heading.headline }}</h2>
+    </div>
+
+    <div class="comrade-about-philosophy__grid">
+      {% for item in philosophy %}
+        <div class="comrade-about-card reveal-on-scroll reveal-up comrade-delay-{{ loop.index }}">
+          <div class="comrade-about-card__top">
+            <span class="comrade-icon-badge">{{ icon(item.icon) }}</span>
+            <span class="comrade-about-card__number" aria-hidden="true">{{ item.number }}</span>
+          </div>
+          <h3 class="comrade-about-card__title">{{ item.title }}</h3>
+          <p class="comrade-about-card__description">{{ item.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -5,7 +5,7 @@
   positioning math happens in orbit-animation.js; this template only
   provides the static structure it hooks into.
 #}
-{% from "macros/hero-label.html" import hero_label %}
+{% from "macros/hero-label.html" import hero_label, orbit_dot %}
 
 <div class="comrade-hero__stage hero-reveal-scale" aria-hidden="true">
   <div class="comrade-hero__atmosphere"></div>
@@ -23,11 +23,28 @@
   </div>
 
   <svg class="hero-orbit-svg" viewBox="0 0 500 500" focusable="false">
+    <defs>
+      {# The orbit dots' neumorphic depth: a small warm dark drop
+         shadow (bottom-right) plus a small warm light one (top-left).
+         An SVG filter, not box-shadow (which does not apply to SVG
+         shapes), and purely a rendering effect: it does not add a
+         transform or move the filter region, so it cannot shift the
+         dot's actual coordinate. See orbit.css for how it is applied. #}
+      <filter id="comrade-neumo-dot" x="-150%" y="-150%" width="400%" height="400%">
+        <feDropShadow dx="1.1" dy="1.1" stdDeviation="0.9" flood-color="#5e2f20" flood-opacity="0.4"/>
+        <feDropShadow dx="-0.9" dy="-0.9" stdDeviation="0.6" flood-color="#fffcf7" flood-opacity="0.75"/>
+      </filter>
+    </defs>
+
     <ellipse class="hero-orbit-path hero-orbit-path--a"></ellipse>
     <ellipse class="hero-orbit-path hero-orbit-path--b"></ellipse>
+
+    {% for label in orbit_labels %}
+      {{ orbit_dot(label.orbit, label.phase) }}
+    {% endfor %}
   </svg>
 
   {% for label in orbit_labels %}
-    {{ hero_label(label.text, label.orbit, label.phase) }}
+    {{ hero_label(label.text, label.icon, label.orbit, label.phase) }}
   {% endfor %}
 </div>

@@ -16,6 +16,8 @@
   --comrade-bg: #f9eee2;
   --comrade-surface: #ffffff;
   --comrade-surface-soft: #fdf6ee;
+  --comrade-surface-deep: #f2e4d2; /* one step warmer/darker than
+    --comrade-bg, for alternating section bands (see about.css) */
 
   /* Brand */
   --comrade-primary: #970747;
@@ -46,6 +48,7 @@
   --comrade-space-md: 1.5rem;
   --comrade-space-lg: 2.5rem;
   --comrade-space-xl: 4rem;
+  --comrade-space-xxl: 6rem;
 
   /* Typography */
   --comrade-font-body: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system,
@@ -60,8 +63,35 @@
   --comrade-navbar-height: 110px;
   --comrade-navbar-height-scrolled: 80px;
 
+  /* Glass surfaces: a translucent tint derived from existing tokens
+     (not a new hardcoded color) for the scrolled navbar's floating-glass
+     treatment. See navbar.css. */
+  --comrade-glass-bg: color-mix(in srgb, var(--comrade-bg) 80%, transparent);
+  --comrade-glass-border: color-mix(in srgb, var(--comrade-border) 65%, transparent);
+  --comrade-glass-bg-fallback: #f6ecdf; /* opaque, slightly deeper than
+    --comrade-bg; used only where backdrop-filter is unsupported */
+
   /* Layered z-index scale */
   --comrade-z-navbar: 100;
   --comrade-z-orbit-path: 10;
   --comrade-z-orbit-label: 20;
+
+  /* Neumorphism: warm, sparing tactile depth for a few small
+     interactive elements only (buttons, orbit dots, the footer social
+     icon) — never large surfaces. Built from the same warm brown shadow
+     hue already used site-wide (--comrade-shadow's rgb(94,47,32)), not
+     a separate gray palette, and a warm off-white highlight rather than
+     pure white/gray, so it reads as "this cream surface catching soft
+     light" rather than a generic neumorphic dashboard. --raised/
+     --raised-hover/--pressed are full box-shadow values so call sites
+     never hand-tune offsets themselves; responsive.css scales them down
+     for mobile in one place. */
+  --comrade-neumo-shadow-dark: rgba(94, 47, 32, 0.16);
+  --comrade-neumo-shadow-light: rgba(255, 252, 247, 0.9);
+  --comrade-neumo-raised: 5px 5px 12px var(--comrade-neumo-shadow-dark),
+    -5px -5px 12px var(--comrade-neumo-shadow-light);
+  --comrade-neumo-raised-hover: 7px 7px 16px var(--comrade-neumo-shadow-dark),
+    -7px -7px 16px var(--comrade-neumo-shadow-light);
+  --comrade-neumo-pressed: inset 3px 3px 7px var(--comrade-neumo-shadow-dark),
+    inset -3px -3px 7px var(--comrade-neumo-shadow-light);
 }

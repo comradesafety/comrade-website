@@ -8,7 +8,12 @@
 /* ---- Tablet and below: collapse navbar, reduce navbar height ---- */
 @media (max-width: 992px) {
   .comrade-navbar__links,
-  .comrade-navbar__actions .comrade-btn--primary {
+  .comrade-navbar__actions .comrade-btn {
+    /* Targets whichever CTA is in the desktop actions row, not tied to
+       a specific color variant: this rule broke silently once before
+       when the "Coming Soon" button's variant changed from primary to
+       secondary and this selector didn't. The mobile menu has its own
+       copy of the same button for small screens. */
     display: none;
   }
 
@@ -22,12 +27,12 @@
   }
 
   .comrade-navbar__logo {
-    height: 68px;
+    height: 75px; /* 1.1x the previous 68px */
   }
 
-  .navbar-scrolled .comrade-navbar__logo {
-    height: 52px;
-  }
+  /* The scrolled state's shrink comes from navbar.css's
+     transform: scale(0.9), which applies proportionally on top of
+     whatever base height is active here, no override needed. */
 
   .comrade-hero__grid {
     grid-template-columns: 1fr;
@@ -42,19 +47,7 @@
     max-width: 440px;
   }
 
-  .comrade-footer__top {
-    grid-template-columns: 1fr;
-    text-align: left;
-    align-items: flex-start;
-  }
-
-  .comrade-footer__cta-wrapper {
-    align-items: flex-start;
-    text-align: left;
-    margin-top: var(--comrade-space-md);
-  }
-
-  .comrade-footer__middle {
+  .comrade-footer__columns {
     grid-template-columns: 1fr 1fr;
     row-gap: var(--comrade-space-xl);
   }
@@ -62,6 +55,18 @@
   .comrade-footer__brand {
     grid-column: 1 / -1;
     max-width: 100%;
+  }
+
+  .comrade-about-hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comrade-about-hero__orbit {
+    margin-inline: 0;
+  }
+
+  .comrade-about-values__grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -76,30 +81,44 @@
     max-width: 380px;
   }
 
+  .hero-orbit-label__icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .hero-orbit-label__icon svg {
+    width: 13px;
+    height: 13px;
+  }
+
   .hero-orbit-label__text {
-    padding: 0.28rem 0.65rem;
+    padding: 0.3rem 0.75rem;
     font-size: 0.72rem;
   }
 
-  .hero-orbit-label__text[data-side="right"] {
+  .hero-orbit-label__chip[data-side="right"] {
     transform: translate(11px, -50%);
   }
 
-  .hero-orbit-label__text[data-side="left"] {
+  .hero-orbit-label__chip[data-side="left"] {
     transform: translate(calc(-100% - 11px), -50%);
   }
 
-  .hero-orbit-label__text[data-side="top"] {
+  .hero-orbit-label__chip[data-side="top"] {
     transform: translate(-50%, calc(-100% - 10px));
   }
 
-  .hero-orbit-label__text[data-side="bottom"] {
+  .hero-orbit-label__chip[data-side="bottom"] {
     transform: translate(-50%, 10px);
   }
 
-  .comrade-footer__middle {
+  .comrade-footer__columns {
     grid-template-columns: 1fr;
     gap: var(--comrade-space-lg);
+  }
+
+  .comrade-about-philosophy__grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -110,11 +129,20 @@
   }
 
   .comrade-navbar__logo {
-    height: 60px;
+    height: 66px; /* 1.1x the previous 60px */
   }
 
-  .navbar-scrolled .comrade-navbar__logo {
-    height: 48px;
+  /* Smaller neumorphic shadow radii on mobile so the secondary/social
+     tactile surfaces stay subtle rather than noisy at close viewing
+     distance. Redefined once here; every element using the tokens
+     (buttons.css, footer.css) picks it up automatically. */
+  :root {
+    --comrade-neumo-raised: 3px 3px 8px var(--comrade-neumo-shadow-dark),
+      -3px -3px 8px var(--comrade-neumo-shadow-light);
+    --comrade-neumo-raised-hover: 4px 4px 10px var(--comrade-neumo-shadow-dark),
+      -4px -4px 10px var(--comrade-neumo-shadow-light);
+    --comrade-neumo-pressed: inset 2px 2px 5px var(--comrade-neumo-shadow-dark),
+      inset -2px -2px 5px var(--comrade-neumo-shadow-light);
   }
 
   .comrade-hero__headline {
@@ -138,8 +166,103 @@
     max-width: 300px;
   }
 
+  .hero-orbit-label__icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .hero-orbit-label__icon svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .hero-orbit-label__text {
+    padding: 0.26rem 0.6rem;
+    font-size: 0.66rem;
+  }
+
+  /* Compact, minimal mobile footer. Desktop/tablet keep the spacious
+     three-column layout defined in footer.css and the ≤992px/≤768px
+     rules above; this is scoped to phone widths only. */
+  .comrade-footer__statement-section {
+    padding-block: var(--comrade-space-lg);
+  }
+
+  /* vw-driven (not a fixed rem floor) so the text's rendered width
+     stays roughly proportional to the viewport as it narrows, keeping
+     "Comrades born to defy" on one line rather than wrapping mid-phrase
+     at 2-3 words per line. */
+  .comrade-footer__statement {
+    font-size: clamp(1rem, 6.2vw, 1.5rem);
+    white-space: nowrap;
+  }
+
+  .comrade-footer__columns {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--comrade-space-md) var(--comrade-space-sm);
+    padding-block: var(--comrade-space-lg);
+  }
+
+  .comrade-footer__brand {
+    grid-column: 1 / -1;
+    max-width: none;
+    gap: 0.6rem;
+  }
+
+  /* The logo already appears large in the navbar at the top of every
+     page; repeating it in the footer added height without adding
+     information at this compact size. */
+  .comrade-footer__logo {
+    display: none;
+  }
+
+  /* The standalone circular Instagram button is redundant at this
+     compact size: the same link already appears as a labeled row in
+     "Get in touch" just below, so only one of the two needs to survive
+     the tighter layout. */
+  .comrade-footer__social-button {
+    display: none;
+  }
+
+  .comrade-footer__heading {
+    margin-bottom: 0.5rem;
+  }
+
+  .comrade-footer__nav,
+  .comrade-footer__contact {
+    gap: 0.5rem;
+  }
+
+  .comrade-footer__nav-link {
+    font-size: 0.92rem;
+  }
+
+  .comrade-footer__contact-row {
+    align-items: flex-start;
+    font-size: 0.82rem;
+    line-height: 1.3;
+  }
+
+  .comrade-footer__contact-icon {
+    margin-top: 0.1rem;
+  }
+
   .comrade-footer__bottom {
+    padding-block: var(--comrade-space-sm);
+  }
+
+  .comrade-footer__bottom-inner {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .comrade-about-values__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comrade-about-team__execs {
+    grid-template-columns: 1fr;
+    justify-items: center;
   }
 }
