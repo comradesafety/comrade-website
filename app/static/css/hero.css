@@ -8,7 +8,7 @@
 
 .comrade-hero {
   position: relative;
-  padding-top: var(--comrade-space-xl);
+  padding-top: var(--comrade-space-md);
   padding-bottom: var(--comrade-space-xl);
   overflow: hidden;
 }
@@ -62,7 +62,7 @@
 .comrade-hero__stage {
   position: relative;
   width: 100%;
-  max-width: 520px;
+  max-width: 650px;
   aspect-ratio: 1 / 1;
   margin-inline: auto;
 }

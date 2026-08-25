@@ -209,31 +209,50 @@
    own text; the CTA opts back into full width itself, below. */
 .comrade-navbar__mobile-links {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 0.15rem;
-  padding: var(--comrade-space-xs) var(--comrade-space-md) var(--comrade-space-md);
+  width: 100%;
+  padding: 0 var(--comrade-space-xs) var(--comrade-space-sm);
 }
 
 .comrade-navbar__mobile-link {
   position: relative;
-  padding-block: 0.65rem;
-  font-size: 1rem;
-  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1; /* Make them grow equally so they space out perfectly */
+  padding: 0.5rem 0.25rem;
+  gap: 0.35rem;
   color: var(--comrade-text);
+  transition: color var(--comrade-transition-fast), transform var(--comrade-transition-fast);
+  text-align: center;
+}
+
+.comrade-navbar__mobile-link svg {
+  width: 1.75rem; /* Smaller size to fit on screen */
+  height: 1.75rem;
+  display: block;
+}
+
+.comrade-navbar__mobile-label {
+  font-size: 0.65rem; /* Slightly smaller text to prevent wrapping */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .comrade-navbar__mobile-link::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: 0.5rem;
-  width: 22px;
+  left: 50%;
+  bottom: 0;
+  width: 24px;
   height: 2px;
   border-radius: var(--comrade-radius-pill);
   background-color: var(--comrade-primary);
-  transform: scaleX(0);
-  transform-origin: left;
+  transform: translateX(-50%) scaleX(0);
   transition: transform var(--comrade-transition-fast);
 }
 
@@ -244,13 +263,17 @@
 
 .comrade-navbar__mobile-link.active::after,
 .comrade-navbar__mobile-link:hover::after {
-  transform: scaleX(1);
+  transform: translateX(-50%) scaleX(1);
+}
+
+.comrade-navbar__mobile-cta-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: var(--comrade-space-md) var(--comrade-space-md) var(--comrade-space-md);
 }
 
 .comrade-navbar__mobile-cta {
-  align-self: stretch;
-  justify-content: center;
-  margin-top: var(--comrade-space-xs);
+  width: 100%;
 }
 
 /* Reduced motion: the scroll/glass state change stays fully functional

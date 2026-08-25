@@ -6,7 +6,12 @@
 #}
 
 {% macro icon(name, extra_class="") %}
-{%- if name == "arrow-up-right" -%}
+{%- if name == "home" -%}
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
+  <path d="M3 9L12 2L21 9V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V9Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M9 21V12H15V21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+{%- elif name == "arrow-up-right" -%}
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
   <path d="M7 17L17 7M10 7H17V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
@@ -20,7 +25,9 @@
 </svg>
 {%- elif name == "freedom" -%}
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
-  <path d="M2 14C6 9.5 9 9.5 12 13C15 9.5 18 9.5 22 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 8 2 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M17.5 15H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 {%- elif name == "strength" -%}
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
@@ -28,11 +35,8 @@
 </svg>
 {%- elif name == "confidence" -%}
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
-  <circle cx="12" cy="7.3" r="2.1" stroke="currentColor" stroke-width="1.4"/>
-  <circle cx="12" cy="16.7" r="2.1" stroke="currentColor" stroke-width="1.4"/>
-  <circle cx="7.3" cy="12" r="2.1" stroke="currentColor" stroke-width="1.4"/>
-  <circle cx="16.7" cy="12" r="2.1" stroke="currentColor" stroke-width="1.4"/>
-  <circle cx="12" cy="12" r="1.7" fill="currentColor"/>
+  <circle cx="12" cy="8" r="6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 {%- elif name == "safety" -%}
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
@@ -72,6 +76,25 @@
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
   <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.6"/>
   <path d="M5 20C5 16 8 14 12 14C16 14 19 16 19 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+</svg>
+{%- elif name == "users" -%}
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
+  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+{%- elif name == "eye" -%}
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
+  <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+{%- elif name == "package" -%}
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ extra_class }}" aria-hidden="true" focusable="false">
+  <path d="m7.5 4.27 9 5.15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m3.3 7 8.7 5 8.7-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 22V12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 {%- endif -%}
 {% endmacro %}

@@ -46,11 +46,30 @@
   <div class="comrade-navbar__mobile-menu" id="comradeMobileMenu">
     <div class="comrade-navbar__mobile-menu-inner">
       <nav class="comrade-navbar__mobile-links" aria-label="Mobile navigation">
-        {% for endpoint, label in main_nav_items %}
-          {{ nav_link(endpoint, label, "comrade-navbar__mobile-link") }}
-        {% endfor %}
-        {{ comrade_button("Coming Soon", url_for('pages.products'), "secondary", "comrade-navbar__mobile-cta") }}
+        <a href="{{ url_for('home.index') }}" class="comrade-navbar__mobile-link" aria-label="Home">
+          {{ icon("home") }}
+          <span class="comrade-navbar__mobile-label">Home</span>
+        </a>
+        <a href="{{ url_for('pages.about') }}" class="comrade-navbar__mobile-link" aria-label="About">
+          {{ icon("users") }}
+          <span class="comrade-navbar__mobile-label">About</span>
+        </a>
+        <a href="{{ url_for('pages.vision') }}" class="comrade-navbar__mobile-link" aria-label="Vision">
+          {{ icon("eye") }}
+          <span class="comrade-navbar__mobile-label">Vision</span>
+        </a>
+        <a href="{{ url_for('pages.products') }}" class="comrade-navbar__mobile-link" aria-label="Products">
+          {{ icon("package") }}
+          <span class="comrade-navbar__mobile-label">Products</span>
+        </a>
+        <a href="{{ url_for('pages.contact') }}" class="comrade-navbar__mobile-link" aria-label="Contact">
+          {{ icon("mail") }}
+          <span class="comrade-navbar__mobile-label">Contact</span>
+        </a>
       </nav>
+      <div class="comrade-navbar__mobile-cta-wrapper">
+        {{ comrade_button("Coming Soon", url_for('pages.products'), "secondary", "comrade-navbar__mobile-cta") }}
+      </div>
     </div>
   </div>
 </header>
