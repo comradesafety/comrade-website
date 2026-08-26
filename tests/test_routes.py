@@ -45,3 +45,13 @@ def test_security_headers_present(client):
 def test_homepage_contains_hero_headline(client):
     response = client.get("/")
     assert b"stays" in response.data.lower()
+
+
+def test_social_meta_tags_present(client):
+    response = client.get("/")
+    html = response.data.decode("utf-8")
+    assert "og:image" in html
+    assert "preview.png" in html
+    assert "https://comradesafety.vercel.app" in html
+    assert "twitter:card" in html
+

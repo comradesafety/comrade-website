@@ -4,9 +4,10 @@
  * display headlines: the homepage hero headline, the footer's "Comrades
  * born to defy." statement, the About page's hero headline plus its
  * three section headlines (Values, Philosophy, Team), the Vision page's
- * hero and closing headlines, and the Products page's hero and closing
- * headlines. Characters nearest the pointer scale up smoothly;
- * influence falls off continuously with distance, no hard thresholds.
+ * hero and closing headlines, the Products page's hero and closing
+ * headlines, and the Contact page's hero headline. Characters nearest
+ * the pointer scale up smoothly; influence falls off continuously with
+ * distance, no hard thresholds.
  * Idle state is the plain, unmodified heading — no scaling, no
  * color/glow changes, ever.
  *
@@ -33,6 +34,7 @@ const HEADLINE_SELECTORS = [
   ".comrade-vision-why__headline",
   ".comrade-products-hero__headline",
   ".comrade-products-how__headline",
+  ".comrade-contact-hero__headline",
 ];
 
 const CHAR_CLASS = "headline-char";

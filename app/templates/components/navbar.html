@@ -15,10 +15,14 @@
   <div class="comrade-container comrade-navbar__inner">
     <a href="{{ url_for('home.index') }}" class="comrade-navbar__brand" aria-label="Comrade home">
       <img
-        src="{{ url_for('static', filename='images/logo.png') }}"
-        alt="Comrade"
-        class="comrade-navbar__logo"
+        src="{{ url_for('static', filename='images/transparent_preview.png') }}"
+        alt="Comrade mark"
+        class="comrade-navbar__brand-mark"
       >
+      <div class="comrade-navbar__brand-text">
+        <span class="comrade-navbar__brand-title">COMRADE</span>
+        <span class="comrade-navbar__brand-tagline">COMRADES BORN TO <span class="comrade-navbar__brand-tagline-accent">DEFY</span></span>
+      </div>
     </a>
 
     <nav class="comrade-navbar__links" aria-label="Primary navigation">

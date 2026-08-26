@@ -55,22 +55,61 @@
 .comrade-navbar__brand {
   display: flex;
   align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
   flex-shrink: 0;
-}
-
-.comrade-navbar__logo {
-  height: 90px; /* 1.1x the previous 82px */
-  width: auto;
   transform-origin: left center;
   will-change: transform;
-  /* Scaling (compositor-only) instead of transitioning height (layout)
-     halves the layout-triggering work during the scroll transition; the
-     inner bar's height is the only remaining layout property involved. */
-  transition: transform var(--comrade-transition-normal);
+  transition: transform var(--comrade-transition-normal), opacity var(--comrade-transition-hover);
 }
 
-.navbar-scrolled .comrade-navbar__logo {
-  transform: scale(0.9);
+.comrade-navbar__brand:hover {
+  opacity: 0.92;
+}
+
+.comrade-navbar__brand-mark {
+  height: 50px;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+}
+
+.comrade-navbar__brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.comrade-navbar__brand-title {
+  font-family: var(--comrade-font-body);
+  font-size: 1.32rem;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: 0.16em;
+  color: var(--comrade-text);
+  text-transform: uppercase;
+}
+
+.comrade-navbar__brand-tagline {
+  font-family: var(--comrade-font-body);
+  font-size: 0.46rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  color: var(--comrade-text);
+  text-transform: uppercase;
+  margin-top: 0.22rem;
+  white-space: nowrap;
+}
+
+.comrade-navbar__brand-tagline-accent {
+  color: var(--comrade-primary);
+  font-weight: 800;
+}
+
+.navbar-scrolled .comrade-navbar__brand {
+  transform: scale(0.92);
 }
 
 .comrade-navbar__links {
@@ -282,7 +321,7 @@
 @media (prefers-reduced-motion: reduce) {
   .comrade-navbar,
   .comrade-navbar__inner,
-  .comrade-navbar__logo {
+  .comrade-navbar__brand {
     transition-duration: 1ms;
   }
 }

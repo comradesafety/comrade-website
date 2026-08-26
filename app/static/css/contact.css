@@ -1,0 +1,338 @@
+/*
+  contact.css
+  Styles for the whole Contact page: hero (headline, description, the
+  small orbital visual, the two contact cards) and the closing topics
+  band. One file, not split further, since the page itself stays
+  compact — see products.css/about.css for the same one-file-per-page
+  convention this follows.
+*/
+
+/* ---- Hero ---- */
+.comrade-contact-hero__inner {
+  max-width: 620px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.comrade-contact-hero__headline {
+  margin-top: var(--comrade-space-sm);
+  font-size: clamp(2.25rem, 4.4vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  color: var(--comrade-text);
+}
+
+.comrade-contact__highlight {
+  color: var(--comrade-primary);
+}
+
+.comrade-contact-hero__description {
+  margin-top: var(--comrade-space-md);
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+/* The small personality line: quieter and smaller than the
+   description so it reads as an aside, not a second sentence of the
+   same statement. */
+.comrade-contact-hero__note {
+  margin-top: var(--comrade-space-sm);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  color: var(--comrade-text-muted);
+  opacity: 0.85;
+}
+
+/* ---- Contact visual ---- */
+.comrade-contact-hero__visual {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--comrade-space-xl);
+}
+
+.comrade-contact-visual {
+  position: relative;
+  width: 140px;
+  aspect-ratio: 1 / 1;
+}
+
+.comrade-contact-visual__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.comrade-contact-visual__ring {
+  fill: none;
+  stroke: var(--comrade-primary);
+  stroke-width: 1;
+}
+
+.comrade-contact-visual__ring--outer {
+  opacity: 0.22;
+}
+
+.comrade-contact-visual__ring--inner {
+  opacity: 0.16;
+}
+
+/* Two nodes circling at different speeds and opposite directions —
+   plain CSS rotation on each wrapping group, not JS: a single node on
+   a fixed-radius circle is exactly what `rotate()` already computes
+   natively, no per-frame trigonometry earns its cost here (compare
+   safety-orbit-animation.js, which genuinely needs it for multiple
+   independently-positioned layers). */
+.comrade-contact-visual__orbit--a {
+  transform-origin: 80px 80px;
+  animation: comrade-contact-orbit 20s linear infinite;
+}
+
+.comrade-contact-visual__orbit--b {
+  transform-origin: 80px 80px;
+  animation: comrade-contact-orbit-reverse 30s linear infinite;
+}
+
+@keyframes comrade-contact-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes comrade-contact-orbit-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.comrade-contact-visual__node {
+  fill: var(--comrade-primary);
+}
+
+.comrade-contact-visual__node--soft {
+  opacity: 0.55;
+}
+
+.comrade-contact-visual__core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-border);
+  color: var(--comrade-primary);
+  box-shadow: var(--comrade-neumo-raised), 0 0 20px var(--comrade-primary-light);
+  animation: comrade-contact-core-pulse 4s ease-in-out infinite;
+}
+
+.comrade-contact-visual__core svg {
+  width: 42%;
+  height: 42%;
+}
+
+@keyframes comrade-contact-core-pulse {
+  0%,
+  100% {
+    box-shadow: var(--comrade-neumo-raised), 0 0 16px var(--comrade-primary-light);
+  }
+  50% {
+    box-shadow: var(--comrade-neumo-raised), 0 0 26px var(--comrade-primary-light-strong);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comrade-contact-visual__orbit--a,
+  .comrade-contact-visual__orbit--b,
+  .comrade-contact-visual__core {
+    animation: none;
+  }
+}
+
+/* ---- Contact cards ---- */
+.comrade-contact-hero__cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--comrade-space-md);
+  max-width: 620px;
+  margin: var(--comrade-space-xl) auto 0;
+}
+
+.comrade-contact-card {
+  display: flex;
+  align-items: center;
+  gap: var(--comrade-space-sm);
+  flex: 1 1 260px;
+  /* Flex items default to min-width: auto, which floors their size at
+     their content's min-content width — here that's the full,
+     un-wrapped .comrade-contact-card__value text (white-space:
+     nowrap), which is wider than a phone screen has room for. Without
+     this the card refuses to shrink to fit and overflows instead of
+     letting text-overflow: ellipsis do its job. */
+  min-width: 0;
+  padding: var(--comrade-space-md);
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-border);
+  border-radius: var(--comrade-radius-lg);
+  text-align: left;
+  color: inherit;
+  transition: transform var(--comrade-transition-hover),
+    box-shadow var(--comrade-transition-hover),
+    border-color var(--comrade-transition-hover);
+}
+
+.comrade-contact-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--comrade-primary);
+  box-shadow: 0 14px 28px var(--comrade-shadow-soft);
+  color: inherit;
+}
+
+.comrade-contact-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--comrade-surface);
+  border: 1px solid var(--comrade-border);
+  color: var(--comrade-primary);
+  box-shadow: var(--comrade-neumo-raised);
+  transition: box-shadow var(--comrade-transition-hover);
+}
+
+.comrade-contact-card:hover .comrade-contact-card__icon {
+  box-shadow: var(--comrade-neumo-raised-hover);
+}
+
+.comrade-contact-card__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.comrade-contact-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.comrade-contact-card__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-contact-card__value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--comrade-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comrade-contact-card__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--comrade-primary);
+  transition: transform var(--comrade-transition-hover);
+}
+
+.comrade-contact-card__arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.comrade-contact-card:hover .comrade-contact-card__arrow {
+  transform: translate(3px, -3px);
+}
+
+/* ---- Topics band: the "deep" alternating surface, same token
+   Vision's closing band and About's Values band both use. ---- */
+.comrade-contact-topics {
+  background-color: var(--comrade-surface-deep);
+}
+
+.comrade-contact-topics__inner {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.comrade-contact-topics__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--comrade-space-sm) var(--comrade-space-lg);
+  margin-top: var(--comrade-space-md);
+}
+
+/* Plain list items, not links: these name reasons to reach out, they
+   don't navigate anywhere themselves — an <a href="#"> here would be
+   exactly the dead-link pattern this site avoids elsewhere. The hover
+   motion is a visual nudge toward the cards above, not a control. */
+.comrade-contact-topics__item {
+  position: relative;
+  padding-bottom: 0.3rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--comrade-text);
+  cursor: default;
+  transition: transform var(--comrade-transition-hover),
+    color var(--comrade-transition-hover);
+}
+
+.comrade-contact-topics__item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--comrade-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--comrade-transition-hover);
+}
+
+.comrade-contact-topics__item:hover {
+  color: var(--comrade-primary);
+  transform: translateY(-1px);
+}
+
+.comrade-contact-topics__item:hover::after {
+  transform: scaleX(1);
+}
+
+@media (max-width: 576px) {
+  .comrade-contact-hero__cards {
+    flex-direction: column;
+  }
+
+  /* An explicit width (not flex-basis: auto) on purpose: flex-basis:
+     auto re-triggers the exact min-content-floor problem min-width: 0
+     above exists to prevent (the un-wrapped value text's full width
+     wins again), whereas a plain width is a direct, unambiguous
+     sizing that doesn't go through that flex-basis/min-width
+     interaction at all. */
+  .comrade-contact-card {
+    width: 100%;
+  }
+}

@@ -8,9 +8,30 @@
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#970747">
 
-  <meta name="description" content="{% block meta_description %}Comrade is rethinking personal safety through intelligent everyday products designed to blend naturally into the way you live, move, and explore.{% endblock %}">
-
   <title>{% block title %}Comrade | Personal Safety, Reimagined{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Comrade is rethinking personal safety through intelligent everyday products designed to blend naturally into the way you live, move, and explore.{% endblock %}">
+  <link rel="canonical" href="https://comradesafety.vercel.app{{ request.path if request and request.path else '/' }}">
+
+  <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://comradesafety.vercel.app{{ request.path if request and request.path else '/' }}">
+  <meta property="og:site_name" content="Comrade">
+  <meta property="og:title" content="{% block og_title %}Comrade | Personal Safety, Reimagined{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Comrade is rethinking personal safety through intelligent everyday products designed to blend naturally into the way you live, move, and explore.{% endblock %}">
+  <meta property="og:image" content="https://comradesafety.vercel.app{{ url_for('static', filename='images/preview.png') }}">
+  <meta property="og:image:secure_url" content="https://comradesafety.vercel.app{{ url_for('static', filename='images/preview.png') }}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:alt" content="Comrade - Comrades Born To Defy">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://comradesafety.vercel.app{{ request.path if request and request.path else '/' }}">
+  <meta name="twitter:title" content="{% block twitter_title %}Comrade | Personal Safety, Reimagined{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Comrade is rethinking personal safety through intelligent everyday products designed to blend naturally into the way you live, move, and explore.{% endblock %}">
+  <meta name="twitter:image" content="https://comradesafety.vercel.app{{ url_for('static', filename='images/preview.png') }}">
+  <meta name="twitter:image:alt" content="Comrade - Comrades Born To Defy">
 
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
   <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/favicon-32.png') }}">
@@ -33,6 +54,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/vision.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/product-illustrations.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/safety-orbit.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
 

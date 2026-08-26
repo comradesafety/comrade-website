@@ -1,22 +1,17 @@
 """Routes for pages that are not the homepage.
 
-About, Vision, and Products are now fully designed (see their
-templates/pages/*.html and components). Contact is still the shared
-minimal "coming soon" template; when it's ready to be fully designed,
-give it its own template and point its route at that instead, the same
-way about()/vision()/products() below no longer use PLACEHOLDER_COPY.
+About, Vision, Products, and Contact are all now fully designed (see
+their templates/pages/*.html and components). No route here uses the
+generic "coming soon" placeholder template any more, but
+components/placeholder-section.html and static/css/placeholder.css
+(the latter also still used by the 404/500 error pages, so it stays
+either way) are kept in place, ready to include as-is the moment a new
+page needs a "coming soon" state again.
 """
 
 from flask import Blueprint, render_template
 
 pages_bp = Blueprint("pages", __name__)
-
-PLACEHOLDER_COPY = {
-    "contact": {
-        "title": "Contact",
-        "message": "A dedicated contact page is coming soon.",
-    },
-}
 
 ABOUT_HERO = {
     "eyebrow": "Who we are",
@@ -260,6 +255,57 @@ def products():
     )
 
 
+# The headline itself (with its one highlighted word) is hardcoded
+# directly in contact-hero.html, the same reasoning as every other
+# page's hero above. "note" avoids repeating "conversation" since the
+# headline already uses that word.
+CONTACT_HERO = {
+    "eyebrow": "Get in touch",
+    "description": (
+        "Have a question, a collaboration idea, or want to know more "
+        "about what we're building? We'd love to hear from you."
+    ),
+    "note": "Every meaningful idea starts somewhere. Let's start here.",
+}
+
+# Both values are exactly what's already live in footer.html — never a
+# second, possibly-drifting copy of the same contact details. "icon"
+# names a branch in macros/icons.html; "external" adds target="_blank"
+# rel="noopener noreferrer" for the one link that leaves the site.
+CONTACT_METHODS = [
+    {
+        "label": "Email",
+        "icon": "mail",
+        "value": "comradessafety@gmail.com",
+        "href": "mailto:comradessafety@gmail.com",
+        "external": False,
+    },
+    {
+        "label": "Instagram",
+        "icon": "instagram",
+        "value": "@comradesafe",
+        "href": "https://www.instagram.com/comradesafe/",
+        "external": True,
+    },
+]
+
+CONTACT_TOPICS_HEADING = "What can we talk about?"
+
+CONTACT_TOPICS = [
+    "Product ideas",
+    "Collaborations",
+    "Partnerships",
+    "Questions",
+    "Feedback",
+]
+
+
 @pages_bp.route("/contact", methods=["GET"])
 def contact():
-    return render_template("pages/contact.html", copy=PLACEHOLDER_COPY["contact"])
+    return render_template(
+        "pages/contact.html",
+        hero=CONTACT_HERO,
+        methods=CONTACT_METHODS,
+        topics_heading=CONTACT_TOPICS_HEADING,
+        topics=CONTACT_TOPICS,
+    )

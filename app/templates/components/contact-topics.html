@@ -1,0 +1,22 @@
+{#
+  contact-topics.html
+  A small closing band on the "deep" alternating surface (same token
+  About's Values band and Vision's closing band use), listing a few
+  reasons someone might reach out as subtly interactive inline tags —
+  not a form, not fake submission targets, just a nudge toward the
+  contact cards above.
+#}
+
+<section class="comrade-contact-topics comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-contact-topics__inner reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">{{ topics_heading }}</p>
+
+      <ul class="comrade-contact-topics__list">
+        {% for topic in topics %}
+        <li class="comrade-contact-topics__item">{{ topic }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>

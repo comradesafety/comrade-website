@@ -26,8 +26,23 @@
     --comrade-navbar-height-scrolled: 80px;
   }
 
-  .comrade-navbar__logo {
-    height: 75px; /* 1.1x the previous 68px */
+  .comrade-navbar__brand {
+    gap: 0.55rem;
+  }
+
+  .comrade-navbar__brand-mark {
+    height: 42px;
+  }
+
+  .comrade-navbar__brand-title {
+    font-size: 1.15rem;
+    letter-spacing: 0.14em;
+  }
+
+  .comrade-navbar__brand-tagline {
+    font-size: 0.4rem;
+    letter-spacing: 0.16em;
+    margin-top: 0.18rem;
   }
 
   /* The scrolled state's shrink comes from navbar.css's
@@ -164,8 +179,23 @@
     padding-inline: var(--comrade-space-md);
   }
 
-  .comrade-navbar__logo {
-    height: 66px; /* 1.1x the previous 60px */
+  .comrade-navbar__brand {
+    gap: 0.45rem;
+  }
+
+  .comrade-navbar__brand-mark {
+    height: 36px;
+  }
+
+  .comrade-navbar__brand-title {
+    font-size: 1.02rem;
+    letter-spacing: 0.12em;
+  }
+
+  .comrade-navbar__brand-tagline {
+    font-size: 0.36rem;
+    letter-spacing: 0.13em;
+    margin-top: 0.15rem;
   }
 
   /* Smaller neumorphic shadow radii on mobile so the secondary/social
@@ -295,4 +325,20 @@
   /* Team card stacking (.comrade-about-team__execs, .comrade-team-card,
      etc.) already applies from the 768px breakpoint above; no
      phone-specific override needed here. */
+}
+
+@media (max-width: 380px) {
+  .comrade-navbar__brand-mark {
+    height: 30px;
+  }
+
+  .comrade-navbar__brand-title {
+    font-size: 0.88rem;
+    letter-spacing: 0.1em;
+  }
+
+  .comrade-navbar__brand-tagline {
+    font-size: 0.3rem;
+    letter-spacing: 0.1em;
+  }
 }
