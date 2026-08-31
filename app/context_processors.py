@@ -13,6 +13,7 @@ MAIN_NAV_ITEMS = [
     ("pages.about", "About"),
     ("pages.vision", "Vision"),
     ("pages.products", "Products"),
+    ("pages.careers", "Career"),
     ("pages.contact", "Contact"),
 ]
 

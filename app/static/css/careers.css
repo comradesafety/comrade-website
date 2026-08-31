@@ -1,0 +1,239 @@
+/*
+  careers.css
+  Careers page: hero layout, the abstract "idea to product" technical
+  visual, and the small shared bits multiple Careers sections reuse
+  (a compact card modifier, a small icon badge size). Section-specific
+  styles below the hero live in careers-sections.css; breakpoints live
+  in careers-responsive.css.
+*/
+
+/* ---- Shared across several Careers sections ---- */
+
+/* Same .comrade-about-card shape as About/Products, just tighter
+   padding for the denser Careers grids (Why, Focus, Selection). */
+.comrade-about-card--compact {
+  padding: var(--comrade-space-md);
+}
+
+.comrade-icon-badge--sm {
+  width: 40px;
+  height: 40px;
+}
+
+.comrade-icon-badge--sm svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- Hero ---- */
+.comrade-careers-hero {
+  position: relative;
+  padding-top: var(--comrade-space-md);
+  overflow: hidden;
+}
+
+.comrade-careers-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--comrade-space-xl);
+}
+
+.comrade-careers-hero__content {
+  max-width: 560px;
+}
+
+.comrade-careers-hero__headline {
+  margin-top: var(--comrade-space-sm);
+  font-size: clamp(2.5rem, 4.8vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-hero__highlight {
+  color: var(--comrade-primary);
+}
+
+.comrade-careers-hero__description {
+  margin-top: var(--comrade-space-md);
+  max-width: 46ch;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-careers-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--comrade-space-sm);
+  margin-top: var(--comrade-space-lg);
+}
+
+/* ---- Technical visual: nodes chained Idea → Engineer → Prototype →
+   Product over a faint prototype grid, with two static orbital arcs
+   behind for the same "orbital path" language the homepage hero uses.
+   Entirely static SVG/CSS, no JS geometry — the product itself is
+   never named, only the four stages of building it. ---- */
+.comrade-careers-hero__visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comrade-careers-visual {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+}
+
+.comrade-careers-visual__grid-dot {
+  fill: var(--comrade-border-strong);
+  opacity: 0.55;
+}
+
+.comrade-careers-visual__orbit {
+  fill: none;
+  stroke: var(--comrade-border-strong);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+.comrade-careers-visual__trace {
+  fill: none;
+  stroke: var(--comrade-primary);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.4;
+}
+
+.comrade-careers-visual__node circle {
+  fill: var(--comrade-surface-soft);
+  stroke: var(--comrade-primary);
+  stroke-width: 1.6;
+}
+
+.comrade-careers-visual__node text {
+  font-family: var(--comrade-font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-anchor: middle;
+  fill: var(--comrade-text-muted);
+}
+
+.comrade-careers-visual__node--accent circle {
+  fill: var(--comrade-primary);
+  stroke: none;
+  filter: drop-shadow(0 2px 8px var(--comrade-shadow));
+}
+
+.comrade-careers-visual__node--accent text {
+  fill: var(--comrade-primary);
+  font-weight: 800;
+}
+
+/* One travelling signal — a halo (very subtle) around a small solid
+   core — following the exact Idea → Engineer → Prototype → Product
+   trace above. Everything below exists to make its position land
+   exactly on that path, in every browser; read the two comments in
+   .comrade-careers-visual__signal before touching either the geometry
+   or the transform properties, both matter for that.
+
+   offset-path is declared twice on purpose: the url() form is the true
+   single source of truth (it points straight at #careerFlowPath, the
+   exact <path> the eye actually sees, so the two can never drift
+   apart), but Firefox/Safari don't resolve url() references for
+   offset-path yet. The path() literal right before it is the fallback
+   those browsers use instead — keep its "d" string byte-for-byte equal
+   to #careerFlowPath's "d" in careers-hero.html if that geometry ever
+   changes; a browser that understands url() overrides this line
+   entirely, everyone else keeps it. */
+.comrade-careers-visual__signal {
+  /* This is the fix for the signal drifting off the path entirely (it
+     previously only traced a small, clipped arc near a corner of the
+     canvas, nowhere near the visible line). offset-path moves an
+     element by translating it so a designated anchor point —
+     transform-origin, measured against whatever box transform-box
+     names — lands on the path. Left unset, that anchor defaults to
+     "50% 50% of the SVG viewBox", not "the shape's own center" — and
+     Chrome and Firefox don't even agree with each other on that
+     default, which is exactly what made this fragile before.
+     transform-box: fill-box makes the reference box the signal's own
+     bounding box instead (well-specified, identical in every browser),
+     and since both circles above sit at SVG's implicit (0,0) with no
+     transform of their own, "center" of that box already coincides
+     with their actual drawn position — so the translation this
+     computes is pure offset-path motion, nothing added on top. */
+  transform-box: fill-box;
+  transform-origin: center;
+  offset-path: path("M96,300 L96,232 L168,232 L168,150 L252,150 L252,96 L324,96");
+  offset-path: url(#careerFlowPath);
+  offset-rotate: 0deg;
+  animation: comradeCareersSignal 9s linear infinite;
+}
+
+.comrade-careers-visual__signal-halo {
+  fill: var(--comrade-primary);
+  opacity: 0.16;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: comradeCareersSignalPulse 2.4s ease-in-out infinite;
+}
+
+.comrade-careers-visual__signal-core {
+  fill: var(--comrade-primary);
+}
+
+/* Travels the full Idea → Engineer → Prototype → Product trace once
+   per cycle, fading out just before it reaches Product and fading
+   back in at Idea — the loop restart always happens while fully
+   transparent, so it never reads as a jump or a teleport. */
+@keyframes comradeCareersSignal {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* A small breathing halo, entirely decoupled from the position
+   animation above — it never touches offset-distance, so it can't
+   drift the signal off-path no matter how it's tuned. */
+@keyframes comradeCareersSignalPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.12;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.22;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comrade-careers-visual__signal {
+    animation: none;
+    offset-distance: 0%;
+    opacity: 0.8;
+  }
+
+  .comrade-careers-visual__signal-halo {
+    animation: none;
+  }
+}

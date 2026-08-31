@@ -1,0 +1,197 @@
+{#
+  recruitment-form.html
+  The multi-step application itself. Field wording/order/required-ness
+  all come from FORM_STEPS / ACK_FIELDS in routes/recruitment.py — this
+  file only knows how to render four field "kinds" (text-like, textarea,
+  radio, checkbox), so a new question is a data change there, never a
+  template change here. recruitment-form.js drives step navigation,
+  client-side validation (a UX convenience only — routes/recruitment.py
+  re-validates everything server-side regardless), and submission.
+#}
+{% from "macros/icons.html" import icon %}
+
+{% macro text_input(field) %}
+<div class="comrade-field" data-field="{{ field.key }}">
+  <label class="comrade-field__label" for="field-{{ field.key }}">
+    {{ field.label }}{% if field.required %} <span class="comrade-field__required" aria-hidden="true">*</span>{% endif %}
+  </label>
+  {% if field.help %}<p class="comrade-field__help">{{ field.help }}</p>{% endif %}
+  <input
+    type="{{ field.kind }}"
+    id="field-{{ field.key }}"
+    name="{{ field.key }}"
+    class="comrade-field__input"
+    {%- if field.placeholder %} placeholder="{{ field.placeholder }}"{% endif %}
+    {%- if field.required %} required{% endif %}
+    {%- if field.key == "email" %} autocomplete="email"{% elif field.key == "phone" %} autocomplete="tel"{% else %} autocomplete="off"{% endif %}
+  >
+  <p class="comrade-field__error" data-error-for="{{ field.key }}" role="alert"></p>
+</div>
+{%- endmacro %}
+
+{% macro textarea_input(field) %}
+<div class="comrade-field comrade-field--wide" data-field="{{ field.key }}">
+  <label class="comrade-field__label" for="field-{{ field.key }}">
+    {{ field.label }}{% if field.required %} <span class="comrade-field__required" aria-hidden="true">*</span>{% endif %}
+  </label>
+  {% if field.help %}<p class="comrade-field__help">{{ field.help }}</p>{% endif %}
+  <textarea
+    id="field-{{ field.key }}"
+    name="{{ field.key }}"
+    class="comrade-field__textarea"
+    rows="{{ field.rows or 4 }}"
+    {%- if field.required %} required{% endif %}
+  ></textarea>
+  <p class="comrade-field__error" data-error-for="{{ field.key }}" role="alert"></p>
+</div>
+{%- endmacro %}
+
+{% macro radio_group(field) %}
+<fieldset class="comrade-field comrade-field--wide" data-field="{{ field.key }}">
+  <legend class="comrade-field__label">
+    {{ field.label }}{% if field.required %} <span class="comrade-field__required" aria-hidden="true">*</span>{% endif %}
+  </legend>
+  {% if field.help %}<p class="comrade-field__help">{{ field.help }}</p>{% endif %}
+  <div class="comrade-choice-grid">
+    {% for option in field.options %}
+    <label class="comrade-choice">
+      <input type="radio" name="{{ field.key }}" value="{{ option }}" class="comrade-choice__input"{% if field.required %} required{% endif %}>
+      <span class="comrade-choice__indicator comrade-choice__indicator--radio" aria-hidden="true"></span>
+      <span class="comrade-choice__text">{{ option }}</span>
+    </label>
+    {% endfor %}
+  </div>
+  <p class="comrade-field__error" data-error-for="{{ field.key }}" role="alert"></p>
+</fieldset>
+{%- endmacro %}
+
+{% macro checkbox_group(field) %}
+<fieldset class="comrade-field comrade-field--wide" data-field="{{ field.key }}"{% if field.required %} data-required="true"{% endif %}>
+  <legend class="comrade-field__label">
+    {{ field.label }}{% if field.required %} <span class="comrade-field__required" aria-hidden="true">*</span>{% endif %}
+  </legend>
+  {% if field.help %}<p class="comrade-field__help">{{ field.help }}</p>{% endif %}
+  <div class="comrade-choice-grid comrade-choice-grid--compact">
+    {% for option in field.options %}
+    <label class="comrade-choice comrade-choice--compact">
+      <input type="checkbox" name="{{ field.key }}" value="{{ option }}" class="comrade-choice__input">
+      <span class="comrade-choice__indicator comrade-choice__indicator--checkbox" aria-hidden="true"></span>
+      <span class="comrade-choice__text">{{ option }}</span>
+    </label>
+    {% endfor %}
+  </div>
+  <p class="comrade-field__error" data-error-for="{{ field.key }}" role="alert"></p>
+</fieldset>
+{%- endmacro %}
+
+{% macro render_field(field) %}
+{%- if field.kind == "textarea" -%}
+  {{ textarea_input(field) }}
+{%- elif field.kind == "radio" -%}
+  {{ radio_group(field) }}
+{%- elif field.kind == "checkbox" -%}
+  {{ checkbox_group(field) }}
+{%- else -%}
+  {{ text_input(field) }}
+{%- endif -%}
+{%- endmacro %}
+
+{% set ack_copy = {
+  "unpaid_ack": "I understand that this is currently an unpaid internship focused on hands-on hardware and prototype development.",
+  "confidentiality_ack": "I understand that information shared with selected candidates during the project may be confidential, and I agree not to publicly disclose unreleased product or technical information without permission from the Comrade team.",
+  "privacy_ack": "I agree that my submitted data will be used solely for recruitment evaluation and will be stored securely.",
+} %}
+
+<section class="comrade-recruitment-form-section comrade-section" id="comradeRecruitmentForm">
+  <div class="comrade-container comrade-recruitment-form-section__inner">
+    <form
+      class="comrade-recruitment-form"
+      data-recruitment-form
+      data-submit-url="{{ url_for('recruitment.submit') }}"
+      novalidate
+    >
+      {# Honeypot — see HONEYPOT_FIELD in routes/recruitment.py. Visually
+         hidden via CSS (.comrade-field--trap), never display: none.
+         data-honeypot lets recruitment-form.js read the field's real
+         name from the DOM instead of hardcoding it a second time. #}
+      <div class="comrade-field--trap" data-honeypot aria-hidden="true">
+        <label for="field-{{ honeypot_field }}">Company website</label>
+        <input type="text" id="field-{{ honeypot_field }}" name="{{ honeypot_field }}" tabindex="-1" autocomplete="off">
+      </div>
+
+      <nav class="comrade-recruitment-progress" data-recruitment-progress aria-label="Application progress">
+        <div class="comrade-recruitment-progress__bar">
+          <div class="comrade-recruitment-progress__fill" data-recruitment-progress-fill></div>
+        </div>
+        <ol class="comrade-recruitment-progress__steps">
+          {% for step in steps %}
+          <li class="comrade-recruitment-progress__step" data-progress-step="{{ loop.index0 }}">
+            <span class="comrade-recruitment-progress__number">{{ step.number }}</span>
+            <span class="comrade-recruitment-progress__title">{{ step.title }}</span>
+          </li>
+          {% endfor %}
+        </ol>
+      </nav>
+
+      <div class="comrade-recruitment-form__steps">
+        {% for step in steps %}
+        <fieldset class="comrade-recruitment-step{% if loop.first %} is-entering{% endif %}" data-step="{{ loop.index0 }}"{% if not loop.first %} hidden{% endif %}>
+          <p class="comrade-recruitment-step__eyebrow">{{ step.number }} / 04</p>
+          <h2 class="comrade-recruitment-step__title">{{ step.title }}</h2>
+          {% if step.intro %}<p class="comrade-recruitment-step__intro">{{ step.intro }}</p>{% endif %}
+
+          <div class="comrade-recruitment-step__fields">
+            {% for field in step.fields %}
+              {{ render_field(field) }}
+            {% endfor %}
+          </div>
+          
+          {% if loop.last %}
+          <div class="comrade-recruitment-step__fields" style="margin-top: 2rem; border-top: 1px solid var(--comrade-border); padding-top: 2rem;">
+            {% for key, description in ack_fields %}
+            <div class="comrade-field comrade-field--wide" data-field="{{ key }}">
+              <label class="comrade-ack">
+                <input type="checkbox" name="{{ key }}" class="comrade-choice__input" required>
+                <span class="comrade-choice__indicator comrade-choice__indicator--checkbox" aria-hidden="true"></span>
+                <span class="comrade-ack__text">{{ ack_copy[key] }}</span>
+              </label>
+              <p class="comrade-field__error" data-error-for="{{ key }}" role="alert"></p>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </fieldset>
+        {% endfor %}
+      </div>
+
+      <p class="comrade-recruitment-form__submit-error" data-recruitment-submit-error role="alert" hidden></p>
+
+      <div class="comrade-recruitment-form__nav">
+        <button type="reset" class="comrade-btn comrade-btn--secondary comrade-recruitment-form__reset">
+          <span>Reset</span>
+        </button>
+        <button type="button" class="comrade-btn comrade-btn--secondary comrade-recruitment-form__back" data-recruitment-back hidden>
+          <span>Back</span>
+        </button>
+        <button type="button" class="comrade-btn comrade-btn--primary comrade-recruitment-form__next" data-recruitment-next>
+          <span>Continue</span>
+          <span class="comrade-btn__icon">{{ icon("arrow-up-right") }}</span>
+        </button>
+        <button type="submit" class="comrade-btn comrade-btn--primary comrade-recruitment-form__submit" data-recruitment-submit hidden>
+          <span data-recruitment-submit-label>Submit application</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="comrade-recruitment-success" data-recruitment-success hidden>
+      <span class="comrade-recruitment-success__icon">{{ icon("safety") }}</span>
+      <h2 class="comrade-recruitment-success__title">Submitted</h2>
+      <p class="comrade-recruitment-success__message">
+        Thanks for your interest in building with Comrade. We're reviewing
+        a small number of applications for this Electronics & Hardware
+        Internship. If your profile matches what we're looking for,
+        we'll be in touch.
+      </p>
+    </div>
+  </div>
+</section>

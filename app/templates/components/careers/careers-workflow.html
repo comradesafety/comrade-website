@@ -1,0 +1,33 @@
+{#
+  careers-workflow.html
+  Two closely related ideas in one compact section: the "hands-on
+  builder" statement, then the six-stage prototyping workflow itself,
+  connected by a single thin line with a small pulsing node at each
+  stage. Entrance is handled entirely by the existing reveal-on-scroll
+  system with the shared comrade-delay-1..6 stagger classes — no new
+  animation system, no scroll-triggered JS of its own.
+#}
+
+<section class="comrade-careers-workflow comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-careers-workflow__intro reveal-on-scroll reveal-up">
+      <h2 class="comrade-careers-workflow__headline">Build. Test. Break. Improve.</h2>
+      <p class="comrade-careers-workflow__description">
+        We value people who enjoy getting their hands dirty,
+        experimenting with components, debugging unexpected behaviour,
+        and turning rough ideas into working prototypes.
+      </p>
+    </div>
+
+    <ol class="comrade-careers-workflow__line">
+      {% for step in workflow %}
+      <li class="comrade-careers-workflow__step reveal-on-scroll reveal-up comrade-delay-{{ loop.index }}">
+        <span class="comrade-careers-workflow__node" aria-hidden="true"></span>
+        <span class="comrade-careers-workflow__number">{{ step.number }}</span>
+        <span class="comrade-careers-workflow__title">{{ step.title }}</span>
+        <span class="comrade-careers-workflow__step-description">{{ step.description }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>

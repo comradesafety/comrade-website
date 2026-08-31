@@ -12,6 +12,7 @@ import { initializeOrbitAnimation } from "./orbit-animation.js";
 import { initializeScrollReveal } from "./scroll-reveal.js";
 import { initializeHeadlineMagnification } from "./headline-magnification.js";
 import { initializeSafetyOrbit } from "./safety-orbit-animation.js";
+import { initializeRecruitmentForm } from "./recruitment-form.js";
 
 function initializeComradeApp() {
   initializeNavbarScroll();
@@ -21,6 +22,7 @@ function initializeComradeApp() {
   initializeScrollReveal();
   initializeHeadlineMagnification();
   initializeSafetyOrbit();
+  initializeRecruitmentForm();
 }
 
 if (document.readyState === "loading") {

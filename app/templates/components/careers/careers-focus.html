@@ -1,0 +1,26 @@
+{#
+  careers-focus.html
+  "What You'll Work On": a compact 7-up grid of small technical-area
+  cards (icon + title + one line), again reusing the shared
+  about.css card pattern rather than a bespoke one.
+#}
+{% from "macros/icons.html" import icon %}
+
+<section class="comrade-careers-focus comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-about-section-heading reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">What you'll work on</p>
+      <h2>Hands-on across the whole stack.</h2>
+    </div>
+
+    <div class="comrade-careers-focus__grid">
+      {% for item in focus %}
+      <div class="comrade-about-card comrade-about-card--compact reveal-on-scroll reveal-up comrade-delay-{{ (loop.index % 6) + 1 }}">
+        <span class="comrade-icon-badge">{{ icon(item.icon) }}</span>
+        <h3 class="comrade-about-card__title">{{ item.title }}</h3>
+        <p class="comrade-about-card__description">{{ item.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+{#
+  careers-opening.html
+  The single opening currently live: role identity, one sentence, and
+  compact metadata chips (never giant cards, per the Careers brief).
+  This is the one place the role's headline facts (positions, type,
+  focus, area) appear — nowhere else on the page restates them. All
+  role identity fields come from ROLE_* in routes/recruitment.py via
+  CAREERS_OPENING (routes/pages.py) — never re-typed here.
+#}
+
+<section class="comrade-careers-opening comrade-section" id="current-opening">
+  <div class="comrade-container">
+    <div class="comrade-careers-opening__inner reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">Current opening</p>
+      <h2 class="comrade-careers-opening__title">{{ opening.role_title }}</h2>
+      <p class="comrade-careers-opening__description">{{ opening.description }}</p>
+
+      <div class="comrade-careers-chips">
+        {% for item in opening.meta %}
+        <span class="comrade-careers-chip">{{ item }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
