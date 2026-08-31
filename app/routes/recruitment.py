@@ -150,10 +150,10 @@ FORM_STEPS = [
         "number": "01",
         "title": "About You",
         "fields": [
-            {"key": "full_name", "kind": "text", "label": "Full name", "required": True},
+            {"key": "full_name", "kind": "text", "label": "Full name", "required": True, "placeholder": "e.g. Aarav Sharma"},
             {"key": "email", "kind": "email", "label": "Email address", "required": True, "placeholder": "you@example.com"},
-            {"key": "phone", "kind": "tel", "label": "WhatsApp / phone number", "required": True},
-            {"key": "college", "kind": "text", "label": "College / university", "required": True},
+            {"key": "phone", "kind": "tel", "label": "WhatsApp / phone number", "required": True, "placeholder": "e.g. +91 98765 43210"},
+            {"key": "college", "kind": "text", "label": "College / university", "required": True, "placeholder": "e.g. IIT Madras"},
             {"key": "degree", "kind": "text", "label": "Degree / program", "required": True, "placeholder": "e.g. B.Tech Electronics & Communication"},
         ],
     },
@@ -174,7 +174,7 @@ FORM_STEPS = [
         "title": "Experience & Projects",
         "intro": "We care about what you actually built, tested, broke, fixed, and learned from.",
         "fields": [
-            {"key": "challenging_project", "kind": "textarea", "label": "Tell us about the most technically challenging electronics or hardware project you have personally built.", "required": True, "rows": 4},
+            {"key": "challenging_project", "kind": "textarea", "label": "Tell us about the most technically challenging electronics or hardware project you have personally built.", "required": True, "rows": 4, "placeholder": "e.g. Built a solar-powered water level indicator using an ESP32 and ultrasonic sensor for my hostel's rooftop tank."},
             {"key": "linkedin_url", "kind": "url", "label": "LinkedIn Profile", "placeholder": "https://linkedin.com/in/.../"},
             {"key": "github_url", "kind": "url", "label": "GitHub / Portfolio", "placeholder": "https://github.com/..."},
         ],
@@ -186,7 +186,7 @@ FORM_STEPS = [
             {"key": "weekly_hours", "kind": "radio", "label": "How many hours per week can you realistically contribute?", "required": True, "options": WEEKLY_HOURS_OPTIONS},
             {"key": "duration", "kind": "radio", "label": "How long can you commit to the project?", "required": True, "options": DURATION_OPTIONS},
             {"key": "working_mode", "kind": "radio", "label": "What working mode are you comfortable with?", "required": True, "options": WORKING_MODE_OPTIONS},
-            {"key": "motivation_reason", "kind": "textarea", "label": "Why are you interested in working on Comrade's product-development team?", "required": True, "rows": 4},
+            {"key": "motivation_reason", "kind": "textarea", "label": "Why are you interested in working on Comrade's product-development team?", "required": True, "rows": 4, "placeholder": "e.g. I want to apply what I've built in my college lab to a real safety product people use every day."},
         ],
     },
 ]
