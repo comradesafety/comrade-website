@@ -4,8 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  {# The Comrade theme is a locked light theme, see base.css. #}
+  {# The Comrade theme is a locked light theme (color-scheme: light
+     lives on :root in variables.css). color-scheme tells the browser
+     itself not to auto-darken UA chrome (form controls, scrollbars);
+     darkreader-lock is the separate, Dark-Reader-specific opt-out --
+     it tells that extension specifically to skip recoloring this page
+     at all, since color-scheme has no effect on injected extension
+     styles. Both are needed, neither replaces the other. See
+     https://github.com/darkreader/darkreader/blob/main/CONTRIBUTING.md
+     for the lock's own documentation. #}
   <meta name="color-scheme" content="light">
+  <meta name="darkreader-lock">
   <meta name="theme-color" content="#970747">
 
   <title>{% block title %}Comrade | Personal Safety, Reimagined{% endblock %}</title>
