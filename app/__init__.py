@@ -23,6 +23,17 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(get_config())
 
+    # TEMPORARY DIAGNOSTICS — see chat: proving whether the Vercel
+    # Function runtime actually receives SECRET_KEY before touching the
+    # validation logic below. Never prints the secret itself. Remove
+    # once the root cause is confirmed.
+    secret_key_env = os.getenv("SECRET_KEY")
+    print("RUNTIME SECRET_KEY PRESENT:", bool(secret_key_env))
+    print("RUNTIME SECRET_KEY LENGTH:", len(secret_key_env or ""))
+    print("RUNTIME FLASK_ENV:", os.getenv("FLASK_ENV"))
+    print("VERCEL_ENV:", os.getenv("VERCEL_ENV"))
+    print("VERCEL_GIT_COMMIT_SHA:", os.getenv("VERCEL_GIT_COMMIT_SHA"))
+
     secret_key = (os.getenv("SECRET_KEY") or "").strip()
     if secret_key:
         app.config["SECRET_KEY"] = secret_key
