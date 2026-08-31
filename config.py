@@ -10,7 +10,7 @@ import os
 class Config:
     """Base configuration shared by all environments."""
 
-    SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-insecure-key-change-me")
+    SECRET_KEY = None
 
     # CSRF protection (Flask-WTF) is ready for future forms.
     WTF_CSRF_ENABLED = True
@@ -63,6 +63,7 @@ class DevelopmentConfig(Config):
 
     DEBUG = True
     SESSION_COOKIE_SECURE = False
+    SECRET_KEY = "dev-only-insecure-key-change-me"
 
 
 class ProductionConfig(Config):
@@ -70,6 +71,7 @@ class ProductionConfig(Config):
 
     DEBUG = False
     SESSION_COOKIE_SECURE = True
+    SECRET_KEY = None
 
 
 CONFIG_MAP = {
