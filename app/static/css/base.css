@@ -1,13 +1,10 @@
 /*
   base.css
   Global typography and base page structure. The Comrade theme is locked
-  to light mode here: color-scheme is fixed and no media query is allowed
-  to swap the palette (see variables.css for the token source).
+  to light mode: color-scheme: light is declared once, on :root in
+  variables.css (the single token source), and no media query anywhere
+  in the project is allowed to swap the palette.
 */
-
-:root {
-  color-scheme: light;
-}
 
 body {
   background-color: var(--comrade-bg);

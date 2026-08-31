@@ -5,8 +5,11 @@
   raw hex value anywhere else in the codebase; add or reuse a token instead.
 
   Colors are derived directly from the supplied logo and hero artwork
-  (warm cream background, deep burgundy/magenta accent) and the theme is
-  intentionally locked to light, see base.css for the color-scheme lock.
+  (warm cream background, deep burgundy/magenta accent). The theme is
+  intentionally locked to light: color-scheme: light below is the one
+  declaration of that lock in the project — no other file should
+  redeclare it, and no @media (prefers-color-scheme) rule should exist
+  anywhere in the codebase.
 */
 
 :root {

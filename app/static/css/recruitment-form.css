@@ -59,6 +59,25 @@
     box-shadow var(--comrade-transition-normal);
 }
 
+/* Chrome/Chromium ignore background-color on an autofilled input outright
+   (a light-only-theme gap, not covered by the color/background-color pair
+   above) and substitute their own yellow/blue tint instead — regardless of
+   specificity. The inset box-shadow is the standard, minimal way around
+   that: it paints over the UA's autofill layer with the same surface color
+   the field already uses, and the absurd transition-duration keeps Chrome's
+   own tint from flashing in first. No !important needed; this isn't a hack
+   stacked on top of the normal rule above, it's the only mechanism Chrome
+   actually respects here. */
+.comrade-field__input:-webkit-autofill,
+.comrade-field__input:-webkit-autofill:hover,
+.comrade-field__input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--comrade-text);
+  -webkit-box-shadow: 0 0 0 1000px var(--comrade-surface) inset;
+  box-shadow: 0 0 0 1000px var(--comrade-surface) inset;
+  caret-color: var(--comrade-text);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .comrade-field__input::placeholder,
 .comrade-field__textarea::placeholder {
   color: var(--comrade-text-muted);
