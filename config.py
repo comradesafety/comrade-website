@@ -16,6 +16,26 @@ class Config:
     WTF_CSRF_ENABLED = True
     WTF_CSRF_TIME_LIMIT = None
 
+    # The recruitment form (app/routes/recruitment.py) forwards validated
+    # submissions server-side to a Google Apps Script Web App bound to a
+    # Google Sheet — never from the browser, so this URL (and whatever the
+    # script itself is authorized to do) never reaches client-side code.
+    # Deliberately not a secret in the "leaks credentials" sense (Apps
+    # Script Web App URLs carry no embedded key), but still kept
+    # server-side only and out of source control, same as SECRET_KEY.
+    # Empty by default; the route logs and fails closed if it's unset
+    # rather than silently dropping submissions. See
+    # google-apps-script/Code.gs for the script this URL must point to.
+    GOOGLE_APPS_SCRIPT_URL = os.environ.get("GOOGLE_APPS_SCRIPT_URL", "")
+
+    # Minimum seconds between two submissions from the same IP address.
+    # Simple, in-process abuse mitigation — see recruitment.py's
+    # _recent_submissions for why this is intentionally not a
+    # distributed/persistent rate limiter at this project's scale.
+    RECRUITMENT_SUBMIT_COOLDOWN_SECONDS = int(
+        os.environ.get("RECRUITMENT_SUBMIT_COOLDOWN_SECONDS", "30")
+    )
+
     # Cookies should never be readable by JavaScript or sent cross-site.
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"

@@ -1,0 +1,91 @@
+{#
+  careers-hero.html
+  Editorial hero for the Careers page: eyebrow, two-line headline,
+  supporting copy, and two CTAs on the left; an abstract, product-
+  independent "idea to product" technical visual on the right — the
+  same two-column shape as the homepage hero (see hero.html/hero.css),
+  built fresh here rather than reusing that component directly since
+  the visual itself is entirely different content.
+#}
+{% from "macros/buttons.html" import comrade_button %}
+
+<section class="comrade-careers-hero comrade-section">
+  <div class="comrade-container comrade-careers-hero__grid">
+    <div class="comrade-careers-hero__content">
+      <p class="comrade-eyebrow reveal-on-scroll reveal-up">{{ hero.eyebrow }}</p>
+
+      <h1 class="comrade-careers-hero__headline reveal-on-scroll reveal-up comrade-delay-1">
+        Build technology<br>
+        <span class="comrade-careers-hero__highlight">that matters.</span>
+      </h1>
+
+      <p class="comrade-careers-hero__description reveal-on-scroll reveal-up comrade-delay-2">
+        {{ hero.description }}
+      </p>
+
+      <div class="comrade-careers-hero__actions reveal-on-scroll reveal-up comrade-delay-3">
+        {{ comrade_button("Explore the Opportunity", "#current-opening", "primary") }}
+        {{ comrade_button("Begin Application", "#comradeRecruitmentForm", "secondary") }}
+      </div>
+    </div>
+
+    <div class="comrade-careers-hero__visual reveal-on-scroll reveal-scale comrade-delay-2" aria-hidden="true">
+      <svg viewBox="0 0 420 420" class="comrade-careers-visual" focusable="false">
+        <defs>
+          <pattern id="comradeCareersGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="1.4" cy="1.4" r="1.4" class="comrade-careers-visual__grid-dot"/>
+          </pattern>
+        </defs>
+
+        <rect x="10" y="10" width="400" height="400" rx="24" fill="url(#comradeCareersGrid)"/>
+
+        <ellipse cx="210" cy="210" rx="168" ry="120" class="comrade-careers-visual__orbit"/>
+        <ellipse cx="210" cy="210" rx="120" ry="168" class="comrade-careers-visual__orbit"/>
+
+        {# Idea → Engineering → Prototype → Product, a PCB-trace-style
+           path of right-angle segments linking four nodes in sequence,
+           deliberately never naming the product itself. Single source
+           of truth for the geometry: careers.css's offset-path
+           references this element by id first; the literal path()
+           string there is only a fallback for browsers that don't
+           support the url() form (kept byte-for-byte identical to
+           this "d" — see the comment there). #}
+        <path
+          id="careerFlowPath"
+          d="M96,300 L96,232 L168,232 L168,150 L252,150 L252,96 L324,96"
+          class="comrade-careers-visual__trace"
+        />
+
+        {# The one travelling signal, Idea → Product — a halo + core pair
+           inside a single group, so there is exactly one moving element
+           (one offset-path, one animation), not two independently
+           animated dots. Both circles are left at SVG's implicit (0,0)
+           on purpose — see careers.css for why. #}
+        <g class="comrade-careers-visual__signal">
+          <circle r="11" class="comrade-careers-visual__signal-halo"/>
+          <circle r="4.5" class="comrade-careers-visual__signal-core"/>
+        </g>
+
+        <g class="comrade-careers-visual__node" transform="translate(96,300)">
+          <circle r="10"/>
+          <text y="26">IDEA</text>
+        </g>
+        {# Label sits below, like IDEA/PROTOTYPE: this node's outgoing
+           segment continues upward (toward Prototype), so a label
+           placed above it would sit directly on top of that segment. #}
+        <g class="comrade-careers-visual__node" transform="translate(168,232)">
+          <circle r="8"/>
+          <text y="26">ENGINEER</text>
+        </g>
+        <g class="comrade-careers-visual__node" transform="translate(252,150)">
+          <circle r="8"/>
+          <text y="26">PROTOTYPE</text>
+        </g>
+        <g class="comrade-careers-visual__node comrade-careers-visual__node--accent" transform="translate(324,96)">
+          <circle r="13"/>
+          <text y="-22">PRODUCT</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>

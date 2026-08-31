@@ -1,0 +1,93 @@
+/*
+  careers-responsive.css
+  Breakpoint overrides for the Careers page only. Mirrors the same
+  992 / 768 / 576 breakpoints responsive.css already uses site-wide.
+*/
+
+/* ---- Tablet and below ---- */
+@media (max-width: 992px) {
+  .comrade-careers-hero__grid {
+    grid-template-columns: 1fr;
+    gap: var(--comrade-space-lg);
+  }
+
+  .comrade-careers-hero__content {
+    max-width: none;
+  }
+
+  .comrade-careers-hero__visual {
+    order: -1;
+  }
+
+  .comrade-careers-visual {
+    max-width: 340px;
+    margin-inline: auto;
+  }
+
+  .comrade-careers-focus__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .comrade-careers-expectations {
+    grid-template-columns: 1fr;
+    gap: var(--comrade-space-lg);
+  }
+
+  /* Facts + selection process side by side has no room to breathe at
+     tablet width, so it stacks: facts first, process below. */
+  .comrade-careers-details__grid {
+    grid-template-columns: 1fr;
+    gap: var(--comrade-space-lg);
+  }
+
+  .comrade-careers-details__facts {
+    max-width: none;
+  }
+
+  /* Six columns of workflow copy has no room to breathe at tablet
+     width, so the line flips from a horizontal rail to a vertical one
+     and the steps stack — the same "simplify the grid" treatment the
+     rest of the site uses at this breakpoint. */
+  .comrade-careers-workflow__line {
+    grid-template-columns: 1fr;
+    gap: var(--comrade-space-lg);
+  }
+
+  .comrade-careers-workflow__line::before {
+    top: 0;
+    bottom: 0;
+    left: 6px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+
+  .comrade-careers-workflow__step {
+    padding-top: 0;
+    padding-left: var(--comrade-space-lg);
+  }
+
+  .comrade-careers-workflow__node {
+    top: 3px;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 576px) {
+  .comrade-careers-focus__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comrade-careers-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .comrade-careers-hero__actions .comrade-btn {
+    justify-content: center;
+  }
+
+  .comrade-careers-selection__step {
+    gap: var(--comrade-space-sm);
+  }
+}

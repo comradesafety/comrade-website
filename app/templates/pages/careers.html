@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Careers | Comrade{% endblock %}
+
+{% block meta_description %}Join Comrade's product development team and help build technology for real-world personal safety.{% endblock %}
+
+{% block og_title %}Careers | Comrade{% endblock %}
+{% block og_description %}Join Comrade's product development team and help build technology for real-world personal safety.{% endblock %}
+{% block twitter_title %}Careers | Comrade{% endblock %}
+{% block twitter_description %}Join Comrade's product development team and help build technology for real-world personal safety.{% endblock %}
+
+{% block extra_head %}
+  {# Read by recruitment-form.js for the X-CSRFToken header on its fetch()
+     POST — same requirement as pages/recruitment.html, since the same
+     form component is embedded on this page. #}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block content %}
+  {% include "components/careers/careers-hero.html" %}
+  {% include "components/careers/careers-opening.html" %}
+  {% include "components/careers/careers-focus.html" %}
+  {% include "components/careers/careers-workflow.html" %}
+  {% include "components/careers/careers-fit.html" %}
+  {% include "components/careers/careers-details.html" %}
+  {% include "components/careers/careers-cta.html" %}
+  {% include "components/recruitment-form.html" %}
+{% endblock %}

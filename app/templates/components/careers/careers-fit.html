@@ -1,0 +1,48 @@
+{#
+  careers-fit.html
+  "Who we're looking for": typography-led trait tags, plus core vs.
+  preferred technical expectations pulled straight from the JD — kept
+  visually distinct so preferred skills never read as mandatory.
+#}
+{% from "macros/icons.html" import icon %}
+
+<section class="comrade-careers-fit comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-about-section-heading reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">Who we're looking for</p>
+      <h2>People who'd rather build it than talk about it.</h2>
+    </div>
+
+    <div class="comrade-careers-traits reveal-on-scroll reveal-up comrade-delay-1">
+      {% for trait in traits %}
+      <span class="comrade-careers-trait">{{ trait }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="comrade-careers-expectations">
+      <div class="comrade-careers-expectations__col reveal-on-scroll reveal-up comrade-delay-2">
+        <h3 class="comrade-careers-expectations__heading">Core expectations</h3>
+        <ul class="comrade-careers-expectations__list">
+          {% for item in expectations.core %}
+          <li>
+            <span class="comrade-careers-expectations__icon">{{ icon("target") }}</span>
+            <span>{{ item }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="comrade-careers-expectations__col comrade-careers-expectations__col--preferred reveal-on-scroll reveal-up comrade-delay-3">
+        <h3 class="comrade-careers-expectations__heading">Preferred</h3>
+        <ul class="comrade-careers-expectations__list">
+          {% for item in expectations.preferred %}
+          <li>
+            <span class="comrade-careers-expectations__icon">{{ icon("flask") }}</span>
+            <span>{{ item }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

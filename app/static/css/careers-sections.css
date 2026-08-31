@@ -1,0 +1,362 @@
+/*
+  careers-sections.css
+  Every Careers section below the hero: Opening, Focus, Workflow, Fit,
+  Details (which also carries Selection Process — see
+  careers-details.html for why they're one section), CTA. Section
+  spacing itself comes from the shared .comrade-section utility;
+  alternating "deep" bands follow the same plain/deep/plain/... rhythm
+  About's page already establishes.
+*/
+
+/* ---- Current Opening ---- */
+.comrade-careers-opening {
+  scroll-margin-top: 100px;
+  background-color: var(--comrade-surface-deep);
+}
+
+.comrade-careers-opening__inner {
+  max-width: 780px;
+}
+
+.comrade-careers-opening__title {
+  margin-top: var(--comrade-space-xs);
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-opening__description {
+  margin-top: var(--comrade-space-sm);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-careers-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: var(--comrade-space-md);
+}
+
+/* One small selective use of the glass treatment away from the navbar,
+   per the brief's "glass for small metadata chips" note. */
+.comrade-careers-chip {
+  padding: 0.42rem 0.95rem;
+  border-radius: var(--comrade-radius-pill);
+  background-color: var(--comrade-glass-bg);
+  border: 1px solid var(--comrade-glass-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--comrade-text);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .comrade-careers-chip {
+    background-color: var(--comrade-glass-bg-fallback);
+  }
+}
+
+/* ---- What You'll Work On ---- */
+.comrade-careers-focus__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--comrade-space-md);
+}
+
+/* ---- Build. Test. Break. Improve. + workflow ---- */
+.comrade-careers-workflow {
+  background-color: var(--comrade-surface-deep);
+}
+
+.comrade-careers-workflow__intro {
+  max-width: 620px;
+}
+
+.comrade-careers-workflow__headline {
+  font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-workflow__description {
+  margin-top: var(--comrade-space-sm);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-careers-workflow__line {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--comrade-space-md);
+  margin: var(--comrade-space-xl) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comrade-careers-workflow__line::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 7px;
+  right: 7px;
+  height: 1px;
+  background-color: var(--comrade-border-strong);
+}
+
+.comrade-careers-workflow__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  padding-top: var(--comrade-space-lg);
+}
+
+.comrade-careers-workflow__node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--comrade-surface);
+  border: 2px solid var(--comrade-primary);
+  box-shadow: var(--comrade-neumo-raised);
+}
+
+/* A single soft pulse, once, the moment the step scrolls into view —
+   never a permanent loop. */
+.comrade-careers-workflow__step.is-visible .comrade-careers-workflow__node {
+  animation: comradeWorkflowPulse 1.8s ease-out 1;
+}
+
+@keyframes comradeWorkflowPulse {
+  0% {
+    box-shadow: var(--comrade-neumo-raised), 0 0 0 0 var(--comrade-primary-light-strong);
+  }
+  60% {
+    box-shadow: var(--comrade-neumo-raised), 0 0 0 8px transparent;
+  }
+  100% {
+    box-shadow: var(--comrade-neumo-raised), 0 0 0 0 transparent;
+  }
+}
+
+.comrade-careers-workflow__number {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--comrade-primary);
+}
+
+.comrade-careers-workflow__title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-workflow__step-description {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--comrade-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comrade-careers-workflow__step.is-visible .comrade-careers-workflow__node {
+    animation: none;
+  }
+}
+
+/* ---- Who We're Looking For ---- */
+.comrade-careers-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: var(--comrade-space-lg);
+}
+
+.comrade-careers-trait {
+  padding: 0.45rem 1.05rem;
+  border-radius: var(--comrade-radius-pill);
+  background-color: var(--comrade-surface-soft);
+  border: 1px solid var(--comrade-border);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--comrade-text);
+  transition: border-color var(--comrade-transition-hover), color var(--comrade-transition-hover);
+}
+
+.comrade-careers-trait:hover {
+  border-color: var(--comrade-primary);
+  color: var(--comrade-primary);
+}
+
+.comrade-careers-expectations {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--comrade-space-xl);
+  margin-top: var(--comrade-space-xl);
+}
+
+.comrade-careers-expectations__heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-expectations__col--preferred .comrade-careers-expectations__heading {
+  color: var(--comrade-text-muted);
+}
+
+.comrade-careers-expectations__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin: var(--comrade-space-sm) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comrade-careers-expectations__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-expectations__icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--comrade-primary);
+}
+
+/* Preferred items read visibly lighter than core ones, so PCB/embedded/
+   lab-equipment experience never implies "required". */
+.comrade-careers-expectations__col--preferred li {
+  color: var(--comrade-text-muted);
+}
+
+.comrade-careers-expectations__col--preferred .comrade-careers-expectations__icon {
+  color: var(--comrade-text-muted);
+  opacity: 0.8;
+}
+
+/* ---- Internship + Selection Process (one section: see
+   careers-details.html for why they were merged) ---- */
+.comrade-careers-details {
+  background-color: var(--comrade-surface-deep);
+}
+
+.comrade-careers-details__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: var(--comrade-space-xl);
+  align-items: start;
+}
+
+.comrade-careers-details__facts {
+  max-width: 360px;
+}
+
+.comrade-careers-details__duration {
+  margin-top: var(--comrade-space-sm);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-details__note {
+  margin-top: var(--comrade-space-lg);
+  padding-left: var(--comrade-space-md);
+  border-left: 3px solid var(--comrade-border-strong);
+  font-size: 0.88rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-careers-selection__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--comrade-space-lg);
+  margin: var(--comrade-space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comrade-careers-selection__step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--comrade-space-md);
+}
+
+.comrade-careers-selection__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--comrade-surface);
+  border: 1px solid var(--comrade-border);
+  box-shadow: var(--comrade-neumo-raised);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--comrade-primary);
+}
+
+.comrade-careers-selection__title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-selection__description {
+  margin-top: 0.2rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--comrade-text-muted);
+}
+
+/* ---- Begin Application CTA ---- */
+.comrade-careers-cta__inner {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.comrade-careers-cta__headline {
+  font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--comrade-text);
+}
+
+.comrade-careers-cta__description {
+  margin-top: var(--comrade-space-sm);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-careers-cta__button {
+  margin-top: var(--comrade-space-lg);
+}

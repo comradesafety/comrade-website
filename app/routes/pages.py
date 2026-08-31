@@ -11,6 +11,18 @@ page needs a "coming soon" state again.
 
 from flask import Blueprint, render_template
 
+from app.routes.recruitment import (
+    ACK_FIELDS,
+    FORM_STEPS,
+    HONEYPOT_FIELD,
+    OPEN_POSITIONS,
+    ROLE_AREA,
+    ROLE_FOCUS,
+    ROLE_STAGE,
+    ROLE_TITLE,
+    ROLE_TYPE,
+)
+
 pages_bp = Blueprint("pages", __name__)
 
 ABOUT_HERO = {
@@ -308,4 +320,167 @@ def contact():
         methods=CONTACT_METHODS,
         topics_heading=CONTACT_TOPICS_HEADING,
         topics=CONTACT_TOPICS,
+    )
+
+
+# The Careers page is the public, editorial introduction to the opening
+# defined in routes/recruitment.py; it never redefines the role's own
+# identity (title, positions, type, focus) — those are imported above
+# from recruitment.py so the two pages can never quietly drift apart.
+# The headline sentences themselves follow the same hardcode-in-template
+# convention as every other page's hero (see PRODUCTS_HERO above).
+#
+# The one idea a separate "Why Comrade" section used to carry — that
+# this is a real-world problem worth solving, not just a resume line —
+# lives here instead, as a single clause, the one place on the page
+# "personal safety" is named at all. The rest of that section's cards
+# (build from the ground up / own meaningful work / learn by building)
+# were restating the Workflow and Internship sections in other words,
+# so they were cut rather than kept as a fourth retelling.
+CAREERS_HERO = {
+    "eyebrow": "Careers",
+    "description": (
+        "We're building technology around personal safety — a problem "
+        "that deserves better answers. We're looking for curious "
+        "builders who want to help turn early ideas into a working "
+        "product."
+    ),
+}
+
+# "description" is the one sentence this role gets in Current Opening;
+# the technical breakdown itself lives only in CAREERS_FOCUS below, so
+# it's never stated twice in different words.
+CAREERS_OPENING = {
+    "role_title": ROLE_TITLE,
+    "description": (
+        "We're looking for a hands-on builder who can help convert "
+        "concepts into functional prototypes, across electronics, "
+        "embedded systems, and hardware-software integration."
+    ),
+    "meta": [OPEN_POSITIONS, ROLE_TYPE, ROLE_FOCUS, ROLE_AREA, ROLE_STAGE],
+}
+
+CAREERS_FOCUS = [
+    {
+        "icon": "circuit",
+        "title": "Circuit Design",
+        "description": "Designing and refining analog and digital circuits for real hardware.",
+    },
+    {
+        "icon": "cpu",
+        "title": "Microcontrollers",
+        "description": "Working across Arduino, ESP32, STM32, and similar platforms.",
+    },
+    {
+        "icon": "sensor",
+        "title": "Sensors & Modules",
+        "description": "Integrating sensors and modules into working systems.",
+    },
+    {
+        "icon": "pcb",
+        "title": "PCB Prototyping",
+        "description": "Taking circuits from breadboard to a working prototype board.",
+    },
+    {
+        "icon": "layers",
+        "title": "Embedded Systems",
+        "description": "Writing and debugging firmware that runs on real hardware.",
+    },
+    {
+        "icon": "bug",
+        "title": "Testing & Debugging",
+        "description": "Measuring, isolating faults, and iterating until it works.",
+    },
+    {
+        "icon": "plug",
+        "title": "Hardware-Software Integration",
+        "description": "Connecting firmware, hardware, and software into one working system.",
+    },
+]
+
+CAREERS_WORKFLOW = [
+    {"number": "01", "title": "Understand", "description": "Get clear on the problem before touching a single component."},
+    {"number": "02", "title": "Research", "description": "Look at what exists, what fails, and what could work better."},
+    {"number": "03", "title": "Design", "description": "Plan circuits, select components, and sketch the system."},
+    {"number": "04", "title": "Prototype", "description": "Build it on breadboard or a prototype board."},
+    {"number": "05", "title": "Test", "description": "Measure, observe, and find where it breaks."},
+    {"number": "06", "title": "Improve", "description": "Refine the design based on what testing reveals."},
+]
+
+CAREERS_TRAITS = [
+    "Hands-on",
+    "Curious",
+    "Technical",
+    "Resourceful",
+    "Patient",
+    "Experimental",
+    "Collaborative",
+    "Self-directed",
+]
+
+# Deliberately proficiency-level statements, not a second parts list —
+# CAREERS_FOCUS above is the one place the actual technical areas
+# (circuits, microcontrollers, PCB, embedded systems...) get named.
+CAREERS_EXPECTATIONS = {
+    "core": [
+        "Comfortable with analog and digital electronics fundamentals",
+        "Some hands-on microcontroller experience",
+        "Has physically prototyped something before — breadboard, soldering, or similar",
+        "A genuine debugging mindset: measure, isolate, iterate",
+    ],
+    "preferred": [
+        "PCB design experience",
+        "Comfortable writing firmware, not just circuits",
+        "Access to basic lab equipment",
+        "Familiarity with IoT or communication protocols",
+    ],
+}
+
+# Everything Current Opening already states as a chip (positions, type,
+# focus, area) stays there and isn't repeated here — Duration is the
+# one fact that doesn't fit a short chip, so it's the only line this
+# section adds.
+CAREERS_DURATION = "Based on mutual discussion"
+
+CAREERS_CONFIDENTIALITY = (
+    "Selected candidates may receive access to unreleased technical and "
+    "product information as part of the development process."
+)
+
+CAREERS_SELECTION = [
+    {"number": "01", "title": "Application", "description": "Submit your application through the form below."},
+    {"number": "02", "title": "Technical Review", "description": "We review your background, projects, and technical answers."},
+    {"number": "03", "title": "Discussion / Interview", "description": "Shortlisted applicants are invited to a conversation."},
+    {"number": "04", "title": "Selection", "description": "We confirm the interns joining the team."},
+    {"number": "05", "title": "Begin Building", "description": "Onboarding, and your first prototype work begins."},
+]
+
+CAREERS_CTA = {
+    "heading": "Think you can build with us?",
+    "description": (
+        "Tell us what you've built, how you think, and how you'd "
+        "approach the problems we're trying to solve."
+    ),
+}
+
+
+@pages_bp.route("/careers", methods=["GET"])
+def careers():
+    return render_template(
+        "pages/careers.html",
+        hero=CAREERS_HERO,
+        opening=CAREERS_OPENING,
+        focus=CAREERS_FOCUS,
+        workflow=CAREERS_WORKFLOW,
+        traits=CAREERS_TRAITS,
+        expectations=CAREERS_EXPECTATIONS,
+        duration=CAREERS_DURATION,
+        confidentiality=CAREERS_CONFIDENTIALITY,
+        selection=CAREERS_SELECTION,
+        cta=CAREERS_CTA,
+        # Recruitment form context, reused as-is so the embedded
+        # application below never becomes a second copy of it.
+        steps=FORM_STEPS,
+        ack_fields=ACK_FIELDS,
+        honeypot_field=HONEYPOT_FIELD,
     )

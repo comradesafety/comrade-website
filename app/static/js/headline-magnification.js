@@ -35,6 +35,7 @@ const HEADLINE_SELECTORS = [
   ".comrade-products-hero__headline",
   ".comrade-products-how__headline",
   ".comrade-contact-hero__headline",
+  ".comrade-recruitment-hero__headline",
 ];
 
 const CHAR_CLASS = "headline-char";

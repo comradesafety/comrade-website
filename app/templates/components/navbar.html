@@ -32,7 +32,7 @@
     </nav>
 
     <div class="comrade-navbar__actions">
-      {{ comrade_button("Coming Soon", url_for('pages.products'), "secondary") }}
+      {{ comrade_button("Apply Now", url_for('recruitment.apply'), "secondary") }}
 
       <button
         type="button"
@@ -66,13 +66,17 @@
           {{ icon("package") }}
           <span class="comrade-navbar__mobile-label">Products</span>
         </a>
+        <a href="{{ url_for('pages.careers') }}" class="comrade-navbar__mobile-link{{ ' active' if request.endpoint == 'pages.careers' else '' }}" aria-label="Career">
+          {{ icon("briefcase") }}
+          <span class="comrade-navbar__mobile-label">Career</span>
+        </a>
         <a href="{{ url_for('pages.contact') }}" class="comrade-navbar__mobile-link" aria-label="Contact">
           {{ icon("mail") }}
           <span class="comrade-navbar__mobile-label">Contact</span>
         </a>
       </nav>
       <div class="comrade-navbar__mobile-cta-wrapper">
-        {{ comrade_button("Coming Soon", url_for('pages.products'), "secondary", "comrade-navbar__mobile-cta") }}
+        {{ comrade_button("Apply Now", url_for('recruitment.apply'), "secondary", "comrade-navbar__mobile-cta") }}
       </div>
     </div>
   </div>
