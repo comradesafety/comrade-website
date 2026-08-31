@@ -7,6 +7,12 @@
 {% from "macros/icons.html" import icon %}
 {% from "macros/buttons.html" import comrade_button %}
 
+{# Single source of truth for where "Apply Now" goes — straight to the
+   application form on the canonical Careers page, not a separate
+   intro+form page (see routes/recruitment.py's apply() redirect for
+   why that old destination still exists at all). #}
+{% set apply_now_href = url_for('pages.careers') ~ '#application' %}
+
 {% macro nav_link(endpoint, label, css_class) %}
 <a href="{{ url_for(endpoint) }}" class="{{ css_class }}{{ ' active' if request.endpoint == endpoint else '' }}">{{ label }}</a>
 {%- endmacro %}
@@ -32,7 +38,7 @@
     </nav>
 
     <div class="comrade-navbar__actions">
-      {{ comrade_button("Apply Now", url_for('recruitment.apply'), "secondary") }}
+      {{ comrade_button("Apply Now", apply_now_href, "secondary") }}
 
       <button
         type="button"
@@ -76,7 +82,7 @@
         </a>
       </nav>
       <div class="comrade-navbar__mobile-cta-wrapper">
-        {{ comrade_button("Apply Now", url_for('recruitment.apply'), "secondary", "comrade-navbar__mobile-cta") }}
+        {{ comrade_button("Apply Now", apply_now_href, "secondary", "comrade-navbar__mobile-cta") }}
       </div>
     </div>
   </div>

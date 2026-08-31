@@ -188,10 +188,14 @@
     border-color var(--comrade-transition-hover);
 }
 
+/* No translateY here — see buttons.css's own note on the identical
+   fix for the reasoning (a position shift on the hovered element
+   itself risks carrying an edge out from under a stationary cursor,
+   which reads as hover flicker). A deeper shadow alone still reads as
+   "lifted". */
 .comrade-contact-card:hover {
-  transform: translateY(-3px);
   border-color: var(--comrade-primary);
-  box-shadow: 0 14px 28px var(--comrade-shadow-soft);
+  box-shadow: 0 16px 32px var(--comrade-shadow-soft);
   color: inherit;
 }
 

@@ -13,6 +13,10 @@
   font-size: 0.875rem;
   font-weight: 700;
   border: 1px solid transparent;
+  /* Hover-driven or not, any transform on this element itself needs a
+     stable, predictable anchor — see :active below, the one state
+     here that still uses one. */
+  transform-origin: center;
   transition: transform var(--comrade-transition-hover),
     box-shadow var(--comrade-transition-hover),
     background-color var(--comrade-transition-hover),
@@ -60,11 +64,18 @@
     inset 0 -2px 3px rgba(0, 0, 0, 0.12);
 }
 
+/* No translateY here on purpose — see the note at the top of this
+   file. Box-shadow alone (bigger blur, bigger spread, no position
+   change) reads as the same "lifting" cue and can never itself move
+   the button out from under a stationary cursor, which a translateY
+   applied directly to the hovered element always risks: near an edge,
+   the shift can carry that edge out from under the pointer, firing
+   mouseleave, which reverts the shift and re-enters hover — an
+   oscillation that reads as flicker. */
 .comrade-btn--primary:hover {
   background-color: var(--comrade-primary-hover);
   color: var(--comrade-text-on-primary);
-  transform: translateY(-3px);
-  box-shadow: 0 16px 30px var(--comrade-shadow),
+  box-shadow: 0 18px 34px var(--comrade-shadow),
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
     inset 0 -2px 4px rgba(0, 0, 0, 0.14);
 }
@@ -89,11 +100,14 @@
   box-shadow: var(--comrade-neumo-raised);
 }
 
+/* Same reasoning as .comrade-btn--primary:hover above: no translateY,
+   shadow growth alone (--comrade-neumo-raised-hover is already a
+   bigger, more offset dual shadow than the resting
+   --comrade-neumo-raised) carries the "lift". */
 .comrade-btn--secondary:hover {
   background-color: var(--comrade-surface-soft);
   border-color: var(--comrade-primary);
   color: var(--comrade-primary);
-  transform: translateY(-3px);
   box-shadow: var(--comrade-neumo-raised-hover);
 }
 
@@ -108,7 +122,6 @@
       color var(--comrade-transition-fast);
   }
 
-  .comrade-btn:hover,
   .comrade-btn:active {
     transform: none;
   }

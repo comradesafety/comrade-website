@@ -140,42 +140,22 @@
 
 /* One travelling signal — a halo (very subtle) around a small solid
    core — following the exact Idea → Engineer → Prototype → Product
-   trace above. Everything below exists to make its position land
-   exactly on that path, in every browser; read the two comments in
-   .comrade-careers-visual__signal before touching either the geometry
-   or the transform properties, both matter for that.
+   trace above. Position comes from native SVG <animateMotion> in
+   careers-hero.html (see the comment there for why: it sidesteps a
+   real cross-browser inconsistency in how CSS offset-path anchors an
+   SVG shape that this used to rely on). This file only owns the fade
+   and the halo's own decoupled pulse — never the position.
 
-   offset-path is declared twice on purpose: the url() form is the true
-   single source of truth (it points straight at #careerFlowPath, the
-   exact <path> the eye actually sees, so the two can never drift
-   apart), but Firefox/Safari don't resolve url() references for
-   offset-path yet. The path() literal right before it is the fallback
-   those browsers use instead — keep its "d" string byte-for-byte equal
-   to #careerFlowPath's "d" in careers-hero.html if that geometry ever
-   changes; a browser that understands url() overrides this line
-   entirely, everyone else keeps it. */
+   Starts invisible (opacity: 0) so there's no flash of a fully-opaque
+   dot sitting at Idea before careers-interactions.js has had a chance
+   to start the motion; .is-active (added by that same script, and only
+   once it has confirmed motion is allowed) is what turns the fade on. */
 .comrade-careers-visual__signal {
-  /* This is the fix for the signal drifting off the path entirely (it
-     previously only traced a small, clipped arc near a corner of the
-     canvas, nowhere near the visible line). offset-path moves an
-     element by translating it so a designated anchor point —
-     transform-origin, measured against whatever box transform-box
-     names — lands on the path. Left unset, that anchor defaults to
-     "50% 50% of the SVG viewBox", not "the shape's own center" — and
-     Chrome and Firefox don't even agree with each other on that
-     default, which is exactly what made this fragile before.
-     transform-box: fill-box makes the reference box the signal's own
-     bounding box instead (well-specified, identical in every browser),
-     and since both circles above sit at SVG's implicit (0,0) with no
-     transform of their own, "center" of that box already coincides
-     with their actual drawn position — so the translation this
-     computes is pure offset-path motion, nothing added on top. */
-  transform-box: fill-box;
-  transform-origin: center;
-  offset-path: path("M96,300 L96,232 L168,232 L168,150 L252,150 L252,96 L324,96");
-  offset-path: url(#careerFlowPath);
-  offset-rotate: 0deg;
-  animation: comradeCareersSignal 9s linear infinite;
+  opacity: 0;
+}
+
+.comrade-careers-visual__signal.is-active {
+  animation: comradeCareersSignalFade 9s linear infinite;
 }
 
 .comrade-careers-visual__signal-halo {
@@ -190,13 +170,13 @@
   fill: var(--comrade-primary);
 }
 
-/* Travels the full Idea → Engineer → Prototype → Product trace once
-   per cycle, fading out just before it reaches Product and fading
-   back in at Idea — the loop restart always happens while fully
-   transparent, so it never reads as a jump or a teleport. */
-@keyframes comradeCareersSignal {
+/* Matches <animateMotion>'s own 9s dur exactly, so the fade and the
+   motion stay in lockstep (both start together, from
+   careers-interactions.js, and share the same duration) — fading out
+   just before Product and back in at Idea, so the loop restart always
+   happens while fully transparent and never reads as a jump. */
+@keyframes comradeCareersSignalFade {
   0% {
-    offset-distance: 0%;
     opacity: 0;
   }
   6% {
@@ -206,14 +186,13 @@
     opacity: 1;
   }
   100% {
-    offset-distance: 100%;
     opacity: 0;
   }
 }
 
-/* A small breathing halo, entirely decoupled from the position
-   animation above — it never touches offset-distance, so it can't
-   drift the signal off-path no matter how it's tuned. */
+/* A small breathing halo, entirely decoupled from the position and
+   fade animations above — it never touches offset-distance or
+   opacity's own timing, so it can't drift or desync the signal. */
 @keyframes comradeCareersSignalPulse {
   0%,
   100% {
@@ -226,14 +205,21 @@
   }
 }
 
+/* Reduced-motion fallback: hidden by default (it's only ever shown
+   under the media query below), a plain static dot at Idea with no
+   motion path or animation involved at all. */
+.comrade-careers-visual__signal-static {
+  display: none;
+  fill: var(--comrade-primary);
+  opacity: 0.8;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .comrade-careers-visual__signal {
-    animation: none;
-    offset-distance: 0%;
-    opacity: 0.8;
+    display: none;
   }
 
-  .comrade-careers-visual__signal-halo {
-    animation: none;
+  .comrade-careers-visual__signal-static {
+    display: block;
   }
 }

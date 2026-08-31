@@ -13,6 +13,9 @@ import { initializeScrollReveal } from "./scroll-reveal.js";
 import { initializeHeadlineMagnification } from "./headline-magnification.js";
 import { initializeSafetyOrbit } from "./safety-orbit-animation.js";
 import { initializeRecruitmentForm } from "./recruitment-form.js";
+import { initializeCareersSignal } from "./careers-interactions.js";
+import { initializeSelectionProcess } from "./careers-process.js";
+import { initializeAnchorScroll, initializeSmoothAnchorLinks } from "./anchor-scroll.js";
 
 function initializeComradeApp() {
   initializeNavbarScroll();
@@ -23,6 +26,10 @@ function initializeComradeApp() {
   initializeHeadlineMagnification();
   initializeSafetyOrbit();
   initializeRecruitmentForm();
+  initializeCareersSignal();
+  initializeSelectionProcess();
+  initializeAnchorScroll();
+  initializeSmoothAnchorLinks();
 }
 
 if (document.readyState === "loading") {

@@ -1,0 +1,311 @@
+/*
+  careers-process.css
+  Selection Process: a minimal, interaction-driven progress tracker,
+  not an animated timeline. Nothing moves until a card is hovered,
+  keyboard-focused, or tapped (careers-process.js sets one
+  [data-active-step] attribute on .comrade-process__track for that;
+  everything below reacts to it via plain CSS). Cards reuse
+  .comrade-about-card/-number/-title/-description directly (see
+  careers-selection-process.html) with a compact size override here.
+
+  Dot fill and connector fill are "cumulative up to the active step"
+  (hovering step 3 fills dots/segments 1–3); the hovered card's own
+  lift/border is "exactly the active step, nothing else" — five
+  [data-active-step="N"] blocks each implement one of these two rules,
+  repetitive by design rather than accidentally, since a shared mixin
+  isn't available in plain CSS.
+*/
+
+.comrade-process {
+  background-color: var(--comrade-surface-deep);
+}
+
+/* ---- Compact internship note: one line, clearly secondary to the
+   card journey below it, not a second column competing for
+   attention. ---- */
+.comrade-process__note {
+  max-width: 760px;
+  margin: var(--comrade-space-sm) auto 0;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-process__note-label {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--comrade-text);
+}
+
+.comrade-process__note-duration {
+  font-weight: 700;
+  color: var(--comrade-primary);
+}
+
+.comrade-process__note-divider {
+  margin: 0 0.4em;
+  opacity: 0.6;
+}
+
+/* ---- Track: the positioning context the connector overlay and the
+   card grid share. ---- */
+.comrade-process__track {
+  position: relative;
+  margin-top: var(--comrade-space-lg);
+}
+
+.comrade-process__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comrade-process__step {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Marker: dot + short fixed-height stem, sitting directly above
+   its own card because they're both plain children of the same
+   .comrade-process__step — not a separate system that merely lines up
+   with the card grid by coincidence. ---- */
+.comrade-process__marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comrade-process__dot {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.6px solid var(--comrade-primary);
+  background-color: var(--comrade-bg);
+  transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.comrade-process__stem {
+  width: 1.5px;
+  height: 12px;
+  margin-top: 1px;
+  background-color: var(--comrade-border-strong);
+  transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.comrade-process__card {
+  /* Grid rows stretch every .comrade-process__step to the row's
+     tallest item by default (align-items: stretch), but that only
+     resized the step itself — its card child still sized to its own
+     content, so a card with a longer description stayed visibly
+     taller than its neighbors. flex: 1 makes the card claim that
+     stretched space itself, so all five match exactly regardless of
+     description length. Harmless on mobile: each step gets its own
+     row there, sized to its own content, so there's no extra space
+     for this to grow into. */
+  flex: 1;
+  margin-top: 0.6rem;
+  padding: 1.1rem 1.1rem 1.25rem;
+  text-align: left;
+  cursor: default;
+}
+
+/* This card also carries .comrade-about-card, which has its own
+   plain :hover rule (translateY(-4px) — fine for a static, purely
+   decorative card, but this one is genuinely interactive: its own
+   mouseenter is what sets [data-active-step] in the first place, and
+   that rule's transform would reintroduce the exact edge-flicker risk
+   the [data-active-step] rules above were just written to avoid.
+   Two classes on :hover outweighs .comrade-about-card:hover's one, so
+   this wins outright rather than depending on stylesheet load order. */
+.comrade-process__card.comrade-about-card:hover {
+  transform: none;
+}
+
+.comrade-process__card .comrade-about-card__number {
+  font-size: 1.5rem;
+  transition: color 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.comrade-process__card .comrade-about-card__title {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.comrade-process__card .comrade-about-card__description {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+/* Only ever visible on mobile (see the media query at the bottom);
+   a fixed-height segment filling this section's own grid gap, never
+   a card's own variable height, so it's exact rather than
+   approximated the way the desktop connector's endpoints are. */
+.comrade-process__trailing-stem {
+  display: none;
+  width: 1.5px;
+  margin-inline: auto;
+  background-color: var(--comrade-border-strong);
+  transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.comrade-process__step--5 .comrade-process__trailing-stem {
+  display: none;
+}
+
+/* ---- Connector: one thin line behind the dots, one fill span over
+   it whose size (width on desktop, height on mobile) tracks
+   --comrade-process-progress — a single 0–1 fraction
+   careers-process.js sets, rather than five more [data-active-step]
+   blocks, since this one visual is a continuous fill, not a discrete
+   per-item toggle the way the dots are. ---- */
+.comrade-process__connector {
+  position: absolute;
+  z-index: 0;
+  border-radius: var(--comrade-radius-pill);
+  background-color: var(--comrade-border-strong);
+  opacity: 0.55;
+  overflow: hidden;
+}
+
+.comrade-process__connector-fill {
+  display: block;
+  background-color: var(--comrade-primary);
+  border-radius: inherit;
+  transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1),
+    height 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Desktop: a horizontal line at the dots' own vertical center.
+   left/right: 10% is exact for a 5-equal-column grid with zero gap
+   (each outer dot's center sits at exactly 1/10 and 9/10 of the row's
+   width) and very slightly generous with this section's actual
+   (non-zero) column gap — the true center sits a hair further in,
+   by a fraction of the gap value. At this line's thickness and
+   opacity the difference isn't visible; see the template's own
+   top-of-file comment for the fuller reasoning. */
+@media (min-width: 769px) {
+  .comrade-process__connector {
+    top: 6.5px;
+    left: 10%;
+    right: 10%;
+    height: 1.5px;
+  }
+
+  .comrade-process__connector-fill {
+    height: 100%;
+    width: calc(var(--comrade-process-progress, 0) * 100%);
+  }
+}
+
+/* ---- Dots, stems, and the hovered/focused card's own state — five
+   repeated blocks, one per possible active step, each turning on a
+   cumulative range (dots/stems) or an exact match (the card itself).
+   See this file's own top-of-file comment for why cumulative vs.
+   exact differ between the two. ---- */
+[data-active-step="1"] .comrade-process__step:nth-child(-n + 1) .comrade-process__dot,
+[data-active-step="2"] .comrade-process__step:nth-child(-n + 2) .comrade-process__dot,
+[data-active-step="3"] .comrade-process__step:nth-child(-n + 3) .comrade-process__dot,
+[data-active-step="4"] .comrade-process__step:nth-child(-n + 4) .comrade-process__dot,
+[data-active-step="5"] .comrade-process__step:nth-child(-n + 5) .comrade-process__dot {
+  background-color: var(--comrade-primary);
+  transform: scale(1.1);
+}
+
+[data-active-step="1"] .comrade-process__step:nth-child(-n + 1) .comrade-process__stem,
+[data-active-step="2"] .comrade-process__step:nth-child(-n + 2) .comrade-process__stem,
+[data-active-step="3"] .comrade-process__step:nth-child(-n + 3) .comrade-process__stem,
+[data-active-step="4"] .comrade-process__step:nth-child(-n + 4) .comrade-process__stem,
+[data-active-step="5"] .comrade-process__step:nth-child(-n + 5) .comrade-process__stem {
+  background-color: var(--comrade-primary);
+}
+
+/* Trailing stems: cumulative up to the step *before* the active one —
+   hovering step 3 fills trailing stems 1 and 2 (leading toward 3), not
+   3's own (leading toward 4), the same "segments before the current
+   dot" rule the desktop connector's own fill width follows. Mobile
+   only; harmless no-op on desktop where these stay display: none. */
+[data-active-step="2"] .comrade-process__step:nth-child(-n + 1) .comrade-process__trailing-stem,
+[data-active-step="3"] .comrade-process__step:nth-child(-n + 2) .comrade-process__trailing-stem,
+[data-active-step="4"] .comrade-process__step:nth-child(-n + 3) .comrade-process__trailing-stem,
+[data-active-step="5"] .comrade-process__step:nth-child(-n + 4) .comrade-process__trailing-stem {
+  background-color: var(--comrade-primary);
+}
+
+/* No translateY here on purpose (see buttons.css's own note on the
+   same fix, for the same reason): this card's own mouseenter is what
+   sets [data-active-step] in the first place, so shifting the card's
+   geometry in response risks carrying it out from under a stationary
+   cursor near its bottom edge — a real mouseleave, right after the
+   mouseenter that triggered this state, reads as the card flickering
+   active/inactive. Border-color and box-shadow growth alone still
+   read clearly as "activated" without moving anything. */
+[data-active-step="1"] .comrade-process__step--1 .comrade-process__card,
+[data-active-step="2"] .comrade-process__step--2 .comrade-process__card,
+[data-active-step="3"] .comrade-process__step--3 .comrade-process__card,
+[data-active-step="4"] .comrade-process__step--4 .comrade-process__card,
+[data-active-step="5"] .comrade-process__step--5 .comrade-process__card {
+  border-color: var(--comrade-primary);
+  box-shadow: 0 16px 30px var(--comrade-shadow-soft);
+}
+
+[data-active-step="1"] .comrade-process__step--1 .comrade-about-card__number,
+[data-active-step="2"] .comrade-process__step--2 .comrade-about-card__number,
+[data-active-step="3"] .comrade-process__step--3 .comrade-about-card__number,
+[data-active-step="4"] .comrade-process__step--4 .comrade-about-card__number,
+[data-active-step="5"] .comrade-process__step--5 .comrade-about-card__number {
+  color: var(--comrade-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comrade-process__dot,
+  .comrade-process__stem,
+  .comrade-process__trailing-stem,
+  .comrade-process__card,
+  .comrade-process__card .comrade-about-card__number,
+  .comrade-process__connector-fill {
+    transition-duration: 1ms;
+  }
+}
+
+/* ---- Mobile: single column, dots/stems/trailing-stems form one
+   continuous vertical line down through the stack instead of a
+   horizontal one above it. ---- */
+@media (max-width: 768px) {
+  .comrade-process__grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .comrade-process__card {
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .comrade-process__trailing-stem {
+    display: block;
+    height: 1.5rem;
+  }
+
+  .comrade-process__step--5 .comrade-process__card {
+    margin-bottom: 0;
+  }
+
+  /* No separate absolute connector on mobile — the marker's own stem
+     plus each step's trailing-stem already form one continuous line,
+     each segment exactly as tall as this section's own fixed values
+     rather than anything approximated. */
+  .comrade-process__connector {
+    display: none;
+  }
+}

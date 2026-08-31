@@ -131,7 +131,7 @@ function safeLink(url, text) {
 
 function sendRecruiterEmail(data) {
   const applicantName = data["Full Name"] || "Applicant";
-  const subject = `New Comrade Hardware Internship Application · ${applicantName}`;
+  const subject = `New Electronics & Hardware Internship Application · ${applicantName}`;
   const htmlBody = buildRecruiterHtml(data);
   const plainText = `New Comrade Electronics & Hardware Internship application.\n\nName: ${applicantName}\nEmail: ${data["Email"] || ""}\nCollege: ${data["College"] || ""}\n\nThe complete application has been added to the Google Sheet.`;
   
@@ -146,7 +146,7 @@ function sendApplicantEmail(data) {
   const applicantEmail = data["Email"];
   if (!applicantEmail) return;
   
-  const subject = "Your application to Comrade's Hardware Engineering Internship";
+  const subject = "Application Received · Comrade Electronics & Hardware Internship";
   const htmlBody = buildApplicantHtml(data);
   const plainText = `Hi ${data["Full Name"] || ""},\n\nWe've received your application for the Comrade Electronics & Hardware Internship.\n\nWe're reviewing applications and will be in touch if your profile matches the current requirements.\n\nThank you,\nComrade`;
   
@@ -220,8 +220,8 @@ function buildRecruiterHtml(data) {
                     <img class="logo-img" src="https://lh3.googleusercontent.com/d/1GaKkypfyphEVWG0B7DMoP9wOVrnMzSf3" alt="Comrade Logo" style="display: block; border: 0; outline: none; width: 100%; max-width: 110px; height: auto;">
                   </td>
                   <td class="logo-text-td" valign="middle" align="right" style="font-size: 10px; font-weight: 700; color: #970747; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.6; text-align: right;">
-                    Hardware Engineering<br>
-                    <span style="color: #6f6460; font-weight: 600;">Internal Alert</span>
+                    COMRADE CAREERS<br>
+                    <span style="color: #6f6460; font-weight: 600;">NEW APPLICATION<br>Electronics & Hardware Intern</span>
                   </td>
                 </tr>
               </table>
@@ -276,7 +276,7 @@ function buildRecruiterHtml(data) {
               </div>
     
               <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-                <a href="${escapeHtml(CONFIG.SHEET_URL)}" style="display: inline-block; background-color: #970747; color: #ffffff; font-weight: 600; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-size: 15px; letter-spacing: 0.5px;">View Full Details in Sheet</a>
+                <a href="${escapeHtml(CONFIG.SHEET_URL)}" style="display: inline-block; background-color: #970747; color: #ffffff; font-weight: 600; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-size: 15px; letter-spacing: 0.5px;">View Full Sheet</a>
               </div>
             </td>
           </tr>
@@ -350,8 +350,8 @@ function buildApplicantHtml(data) {
                     <img class="logo-img" src="https://lh3.googleusercontent.com/d/1GaKkypfyphEVWG0B7DMoP9wOVrnMzSf3" alt="Comrade Logo" style="display: block; border: 0; outline: none; width: 100%; max-width: 110px; height: auto;">
                   </td>
                   <td class="logo-text-td" valign="middle" align="right" style="font-size: 10px; font-weight: 700; color: #970747; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.6; text-align: right;">
-                    Hardware Engineering<br>
-                    <span style="color: #6f6460; font-weight: 600;">Talent Acquisition</span>
+                    COMRADE CAREERS<br>
+                    <span style="color: #6f6460; font-weight: 600;">Electronics & Hardware Intern</span>
                   </td>
                 </tr>
               </table>

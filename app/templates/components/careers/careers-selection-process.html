@@ -1,0 +1,74 @@
+{#
+  careers-selection-process.html
+  The five CAREERS_SELECTION steps (routes/pages.py — the single source
+  of truth for their number/title/description; nothing here re-types
+  them) as a minimal, interaction-driven progress tracker: five compact
+  cards in one row on desktop (one column on mobile), each with its own
+  dot sitting directly above it, connected by one thin line. Nothing
+  moves on its own — hovering, keyboard-focusing, or tapping a card is
+  the only thing that ever changes the state, filling that dot and
+  every dot before it plus the connector up to that point (see
+  careers-process.js and the [data-active-step] rules in
+  careers-process.css). The Internship facts that used to share this
+  section with their own equal-weight column are folded in as one
+  compact note instead — see .comrade-process__note below.
+
+  Dot and card are both children of the same <li> (.comrade-process__step),
+  stacked in one flex column — that's what guarantees the dot is
+  *exactly* centered above its own card at every width, never an
+  approximation: they share one column, not two parallel grids that
+  merely happen to match. The one place this page still approximates
+  anything is the desktop connector line's own left/right endpoints
+  (10%/90%, matching where the outermost dots land in a 5-equal-column
+  grid) — see the comment on .comrade-process__connector in
+  careers-process.css for why that's a deliberate, negligible
+  trade-off rather than an oversight.
+#}
+
+<section class="comrade-process comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-about-section-heading comrade-about-section-heading--centered reveal-on-scroll reveal-up">
+      <p class="comrade-eyebrow">Selection process</p>
+      <h2>From application to building.</h2>
+    </div>
+
+    <p class="comrade-process__note reveal-on-scroll reveal-up">
+      <span class="comrade-process__note-label">Internship</span>
+      <span class="comrade-process__note-duration">{{ duration }}</span>
+      <span class="comrade-process__note-divider" aria-hidden="true">&middot;</span>
+      <span class="comrade-process__note-confidentiality">{{ confidentiality }}</span>
+    </p>
+
+    <div class="comrade-process__track reveal-on-scroll reveal-up" data-process-stage>
+      {# Decorative horizontal (desktop) / vertical (mobile) line
+         between the dots — see careers-process.css for how its two
+         states differ. The fill span's width/height is driven by one
+         CSS custom property careers-process.js sets on hover/focus. #}
+      <div class="comrade-process__connector" aria-hidden="true">
+        <span class="comrade-process__connector-fill" data-process-fill></span>
+      </div>
+
+      <ol class="comrade-process__grid">
+        {% for step in selection %}
+        <li class="comrade-process__step comrade-process__step--{{ loop.index }}">
+          <div class="comrade-process__marker" aria-hidden="true">
+            <span class="comrade-process__dot"></span>
+            <span class="comrade-process__stem"></span>
+          </div>
+          <div class="comrade-about-card comrade-process__card" data-process-card="{{ loop.index }}" tabindex="0">
+            <span class="comrade-about-card__number" aria-hidden="true">{{ step.number }}</span>
+            <h3 class="comrade-about-card__title">{{ step.title }}</h3>
+            <p class="comrade-about-card__description">{{ step.description }}</p>
+          </div>
+          {# Mobile-only: a short fixed-height line filling the gap
+             down to the next dot — exact by construction, since it
+             only ever has to span this section's own fixed grid gap,
+             never a card's own (variable) height. Hidden on the last
+             step; hidden entirely on desktop. #}
+          <span class="comrade-process__trailing-stem" aria-hidden="true"></span>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+</section>

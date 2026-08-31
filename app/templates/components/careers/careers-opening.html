@@ -6,7 +6,18 @@
   focus, area) appear — nowhere else on the page restates them. All
   role identity fields come from ROLE_* in routes/recruitment.py via
   CAREERS_OPENING (routes/pages.py) — never re-typed here.
+
+  "Read Full Job Description" links out to the existing canonical JD
+  document rather than reproducing it on-page — the point of that CTA
+  is more detail than belongs in this compact section, not a second
+  on-site copy of the role. Built by hand rather than via
+  macros/buttons.html's comrade_button, since that macro has no
+  target/rel parameters and this is the one external (opens a new tab)
+  link among this page's CTAs — same target="_blank" rel="noopener
+  noreferrer" treatment footer.html's Instagram link already uses for
+  the same reason.
 #}
+{% from "macros/icons.html" import icon %}
 
 <section class="comrade-careers-opening comrade-section" id="current-opening">
   <div class="comrade-container">
@@ -19,6 +30,18 @@
         {% for item in opening.meta %}
         <span class="comrade-careers-chip">{{ item }}</span>
         {% endfor %}
+      </div>
+
+      <div class="comrade-careers-opening__actions">
+        <a
+          href="https://docs.google.com/document/d/14JHCBMw0ybz94NGcm1gBDsY5b5-ZDYnF97cYnwnDbvo/edit?usp=sharing"
+          class="comrade-btn comrade-btn--secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>Read Full Job Description</span>
+          <span class="comrade-btn__icon">{{ icon("arrow-up-right") }}</span>
+        </a>
       </div>
     </div>
   </div>

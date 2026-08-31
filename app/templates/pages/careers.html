@@ -11,8 +11,8 @@
 
 {% block extra_head %}
   {# Read by recruitment-form.js for the X-CSRFToken header on its fetch()
-     POST — same requirement as pages/recruitment.html, since the same
-     form component is embedded on this page. #}
+     POST — this is the only page the form (components/recruitment-form.html)
+     is embedded on now, so this is the only place this tag needs to exist. #}
   <meta name="csrf-token" content="{{ csrf_token() }}">
 {% endblock %}
 
@@ -22,7 +22,7 @@
   {% include "components/careers/careers-focus.html" %}
   {% include "components/careers/careers-workflow.html" %}
   {% include "components/careers/careers-fit.html" %}
-  {% include "components/careers/careers-details.html" %}
+  {% include "components/careers/careers-selection-process.html" %}
   {% include "components/careers/careers-cta.html" %}
   {% include "components/recruitment-form.html" %}
 {% endblock %}

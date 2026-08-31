@@ -33,17 +33,6 @@
     gap: var(--comrade-space-lg);
   }
 
-  /* Facts + selection process side by side has no room to breathe at
-     tablet width, so it stacks: facts first, process below. */
-  .comrade-careers-details__grid {
-    grid-template-columns: 1fr;
-    gap: var(--comrade-space-lg);
-  }
-
-  .comrade-careers-details__facts {
-    max-width: none;
-  }
-
   /* Six columns of workflow copy has no room to breathe at tablet
      width, so the line flips from a horizontal rail to a vertical one
      and the steps stack — the same "simplify the grid" treatment the
@@ -85,9 +74,5 @@
 
   .comrade-careers-hero__actions .comrade-btn {
     justify-content: center;
-  }
-
-  .comrade-careers-selection__step {
-    gap: var(--comrade-space-sm);
   }
 }

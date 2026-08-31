@@ -25,7 +25,7 @@
 
       <div class="comrade-careers-hero__actions reveal-on-scroll reveal-up comrade-delay-3">
         {{ comrade_button("Explore the Opportunity", "#current-opening", "primary") }}
-        {{ comrade_button("Begin Application", "#comradeRecruitmentForm", "secondary") }}
+        {{ comrade_button("Begin Application", "#application", "secondary") }}
       </div>
     </div>
 
@@ -57,14 +57,32 @@
         />
 
         {# The one travelling signal, Idea → Product — a halo + core pair
-           inside a single group, so there is exactly one moving element
-           (one offset-path, one animation), not two independently
-           animated dots. Both circles are left at SVG's implicit (0,0)
-           on purpose — see careers.css for why. #}
-        <g class="comrade-careers-visual__signal">
+           inside a single group, so there is exactly one moving element,
+           not two independently animated dots. Positioned with native
+           SVG <animateMotion> along #careerFlowPath (careers-interactions.js
+           starts it) rather than CSS offset-path: animateMotion's
+           translation is always measured from the path's own origin,
+           with no transform-origin/transform-box reference box to get
+           wrong — which is what let the signal drift off the path in
+           some browsers before. Both circles are left at SVG's implicit
+           (0,0) so that translation lands exactly on the path with
+           nothing added on top. begin="indefinite" means it never
+           auto-plays; careers-interactions.js triggers it explicitly
+           (and skips triggering it under prefers-reduced-motion — see
+           .comrade-careers-visual__signal-static below for what shows
+           instead). #}
+        <g class="comrade-careers-visual__signal" data-careers-signal>
           <circle r="11" class="comrade-careers-visual__signal-halo"/>
           <circle r="4.5" class="comrade-careers-visual__signal-core"/>
+          <animateMotion begin="indefinite" dur="9s" repeatCount="indefinite" rotate="0">
+            <mpath href="#careerFlowPath" xlink:href="#careerFlowPath"/>
+          </animateMotion>
         </g>
+        {# Reduced-motion fallback only — hidden by default, shown in
+           place of the travelling signal via the media query in
+           careers.css. Plain cx/cy, no motion path, so it can't be
+           affected by any of the above. #}
+        <circle cx="96" cy="300" r="6" class="comrade-careers-visual__signal-static" aria-hidden="true"/>
 
         <g class="comrade-careers-visual__node" transform="translate(96,300)">
           <circle r="10"/>

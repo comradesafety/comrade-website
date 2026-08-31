@@ -20,7 +20,7 @@ import time
 import urllib.error
 import urllib.request
 
-from flask import Blueprint, current_app, jsonify, render_template, request
+from flask import Blueprint, current_app, jsonify, redirect, request, url_for
 
 recruitment_bp = Blueprint("recruitment", __name__)
 
@@ -196,12 +196,12 @@ _recent_submissions = {}
 
 @recruitment_bp.route("/careers/product-development-internship", methods=["GET"])
 def apply():
-    return render_template(
-        "pages/recruitment.html",
-        steps=FORM_STEPS,
-        ack_fields=ACK_FIELDS,
-        honeypot_field=HONEYPOT_FIELD,
-    )
+    # This used to render its own intro + form page, duplicating the
+    # Careers page (pages.careers). /careers is now the one canonical
+    # recruitment experience — this route stays only so links/bookmarks
+    # to the old URL keep working, landing straight on the embedded
+    # form there instead of a second copy of the introduction.
+    return redirect(url_for("pages.careers") + "#application")
 
 
 @recruitment_bp.route("/careers/product-development-internship/submit", methods=["POST"])

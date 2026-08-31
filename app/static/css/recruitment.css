@@ -1,93 +1,26 @@
 /*
   recruitment.css
-  Page-level layout for the recruitment application: the intro hero and
-  the multi-step form's structural chrome (progress bar, step
-  container, nav buttons, success state). Field/input/choice styling
-  itself lives in recruitment-form.css — this file is everything
-  around the fields, not the fields.
+  Page-level layout for the multi-step application form's structural
+  chrome (progress bar, step container, nav buttons, success state) —
+  it's embedded on the Careers page (components/recruitment-form.html)
+  now, which has its own hero, so there's no separate recruitment-hero
+  styling here any more. Field/input/choice styling itself lives in
+  recruitment-form.css — this file is everything around the fields,
+  not the fields.
 */
-
-/* ---- Hero ---- */
-.comrade-recruitment-hero__inner {
-  max-width: 720px;
-  margin-inline: auto;
-  text-align: center;
-}
-
-.comrade-recruitment-hero__headline {
-  margin-top: var(--comrade-space-sm);
-  font-size: clamp(2.1rem, 4.2vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.12;
-  color: var(--comrade-text);
-}
-
-.comrade-recruitment-hero__subtitle {
-  margin-top: var(--comrade-space-sm);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--comrade-primary);
-}
-
-.comrade-recruitment-hero__description {
-  margin-top: var(--comrade-space-md);
-  font-size: 1.02rem;
-  line-height: 1.65;
-  color: var(--comrade-text-muted);
-}
-
-.comrade-recruitment-hero__facts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--comrade-space-sm);
-  margin-top: var(--comrade-space-md);
-}
-
-.comrade-recruitment-hero__fact {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: var(--comrade-space-sm) var(--comrade-space-md);
-  background-color: var(--comrade-surface-soft);
-  border: 1px solid var(--comrade-border);
-  border-radius: var(--comrade-radius-md);
-  box-shadow: var(--comrade-neumo-raised);
-  text-align: left;
-}
-
-.comrade-recruitment-hero__fact-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--comrade-text-muted);
-}
-
-.comrade-recruitment-hero__fact-value {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--comrade-text);
-}
-
-.comrade-recruitment-hero__note {
-  margin-top: var(--comrade-space-md);
-  padding-left: var(--comrade-space-md);
-  border-left: 3px solid var(--comrade-primary);
-  text-align: left;
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--comrade-text-muted);
-}
-
-.comrade-recruitment-hero__cta {
-  margin-top: var(--comrade-space-md);
-}
 
 /* ---- Form section shell ---- */
 .comrade-recruitment-form-section {
   background-color: var(--comrade-surface-deep);
-  scroll-margin-top: 100px;
+  /* Tracks the same --comrade-navbar-height token the navbar itself
+     uses (110px desktop, 100px tablet/mobile — see variables.css /
+     responsive.css), plus a little breathing room, rather than a
+     second hardcoded number that could quietly drift out of sync with
+     the navbar's real height. Always uses the *un-scrolled* height
+     (the taller of the navbar's two states), so the target clears the
+     navbar whichever state it happens to be in when this is reached —
+     scroll-margin-top can't itself react to that toggle. */
+  scroll-margin-top: calc(var(--comrade-navbar-height) + 16px);
 }
 
 .comrade-recruitment-form-section__inner {
@@ -219,6 +152,16 @@
   margin-top: var(--comrade-space-lg);
 }
 
+/* The acknowledgement checkboxes on the final step, set off from the
+   fields above them — this used to be an inline style="" attribute,
+   which this site's CSP (style-src 'self', no unsafe-inline) silently
+   drops, so it was never actually rendering. */
+.comrade-recruitment-step__fields--ack {
+  margin-top: var(--comrade-space-xl);
+  border-top: 1px solid var(--comrade-border);
+  padding-top: var(--comrade-space-xl);
+}
+
 /* Smooth step transitions: opacity + a small rise, not a slide or
    anything more elaborate — a multi-step form should feel calm, not
    showy. [hidden] is toggled by recruitment-form.js; is-entering
@@ -318,12 +261,6 @@
   font-size: 1rem;
   line-height: 1.6;
   color: var(--comrade-text-muted);
-}
-
-@media (max-width: 768px) {
-  .comrade-recruitment-hero__facts {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 576px) {

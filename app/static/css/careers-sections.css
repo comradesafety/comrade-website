@@ -1,11 +1,11 @@
 /*
   careers-sections.css
-  Every Careers section below the hero: Opening, Focus, Workflow, Fit,
-  Details (which also carries Selection Process — see
-  careers-details.html for why they're one section), CTA. Section
-  spacing itself comes from the shared .comrade-section utility;
-  alternating "deep" bands follow the same plain/deep/plain/... rhythm
-  About's page already establishes.
+  Every Careers section below the hero except Selection Process, which
+  has its own dedicated careers-process.css (card grid + connecting
+  route + signal is enough surface area to earn its own file): Opening,
+  Focus, Workflow, Fit, CTA. Section spacing itself comes from the
+  shared .comrade-section utility; alternating "deep" bands follow the
+  same plain/deep/plain/... rhythm About's page already establishes.
 */
 
 /* ---- Current Opening ---- */
@@ -15,6 +15,11 @@
 }
 
 .comrade-careers-opening__inner {
+  width: 100%;
+}
+
+.comrade-careers-opening__title,
+.comrade-careers-opening__description {
   max-width: 780px;
 }
 
@@ -60,6 +65,17 @@
   .comrade-careers-chip {
     background-color: var(--comrade-glass-bg-fallback);
   }
+}
+
+/* Deliberately more than the chips' own 24px gap above them
+   (.comrade-careers-chips' margin-top) — an action button reads as
+   glued to informational chips at that same distance, so it gets its
+   own, slightly larger, one-off value rather than reusing a spacing
+   token tuned for a different relationship. Left-aligned with the
+   title/chips above it by inheriting normal block flow — no text-align
+   override here on purpose. */
+.comrade-careers-opening__actions {
+  margin-top: 1.75rem;
 }
 
 /* ---- What You'll Work On ---- */
@@ -255,85 +271,6 @@
 .comrade-careers-expectations__col--preferred .comrade-careers-expectations__icon {
   color: var(--comrade-text-muted);
   opacity: 0.8;
-}
-
-/* ---- Internship + Selection Process (one section: see
-   careers-details.html for why they were merged) ---- */
-.comrade-careers-details {
-  background-color: var(--comrade-surface-deep);
-}
-
-.comrade-careers-details__grid {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: var(--comrade-space-xl);
-  align-items: start;
-}
-
-.comrade-careers-details__facts {
-  max-width: 360px;
-}
-
-.comrade-careers-details__duration {
-  margin-top: var(--comrade-space-sm);
-  font-size: 1.3rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--comrade-text);
-}
-
-.comrade-careers-details__note {
-  margin-top: var(--comrade-space-lg);
-  padding-left: var(--comrade-space-md);
-  border-left: 3px solid var(--comrade-border-strong);
-  font-size: 0.88rem;
-  font-style: italic;
-  line-height: 1.6;
-  color: var(--comrade-text-muted);
-}
-
-.comrade-careers-selection__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--comrade-space-lg);
-  margin: var(--comrade-space-md) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.comrade-careers-selection__step {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--comrade-space-md);
-}
-
-.comrade-careers-selection__number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background-color: var(--comrade-surface);
-  border: 1px solid var(--comrade-border);
-  box-shadow: var(--comrade-neumo-raised);
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: var(--comrade-primary);
-}
-
-.comrade-careers-selection__title {
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--comrade-text);
-}
-
-.comrade-careers-selection__description {
-  margin-top: 0.2rem;
-  font-size: 0.88rem;
-  line-height: 1.5;
-  color: var(--comrade-text-muted);
 }
 
 /* ---- Begin Application CTA ---- */

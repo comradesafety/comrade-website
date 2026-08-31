@@ -102,7 +102,13 @@
   "privacy_ack": "I agree that my submitted data will be used solely for recruitment evaluation and will be stored securely.",
 } %}
 
-<section class="comrade-recruitment-form-section comrade-section" id="comradeRecruitmentForm">
+{# id="application" is the one stable, canonical anchor for "go straight
+   to the form" — the navbar's Apply Now (/careers#application), the
+   Careers hero and CTA's "Begin Application" buttons (#application),
+   and the redirected legacy /careers/product-development-internship
+   route all target this same id. Don't rename it without updating all
+   of those. #}
+<section class="comrade-recruitment-form-section comrade-section" id="application">
   <div class="comrade-container comrade-recruitment-form-section__inner">
     <form
       class="comrade-recruitment-form"
@@ -147,7 +153,7 @@
           </div>
           
           {% if loop.last %}
-          <div class="comrade-recruitment-step__fields" style="margin-top: 2rem; border-top: 1px solid var(--comrade-border); padding-top: 2rem;">
+          <div class="comrade-recruitment-step__fields comrade-recruitment-step__fields--ack">
             {% for key, description in ack_fields %}
             <div class="comrade-field comrade-field--wide" data-field="{{ key }}">
               <label class="comrade-ack">
