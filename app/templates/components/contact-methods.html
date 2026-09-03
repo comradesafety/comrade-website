@@ -1,0 +1,37 @@
+{#
+  contact-methods.html
+  Email and Instagram as two rows of one connected panel (a single
+  card with a divider between rows) rather than two separate floating
+  cards -- reads as one deliberate "Contact" component instead of a
+  pair of isolated tiles, and gives each row the panel's full width to
+  work with, which is what actually fixed the email address truncating
+  (see the __value rule in contact.css). Sits on the "deep" alternating
+  band, the same token About's Values/Vision's Why sections use.
+#}
+{% from "macros/icons.html" import icon %}
+
+<section class="comrade-contact-methods comrade-section">
+  <div class="comrade-container">
+    <div class="comrade-contact-methods__panel reveal-on-scroll reveal-up">
+      <p class="comrade-contact-methods__heading">{{ methods_heading }}</p>
+
+      {% for method in methods %}
+      <a
+        href="{{ method.href }}"
+        class="comrade-contact-methods__row"
+        {%- if method.external %}
+        target="_blank"
+        rel="noopener noreferrer"
+        {%- endif %}
+      >
+        <span class="comrade-contact-methods__icon">{{ icon(method.icon) }}</span>
+        <span class="comrade-contact-methods__text">
+          <span class="comrade-contact-methods__label">{{ method.label }}</span>
+          <span class="comrade-contact-methods__value">{{ method.value }}</span>
+        </span>
+        <span class="comrade-contact-methods__arrow">{{ icon("arrow-up-right") }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,10 +1,12 @@
 /*
   vision.css
-  Styles specific to the Vision page: a single-column hero statement
-  followed by one closing line on the "deep" alternating band (see
-  --comrade-surface-deep, the same band About's Values section sits
-  on). Typography scale is deliberately the same as about.css's hero
-  headline, not a new one, so the two pages read as the same site.
+  Styles specific to the Vision page: a single-column hero statement,
+  then Philosophy (about-philosophy.html/about.css -- shared with
+  About's own Values section, see there) on the "deep" alternating
+  band (see --comrade-surface-deep), then one closing line back on
+  the plain background. Typography scale is deliberately the same as
+  about.css's hero headline, not a new one, so the two pages read as
+  the same site.
 */
 
 /* ---- Hero: one continuous editorial statement, left-aligned, capped
@@ -62,12 +64,12 @@
   color: var(--comrade-primary);
 }
 
-/* ---- Why: the "deep" band, one centered closing statement, echoing
-   About's Values section treatment exactly. ---- */
-.comrade-vision-why {
-  background-color: var(--comrade-surface-deep);
-}
-
+/* ---- Why: the closing line of the page, one centered statement.
+   Plain background on purpose, not the "deep" band -- Philosophy
+   (about-philosophy.html) now sits between Hero and Why and is deep
+   itself (see .comrade-about-philosophy in about.css), so Why needs
+   to be plain for Hero/Philosophy/Why to alternate bg/deep/bg
+   instead of landing deep right after another deep section. ---- */
 .comrade-vision-why__inner {
   max-width: 700px;
   margin-inline: auto;

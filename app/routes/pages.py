@@ -72,32 +72,6 @@ ABOUT_VALUES = [
     },
 ]
 
-ABOUT_PHILOSOPHY_HEADING = {
-    "eyebrow": "Our philosophy",
-    "headline": "How Comrade Thinks",
-}
-
-ABOUT_PHILOSOPHY = [
-    {
-        "number": "01",
-        "icon": "feel-it",
-        "title": "Feel It",
-        "description": "Safety should feel present, without ever feeling in the way.",
-    },
-    {
-        "number": "02",
-        "icon": "trust-it",
-        "title": "Trust It",
-        "description": "Thoughtful design begins with reliability, simplicity, and purpose.",
-    },
-    {
-        "number": "03",
-        "icon": "move-freely",
-        "title": "Move Freely",
-        "description": "Safety should empower independence and confidence.",
-    },
-]
-
 ABOUT_TEAM_HEADING = {
     "eyebrow": "Our team",
     "headline": "The people behind Comrade",
@@ -248,6 +222,33 @@ VISION_WHY = {
 }
 
 
+VISION_PHILOSOPHY_HEADING = {
+    "eyebrow": "Our philosophy",
+    "headline": "How Comrade Thinks",
+}
+
+VISION_PHILOSOPHY = [
+    {
+        "number": "01",
+        "icon": "feel-it",
+        "title": "Feel It",
+        "description": "Safety should feel present, without ever feeling in the way.",
+    },
+    {
+        "number": "02",
+        "icon": "trust-it",
+        "title": "Trust It",
+        "description": "Thoughtful design begins with reliability, simplicity, and purpose.",
+    },
+    {
+        "number": "03",
+        "icon": "move-freely",
+        "title": "Move Freely",
+        "description": "Safety should empower independence and confidence.",
+    },
+]
+
+
 # The two headline sentences (each with one highlighted phrase) are
 # hardcoded directly in products-hero.html / products-how.html, the
 # same reasoning as VISION_HERO above: a highlight's position is fixed
@@ -324,8 +325,6 @@ def about():
         hero=ABOUT_HERO,
         values_heading=ABOUT_VALUES_HEADING,
         values=ABOUT_VALUES,
-        philosophy_heading=ABOUT_PHILOSOPHY_HEADING,
-        philosophy=ABOUT_PHILOSOPHY,
         team_heading=ABOUT_TEAM_HEADING,
         team_lead=ABOUT_TEAM_LEAD,
         team_execs=ABOUT_TEAM_EXECS,
@@ -338,6 +337,8 @@ def vision():
         "pages/vision.html",
         hero=VISION_HERO,
         why=VISION_WHY,
+        philosophy_heading=VISION_PHILOSOPHY_HEADING,
+        philosophy=VISION_PHILOSOPHY,
     )
 
 
@@ -369,6 +370,8 @@ CONTACT_HERO = {
 # second, possibly-drifting copy of the same contact details. "icon"
 # names a branch in macros/icons.html; "external" adds target="_blank"
 # rel="noopener noreferrer" for the one link that leaves the site.
+CONTACT_METHODS_HEADING = "Contact"
+
 CONTACT_METHODS = [
     {
         "label": "Email",
@@ -380,31 +383,23 @@ CONTACT_METHODS = [
     {
         "label": "Instagram",
         "icon": "instagram",
-        "value": "@comradesafe",
-        "href": "https://www.instagram.com/comradesafe/",
+        "value": "@comrade_safety",
+        "href": "https://www.instagram.com/comrade_safety/",
         "external": True,
     },
 ]
 
-CONTACT_TOPICS_HEADING = "What can we talk about?"
-
-CONTACT_TOPICS = [
-    "Product ideas",
-    "Collaborations",
-    "Partnerships",
-    "Questions",
-    "Feedback",
-]
-
-
+# The waitlist is a mailto invitation, not a page section — see
+# context_processors.py's WAITLIST_MAILTO_HREF, which drives the
+# navbar's global "Join Waitlist" CTA on every page including this
+# one. No Contact-page-specific waitlist copy/section to pass here.
 @pages_bp.route("/contact", methods=["GET"])
 def contact():
     return render_template(
         "pages/contact.html",
         hero=CONTACT_HERO,
+        methods_heading=CONTACT_METHODS_HEADING,
         methods=CONTACT_METHODS,
-        topics_heading=CONTACT_TOPICS_HEADING,
-        topics=CONTACT_TOPICS,
     )
 
 

@@ -1,29 +1,38 @@
 {#
   contact-visual.html
-  A small, calm abstract motif for the Contact page: a mail icon at
-  rest inside a soft neumorphic core (the same visual language as
-  about-hero's orbit center), with two small nodes slowly circling it
-  at different speeds and directions. Deliberately much simpler than
-  the About/Products animated systems — see contact.css for why this
-  is plain CSS rotation, not the safety-orbit's rAF-driven system: a
-  single node circling at constant speed is exactly what a CSS
-  `rotate()` transform on a wrapping group already does natively, no
-  per-frame trigonometry needed. Purely decorative (aria-hidden): it
-  illustrates "connection", it doesn't carry information the
-  surrounding copy doesn't already say.
+  The Contact hero's abstract motif: three concentric rings with a
+  node slowly circling each one, all mathematically attached to their
+  ring via SVG cx/cy on that ring's own radius, with a CSS `rotate()`
+  transform on each orbit's wrapping <g> providing the motion -- a
+  fixed point rotated around the circle's own center can never drift
+  off the ring the way an arbitrary top/left animation could. A warm
+  neumorphic core sits at the center holding the mail icon: this page
+  is about reaching Comrade, so the center stays "message", not a
+  shield -- the safety motif already belongs to the About/Home hero's
+  own orbit visualization, and repeating it here would blur the two
+  apart rather than reinforcing either. Purely decorative
+  (aria-hidden): it illustrates "connection", it doesn't carry
+  information the surrounding copy doesn't already say.
 #}
 {% from "macros/icons.html" import icon %}
 
+{% macro contact_visual() %}
 <div class="comrade-contact-visual" aria-hidden="true">
-  <svg class="comrade-contact-visual__svg" viewBox="0 0 160 160" focusable="false">
-    <circle class="comrade-contact-visual__ring comrade-contact-visual__ring--outer" cx="80" cy="80" r="62"></circle>
-    <circle class="comrade-contact-visual__ring comrade-contact-visual__ring--inner" cx="80" cy="80" r="44"></circle>
+  <svg class="comrade-contact-visual__svg" viewBox="0 0 200 200" focusable="false">
+    <circle class="comrade-contact-visual__ring comrade-contact-visual__ring--outer" cx="100" cy="100" r="92"></circle>
+    <circle class="comrade-contact-visual__ring comrade-contact-visual__ring--mid" cx="100" cy="100" r="70"></circle>
+    <circle class="comrade-contact-visual__ring comrade-contact-visual__ring--inner" cx="100" cy="100" r="50"></circle>
+
     <g class="comrade-contact-visual__orbit comrade-contact-visual__orbit--a">
-      <circle class="comrade-contact-visual__node" cx="80" cy="18" r="4"></circle>
+      <circle class="comrade-contact-visual__node" cx="100" cy="8" r="5"></circle>
     </g>
     <g class="comrade-contact-visual__orbit comrade-contact-visual__orbit--b">
-      <circle class="comrade-contact-visual__node comrade-contact-visual__node--soft" cx="80" cy="136" r="3"></circle>
+      <circle class="comrade-contact-visual__node comrade-contact-visual__node--soft" cx="170" cy="100" r="4"></circle>
+    </g>
+    <g class="comrade-contact-visual__orbit comrade-contact-visual__orbit--c">
+      <circle class="comrade-contact-visual__node comrade-contact-visual__node--soft" cx="100" cy="150" r="3.5"></circle>
     </g>
   </svg>
   <span class="comrade-contact-visual__core">{{ icon("mail") }}</span>
 </div>
+{%- endmacro %}

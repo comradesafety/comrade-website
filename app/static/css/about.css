@@ -161,8 +161,23 @@
   gap: var(--comrade-space-md);
 }
 
-/* ---- Philosophy: plain page background, alternating with Values and
-   Team on either side of it ---- */
+/* ---- Philosophy: the section itself now lives on the Vision page
+   (see vision.html), between Hero and Why -- this file just hasn't
+   been split up to match. Left here rather than moved to vision.css
+   to keep this change small, since .comrade-about-section-heading/
+   .comrade-icon-badge/.comrade-about-card above are the same shared
+   patterns Values (still on this page) also builds on; move the
+   Philosophy-only pieces below to vision.css (or a shared file) if
+   it needs further changes of its own.
+
+   Sits on the "deep" band: Vision's Hero is plain, so the
+   Hero/Philosophy/Why sequence needs Philosophy deep and Why plain
+   to alternate -- see the comment on .comrade-vision-why in
+   vision.css for the other half of that swap. */
+.comrade-about-philosophy {
+  background-color: var(--comrade-surface-deep);
+}
+
 .comrade-about-philosophy__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -182,8 +197,17 @@
   color: var(--comrade-border-strong);
 }
 
-/* ---- Team: the "deep" band again, closing the page the way it
-   opened.
+/* ---- Team: plain page background, not the "deep" band.
+
+   Philosophy (the section that used to sit between Values and Team)
+   has moved to the Vision page, so Team is now Values' very next
+   sibling -- if Team kept the deep background it had when Philosophy
+   separated the two, the page would show two deep bands back to
+   back with no break, breaking the bg/deep/bg/deep rhythm the rest
+   of the site alternates. Plain background here restores a clean
+   bg/deep/bg alternation across Hero/Values/Team, matching how
+   Vision's own Hero/Philosophy/Why now alternates too (see
+   vision.html and vision.css).
 
    One card component (.comrade-team-card) drives every profile --
    the founder's "featured" variant and the CTO/CMO's "standard"
@@ -191,15 +215,13 @@
    contacts/message on the RIGHT. The only real differences are scale
    -- --featured is full-width with a 300px-wide portrait and a
    readable-width-capped message column; --standard is half-width
-   with a smaller 200px square visual and no cap (there's no room to
+   with a smaller 200px-wide portrait and no cap (there's no room to
    need one at that width). Both variants sit in the same container
    with the same surface/border/radius/shadow/hover/typography, so
    the three profiles read as one family at two different scales
-   rather than three unrelated designs. */
-.comrade-about-team {
-  background-color: var(--comrade-surface-deep);
-}
-
+   rather than three unrelated designs. No background-color rule here
+   on purpose -- see the comment above; it sits on the page's plain
+   background, same as .comrade-about-hero (also unruled) above it. */
 .comrade-about-team__lead {
   margin-bottom: var(--comrade-space-md);
 }
@@ -208,16 +230,8 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--comrade-space-md);
-  /* Grid's default align-items is actually "stretch" -- explicitly
-     opting into "start" here instead lets each card size to its own
-     content rather than both being forced to match whichever one is
-     taller. That matters a lot now that the CTO has a real message
-     and the CMO doesn't: stretching would pad the CMO card out with
-     a large empty region below its social icons just to match the
-     CTO's height, which is exactly the "artificial empty space" this
-     component is meant to avoid. Their tops still align naturally
-     (both start at the row's top edge either way). */
-  align-items: start;
+  /* The CTO and CMO cards now stretch to match each other's height. */
+  align-items: stretch;
 }
 
 /* ---- Shared card shell, used by both variants. ---- */
@@ -478,15 +492,12 @@
    its frame. */
 .comrade-team-card--standard .comrade-team-card__visual {
   flex-shrink: 0;
-  width: 200px;
+  width: 240px;
   aspect-ratio: 3 / 5;
   border-radius: var(--comrade-radius-md);
   border: 1px solid var(--comrade-border);
-  /* Only ever affects an actual <img> (the CTO's) -- the CMO's
-     monogram ignores it entirely, so no per-member modifier class is
-     needed here. */
-  --comrade-team-photo-zoom: 1.2;
-  --comrade-team-photo-focus: 50% 20%;
+  /* The CTO photo is now a native 3:5 portrait crop (971x1619), so we don't
+     need the temporary zoom and focus offsets anymore. */
 }
 
 .comrade-team-card--standard .comrade-team-card__body {

@@ -7,12 +7,6 @@
 {% from "macros/icons.html" import icon %}
 {% from "macros/buttons.html" import comrade_button %}
 
-{# Single source of truth for where "Apply Now" goes — straight to the
-   application form on the canonical Careers page, not a separate
-   intro+form page (see routes/recruitment.py's apply() redirect for
-   why that old destination still exists at all). #}
-{% set apply_now_href = url_for('pages.careers') ~ '#application' %}
-
 {% macro nav_link(endpoint, label, css_class) %}
 <a href="{{ url_for(endpoint) }}" class="{{ css_class }}{{ ' active' if request.endpoint == endpoint else '' }}">{{ label }}</a>
 {%- endmacro %}
@@ -38,7 +32,14 @@
     </nav>
 
     <div class="comrade-navbar__actions">
-      {{ comrade_button("Apply Now", apply_now_href, "secondary") }}
+      {# waitlist_mailto_href comes from context_processors.py's
+         inject_waitlist_cta — the one place the recipient/subject/
+         body are defined. This is the site's only "Join Waitlist" CTA
+         (there is no separate one on the Contact page). A plain
+         mailto: link, not a route: clicking it opens the visitor's
+         own email client, no page navigation and no JavaScript
+         involved. #}
+      {{ comrade_button("Join Waitlist", waitlist_mailto_href, "secondary", aria_label="Join the Comrade waitlist by email") }}
 
       <button
         type="button"
@@ -82,7 +83,7 @@
         </a>
       </nav>
       <div class="comrade-navbar__mobile-cta-wrapper">
-        {{ comrade_button("Apply Now", apply_now_href, "secondary", "comrade-navbar__mobile-cta") }}
+        {{ comrade_button("Join Waitlist", waitlist_mailto_href, "secondary", "comrade-navbar__mobile-cta", aria_label="Join the Comrade waitlist by email") }}
       </div>
     </div>
   </div>
