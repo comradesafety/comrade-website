@@ -2,6 +2,11 @@
  * Code.gs
  * Receives recruitment form submissions, appends them to a Google Sheet,
  * and sends Comrade-branded HTML email notifications.
+ *
+ * The Contact page's "Join Waitlist" CTA does NOT use this script (or
+ * any backend) -- it's a plain mailto: link (see
+ * app/context_processors.py's WAITLIST_MAILTO_HREF). This file is
+ * recruitment-only.
  */
 
 const CONFIG = {

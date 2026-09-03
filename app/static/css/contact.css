@@ -1,10 +1,10 @@
 /*
   contact.css
   Styles for the whole Contact page: hero (headline, description, the
-  small orbital visual, the two contact cards) and the closing topics
-  band. One file, not split further, since the page itself stays
-  compact — see products.css/about.css for the same one-file-per-page
-  convention this follows.
+  contact visual) and the contact methods panel. That's the entire
+  page now -- the waitlist is a mailto: link on the navbar's global
+  CTA (see context_processors.py's WAITLIST_MAILTO_HREF), not a
+  section here at all.
 */
 
 /* ---- Hero ---- */
@@ -45,16 +45,16 @@
   opacity: 0.85;
 }
 
-/* ---- Contact visual ---- */
 .comrade-contact-hero__visual {
   display: flex;
   justify-content: center;
   margin-top: var(--comrade-space-xl);
 }
 
+/* ---- Contact visual (contact-visual.html) ---- */
 .comrade-contact-visual {
   position: relative;
-  width: 140px;
+  width: 240px;
   aspect-ratio: 1 / 1;
 }
 
@@ -71,27 +71,40 @@
 }
 
 .comrade-contact-visual__ring--outer {
+  opacity: 0.18;
+}
+
+.comrade-contact-visual__ring--mid {
   opacity: 0.22;
 }
 
 .comrade-contact-visual__ring--inner {
-  opacity: 0.16;
+  opacity: 0.28;
 }
 
-/* Two nodes circling at different speeds and opposite directions —
-   plain CSS rotation on each wrapping group, not JS: a single node on
-   a fixed-radius circle is exactly what `rotate()` already computes
-   natively, no per-frame trigonometry earns its cost here (compare
+/* Three nodes circling their own ring at different speeds and
+   alternating directions -- plain CSS rotation on each wrapping
+   group, not JS: a single node on a fixed-radius circle is exactly
+   what `rotate()` already computes natively, no per-frame
+   trigonometry earns its cost here (compare
    safety-orbit-animation.js, which genuinely needs it for multiple
-   independently-positioned layers). */
+   independently-positioned layers). transform-origin is the SVG
+   viewBox's own center (200x200 → 100,100), so each rotation keeps
+   its node exactly on the ring it started on -- there is no code
+   path that could carry a node off its circle. */
 .comrade-contact-visual__orbit--a {
-  transform-origin: 80px 80px;
-  animation: comrade-contact-orbit 20s linear infinite;
+  transform-origin: 100px 100px;
+  animation: comrade-contact-orbit 22s linear infinite;
 }
 
 .comrade-contact-visual__orbit--b {
-  transform-origin: 80px 80px;
-  animation: comrade-contact-orbit-reverse 30s linear infinite;
+  transform-origin: 100px 100px;
+  animation: comrade-contact-orbit-reverse 32s linear infinite;
+}
+
+.comrade-contact-visual__orbit--c {
+  transform-origin: 100px 100px;
+  animation: comrade-contact-orbit 26s linear infinite;
 }
 
 @keyframes comrade-contact-orbit {
@@ -118,7 +131,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 40%;
+  width: 34%;
   aspect-ratio: 1 / 1;
   transform: translate(-50%, -50%);
   display: inline-flex;
@@ -150,56 +163,51 @@
 @media (prefers-reduced-motion: reduce) {
   .comrade-contact-visual__orbit--a,
   .comrade-contact-visual__orbit--b,
+  .comrade-contact-visual__orbit--c,
   .comrade-contact-visual__core {
     animation: none;
   }
 }
 
-/* ---- Contact cards ---- */
-.comrade-contact-hero__cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--comrade-space-md);
-  max-width: 620px;
-  margin: var(--comrade-space-xl) auto 0;
+/* ---- Contact methods: one connected panel, two rows ----
+   Sits on the "deep" alternating band -- the same token Values'/Why's/
+   Philosophy's sections use, right after the hero's plain background. */
+.comrade-contact-methods {
+  background-color: var(--comrade-surface-deep);
 }
 
-.comrade-contact-card {
-  display: flex;
-  align-items: center;
-  gap: var(--comrade-space-sm);
-  flex: 1 1 260px;
-  /* Flex items default to min-width: auto, which floors their size at
-     their content's min-content width — here that's the full,
-     un-wrapped .comrade-contact-card__value text (white-space:
-     nowrap), which is wider than a phone screen has room for. Without
-     this the card refuses to shrink to fit and overflows instead of
-     letting text-overflow: ellipsis do its job. */
-  min-width: 0;
-  padding: var(--comrade-space-md);
+.comrade-contact-methods__panel {
+  max-width: 640px;
+  margin-inline: auto;
+  padding: var(--comrade-space-sm) var(--comrade-space-lg);
   background-color: var(--comrade-surface-soft);
   border: 1px solid var(--comrade-border);
   border-radius: var(--comrade-radius-lg);
-  text-align: left;
-  color: inherit;
-  transition: transform var(--comrade-transition-hover),
-    box-shadow var(--comrade-transition-hover),
-    border-color var(--comrade-transition-hover);
+  box-shadow: 0 20px 40px var(--comrade-shadow-soft);
 }
 
-/* No translateY here — see buttons.css's own note on the identical
-   fix for the reasoning (a position shift on the hovered element
-   itself risks carrying an edge out from under a stationary cursor,
-   which reads as hover flicker). A deeper shadow alone still reads as
-   "lifted". */
-.comrade-contact-card:hover {
-  border-color: var(--comrade-primary);
-  box-shadow: 0 16px 32px var(--comrade-shadow-soft);
+.comrade-contact-methods__heading {
+  padding-top: var(--comrade-space-md);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-contact-methods__row {
+  display: flex;
+  align-items: center;
+  gap: var(--comrade-space-md);
+  padding-block: var(--comrade-space-md);
   color: inherit;
 }
 
-.comrade-contact-card__icon {
+.comrade-contact-methods__row + .comrade-contact-methods__row {
+  border-top: 1px solid var(--comrade-border);
+}
+
+.comrade-contact-methods__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -214,16 +222,16 @@
   transition: box-shadow var(--comrade-transition-hover);
 }
 
-.comrade-contact-card:hover .comrade-contact-card__icon {
+.comrade-contact-methods__row:hover .comrade-contact-methods__icon {
   box-shadow: var(--comrade-neumo-raised-hover);
 }
 
-.comrade-contact-card__icon svg {
+.comrade-contact-methods__icon svg {
   width: 18px;
   height: 18px;
 }
 
-.comrade-contact-card__text {
+.comrade-contact-methods__text {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
@@ -231,7 +239,7 @@
   flex: 1;
 }
 
-.comrade-contact-card__label {
+.comrade-contact-methods__label {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -239,16 +247,19 @@
   color: var(--comrade-text-muted);
 }
 
-.comrade-contact-card__value {
+/* Wraps instead of truncating: an ellipsis-cut email address (e.g.
+   "comradessafety@…") reads as broken/incomplete, not just
+   abbreviated, since there's no way to tell where it was headed. The
+   panel's own width already gives each row plenty of room, but this
+   still wraps rather than overflows at any width down to mobile. */
+.comrade-contact-methods__value {
   font-size: 1rem;
   font-weight: 700;
   color: var(--comrade-text);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: break-word;
 }
 
-.comrade-contact-card__arrow {
+.comrade-contact-methods__arrow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -259,84 +270,17 @@
   transition: transform var(--comrade-transition-hover);
 }
 
-.comrade-contact-card__arrow svg {
+.comrade-contact-methods__arrow svg {
   width: 100%;
   height: 100%;
 }
 
-.comrade-contact-card:hover .comrade-contact-card__arrow {
+.comrade-contact-methods__row:hover .comrade-contact-methods__arrow {
   transform: translate(3px, -3px);
 }
 
-/* ---- Topics band: the "deep" alternating surface, same token
-   Vision's closing band and About's Values band both use. ---- */
-.comrade-contact-topics {
-  background-color: var(--comrade-surface-deep);
-}
-
-.comrade-contact-topics__inner {
-  max-width: 640px;
-  margin-inline: auto;
-  text-align: center;
-}
-
-.comrade-contact-topics__list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--comrade-space-sm) var(--comrade-space-lg);
-  margin-top: var(--comrade-space-md);
-}
-
-/* Plain list items, not links: these name reasons to reach out, they
-   don't navigate anywhere themselves — an <a href="#"> here would be
-   exactly the dead-link pattern this site avoids elsewhere. The hover
-   motion is a visual nudge toward the cards above, not a control. */
-.comrade-contact-topics__item {
-  position: relative;
-  padding-bottom: 0.3rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--comrade-text);
-  cursor: default;
-  transition: transform var(--comrade-transition-hover),
-    color var(--comrade-transition-hover);
-}
-
-.comrade-contact-topics__item::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  background-color: var(--comrade-primary);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--comrade-transition-hover);
-}
-
-.comrade-contact-topics__item:hover {
-  color: var(--comrade-primary);
-  transform: translateY(-1px);
-}
-
-.comrade-contact-topics__item:hover::after {
-  transform: scaleX(1);
-}
-
 @media (max-width: 576px) {
-  .comrade-contact-hero__cards {
-    flex-direction: column;
-  }
-
-  /* An explicit width (not flex-basis: auto) on purpose: flex-basis:
-     auto re-triggers the exact min-content-floor problem min-width: 0
-     above exists to prevent (the un-wrapped value text's full width
-     wins again), whereas a plain width is a direct, unambiguous
-     sizing that doesn't go through that flex-basis/min-width
-     interaction at all. */
-  .comrade-contact-card {
-    width: 100%;
+  .comrade-contact-methods__panel {
+    padding-inline: var(--comrade-space-md);
   }
 }

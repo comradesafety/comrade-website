@@ -1,12 +1,14 @@
 {#
   contact-hero.html
   Contact page hero: eyebrow, headline with one burgundy-highlighted
-  word, description, a small personality line, the contact visual, and
-  the two contact method cards — all one centered composition (not
-  About's two-column layout) since Contact is meant to read calmer and
-  more focused than the rest of the site. See contact.css.
+  word, description, a small personality line, and the contact
+  visual -- one centered composition. Contact methods live in their
+  own section below (contact-methods.html) rather than being crammed
+  into the hero. The waitlist itself is a mailto: link on the navbar's
+  global CTA (see context_processors.py), not a section on this page
+  at all.
 #}
-{% from "components/contact-card.html" import contact_card %}
+{% from "components/contact-visual.html" import contact_visual %}
 
 <section class="comrade-contact-hero comrade-section">
   <div class="comrade-container">
@@ -22,13 +24,7 @@
     </div>
 
     <div class="comrade-contact-hero__visual reveal-on-scroll reveal-scale comrade-delay-2">
-      {% include "components/contact-visual.html" %}
-    </div>
-
-    <div class="comrade-contact-hero__cards reveal-on-scroll reveal-up comrade-delay-3">
-      {% for method in methods %}
-        {{ contact_card(method) }}
-      {% endfor %}
+      {{ contact_visual() }}
     </div>
   </div>
 </section>
