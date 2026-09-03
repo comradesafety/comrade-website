@@ -91,6 +91,19 @@
   .comrade-products-how__grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  /* The standard (CTO/CMO) card puts a fixed 200px image beside its
+     text, so a two-up grid needs real column width for that to stay
+     readable -- below this breakpoint each column would land well
+     under 500px, leaving the text a sliver next to the photo. One
+     full-width column at this breakpoint gives each card the whole
+     container to work with, which is plenty for the image-left/
+     content-right layout to stay comfortable well past phone widths
+     (see the true-mobile fallback further down for where even that
+     runs out of room). */
+  .comrade-about-team__execs {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---- Small tablet / large phone ---- */
@@ -148,28 +161,29 @@
     grid-template-columns: 1fr;
   }
 
-  /* The side-by-side photo + info layout needs real horizontal room:
-     the exec card's fixed-width photo plus its padding/gap leaves the
-     info column too narrow to fit the three contact icons anywhere in
-     the ~577-768px range, so stack photo above info a full breakpoint
-     earlier than the general mobile cutoff below, rather than fighting
-     that squeeze with ever-smaller internal spacing. */
-  .comrade-about-team__execs {
-    grid-template-columns: 1fr;
-  }
-
-  .comrade-team-card {
+  /* The featured (founder) card's side-by-side photo + body layout
+     needs real horizontal room to keep its message column readable,
+     so it stacks to photo-above-body a full breakpoint earlier than
+     the general mobile cutoff below. The standard (CTO/CMO) cards are
+     already photo-on-top (see about.css) at every width, so they
+     don't need this -- they stay two-up through tablet, only dropping
+     to one column at the phone breakpoint further down. */
+  .comrade-team-card--featured {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
-  .comrade-team-card__contacts {
+  .comrade-team-card--featured .comrade-team-card__body {
+    max-width: none;
+  }
+
+  .comrade-team-card--featured .comrade-team-card__contacts {
     justify-content: center;
   }
 
-  .comrade-team-card--lead .comrade-team-card__photo {
-    width: 160px;
+  .comrade-team-card--featured .comrade-team-card__visual {
+    width: 240px;
   }
 }
 
@@ -322,9 +336,26 @@
     grid-template-columns: 1fr;
   }
 
-  /* Team card stacking (.comrade-about-team__execs, .comrade-team-card,
-     etc.) already applies from the 768px breakpoint above; no
-     phone-specific override needed here. */
+  /* The standard (CTO/CMO) card's image-left/content-right layout
+     (see about.css) stays comfortable all the way down to this phone
+     width, where the card's own full width finally gets too narrow
+     for a 200px image plus a readable text column beside it -- so
+     only here does it fall back to image-top/details-below, the same
+     shape the featured card already switches to above. The image
+     also shrinks a little further, matching the reduced card width. */
+  .comrade-team-card--standard {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .comrade-team-card--standard .comrade-team-card__contacts {
+    justify-content: center;
+  }
+
+  .comrade-team-card--standard .comrade-team-card__visual {
+    width: 160px;
+  }
 }
 
 @media (max-width: 380px) {

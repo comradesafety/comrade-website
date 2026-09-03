@@ -103,38 +103,123 @@ ABOUT_TEAM_HEADING = {
     "headline": "The people behind Comrade",
 }
 
-# Real names/photos/links/messages to follow. The card design (see
-# about-team.html and about.css) already renders correctly with a
-# "coming soon" state for every one of these, so adding the real
-# details later is a one-line data change here, not a template change:
-# set "name", "photo" (a static path), "linkedin"/"instagram" (full
-# URLs), "email", and "message" (a short first-person note).
+# Real team details, rendered by one reusable team-card component
+# (see the team_card macro in about-team.html) in two variants:
+# "featured" for the founder, "standard" for everyone else. Every
+# field the card can't fill in is left as None/empty and the template
+# conditionally skips it (no name/message/email placeholder text) --
+# "photo" is a static path, "linkedin"/"instagram" are full URLs,
+# "alt" is the photo's accessible description, and "initials" only
+# matters when "photo" is None (see the CMO entry below).
+#
+# "message" is optional and, when present, is a single schema shared
+# by every member so one template macro can render all of them:
+#   heading   -- e.g. "A MESSAGE FROM THE FOUNDER"
+#   lines     -- ordered list of {"type", "text"}. "type" picks the
+#                typographic treatment: "paragraph" (default body
+#                copy), or for the CTO's message specifically
+#                "sanskrit" / "transliteration" / "title".
+#   signoff   -- optional closing line (the founder has one, the CTO
+#                doesn't; omit entirely rather than leaving a blank
+#                line for members who don't).
+# A member with "message": None renders no message section at all --
+# that's how the CMO stays placeholder-free until a real message
+# exists for her; add one here, in this exact shape, and the card
+# picks it up with no template/CSS change needed.
+#
+# The founder photo is shown at its own intrinsic aspect ratio (see
+# .comrade-team-card--featured .comrade-team-card__visual in
+# about.css) rather than cropped into a fixed box, so if this file is
+# ever swapped again, update that aspect-ratio to the new image's
+# actual width/height first.
 ABOUT_TEAM_LEAD = {
     "role": "Founder & CEO",
-    "name": None,
-    "photo": None,
-    "linkedin": None,
-    "instagram": None,
+    "name": "Yuvraj Kumar",
+    "photo": "team_images/Founder&CEO.png",
+    "alt": "Portrait of Yuvraj Kumar, Founder & CEO of Comrade",
+    "initials": None,
+    "linkedin": "https://www.linkedin.com/in/yuvraj-kumar-2244b3345/",
+    "instagram": "https://www.instagram.com/ifeelyuvraj/",
     "email": None,
-    "message": None,
+    "message": {
+        "heading": "A Message From The Founder",
+        "lines": [
+            {
+                "type": "paragraph",
+                "text": (
+                    "At Comrade, our vision is simple yet powerful: we "
+                    "believe every woman deserves to move through the "
+                    "world with confidence free from fear."
+                ),
+            },
+            {
+                "type": "paragraph",
+                "text": (
+                    "My commitment as founder is unwavering: to keep "
+                    "evolving our products based on real feedback, "
+                    "ensuring Comrade remains at the frontier of "
+                    "women’s safety tech. We’re here not only to "
+                    "defend but to empower. Every step and tap is a "
+                    "step toward confidence, resilience, and freedom."
+                ),
+            },
+            {
+                "type": "paragraph",
+                "text": (
+                    "Thank you for believing in our mission. Together, "
+                    "we’re building a future where safety and "
+                    "empowerment walk hand in hand."
+                ),
+            },
+        ],
+        "signoff": "With Gratitude and Determination",
+    },
 }
 ABOUT_TEAM_EXECS = [
     {
         "role": "Chief Technology Officer",
-        "name": None,
-        "photo": None,
-        "linkedin": None,
-        "instagram": None,
-        "email": None,
-        "message": None,
+        "name": "Divya Prakash",
+        "photo": "team_images/CTO.png",
+        "alt": "Portrait of Divya Prakash, Chief Technology Officer of Comrade",
+        "initials": None,
+        "linkedin": "https://www.linkedin.com/in/divya-prakash-5b564b273/",
+        "instagram": "https://www.instagram.com/divy.prakash9521",
+        "email": "24f3004288@ds.study.iitm.ac.in",
+        "message": {
+            "heading": "A Message From The CTO",
+            "lines": [
+                {"type": "sanskrit", "text": "अन्तः अस्ति प्रारम्भः"},
+                {
+                    "type": "paragraph",
+                    "text": "When you think it’s over, that’s where we begin.",
+                },
+                {
+                    "type": "paragraph",
+                    "text": (
+                        "Because every moment of vulnerability is a "
+                        "chance for a Comrade to rise."
+                    ),
+                },
+            ],
+            "signoff": None,
+        },
     },
     {
         "role": "Chief Marketing Officer",
-        "name": None,
+        "name": "Trisha Roy Choudhury",
         "photo": None,
-        "linkedin": None,
-        "instagram": None,
+        "alt": None,
+        # No CMO photo exists yet -- the card renders a small branded
+        # monogram (see about-team.html/about.css) instead of a photo
+        # or a "missing image" placeholder. Initials only used there.
+        "initials": "TR",
+        "linkedin": "https://www.linkedin.com/in/trisha-roy-choudhury-0425b4334/",
+        "instagram": "https://www.instagram.com/trishaa.roy___/",
         "email": None,
+        # No CMO message yet. Leave this as None -- do not fill it
+        # with placeholder copy. Add a message dict here (same shape
+        # as the founder's/CTO's above) once one is provided; the
+        # card will pick it up automatically.
         "message": None,
     },
 ]

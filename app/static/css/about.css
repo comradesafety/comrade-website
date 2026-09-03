@@ -183,12 +183,19 @@
 }
 
 /* ---- Team: the "deep" band again, closing the page the way it
-   opened. Founder & CEO gets the full card width; CTO and CMO sit side
-   by side at half width each below it. Every card uses the identical
-   internal layout — square rounded photo on the left, then role, name,
-   contact icons, and a personal message on the right — so the founder
-   card being visibly larger is what carries the hierarchy, not a
-   different concept. ---- */
+   opened.
+
+   One card component (.comrade-team-card) drives every profile --
+   the founder's "featured" variant and the CTO/CMO's "standard"
+   variant share the same anatomy: visual on the LEFT, role/name/
+   contacts/message on the RIGHT. The only real differences are scale
+   -- --featured is full-width with a 300px-wide portrait and a
+   readable-width-capped message column; --standard is half-width
+   with a smaller 200px square visual and no cap (there's no room to
+   need one at that width). Both variants sit in the same container
+   with the same surface/border/radius/shadow/hover/typography, so
+   the three profiles read as one family at two different scales
+   rather than three unrelated designs. */
 .comrade-about-team {
   background-color: var(--comrade-surface-deep);
 }
@@ -199,24 +206,30 @@
 
 .comrade-about-team__execs {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--comrade-space-md);
+  /* Grid's default align-items is actually "stretch" -- explicitly
+     opting into "start" here instead lets each card size to its own
+     content rather than both being forced to match whichever one is
+     taller. That matters a lot now that the CTO has a real message
+     and the CMO doesn't: stretching would pad the CMO card out with
+     a large empty region below its social icons just to match the
+     CTO's height, which is exactly the "artificial empty space" this
+     component is meant to avoid. Their tops still align naturally
+     (both start at the row's top edge either way). */
+  align-items: start;
 }
 
+/* ---- Shared card shell, used by both variants. ---- */
 .comrade-team-card {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--comrade-space-lg);
-  text-align: left;
   background-color: var(--comrade-surface-soft);
   border: 1px solid var(--comrade-border);
   border-radius: var(--comrade-radius-lg);
-  padding: var(--comrade-space-lg);
+  overflow: hidden;
+  text-align: left;
   /* Grid items default to min-width: auto, which floors their size at
      the content's min-content width and lets them overflow a narrower
-     grid track. This card sits in a 2-column grid at tablet widths, so
-     it needs min-width: 0 to actually shrink to its track instead of
-     spilling past it. */
+     grid track. */
   min-width: 0;
   transition: transform var(--comrade-transition-hover),
     box-shadow var(--comrade-transition-hover),
@@ -229,48 +242,39 @@
   box-shadow: 0 18px 34px var(--comrade-shadow-soft);
 }
 
-/* Square with rounded corners, not a circle, per the founder card
-   spec: ready for a real photo (object-fit: cover) but shows the
-   person icon centered until one exists. */
-.comrade-team-card__photo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  aspect-ratio: 1 / 1;
-  border-radius: var(--comrade-radius-md);
-  background-color: var(--comrade-surface);
-  border: 1px solid var(--comrade-border);
-  color: var(--comrade-primary);
+.comrade-team-card__visual {
+  position: relative;
   overflow: hidden;
+  background-color: var(--comrade-surface);
 }
 
-.comrade-team-card__photo img {
+/* --comrade-team-photo-zoom/-focus default to "no zoom, centered" so
+   the founder photo (which needs neither -- see the featured variant
+   below) doesn't have to override anything. The standard variant
+   sets its own zoom/focus to tighten the CTO's crop; hover multiplies
+   whatever zoom is already in effect by a further 1.02 rather than
+   hard-coding scale(1.02), so a zoomed standard photo still gets the
+   same *proportional* hover nudge as the founder's un-zoomed one. */
+.comrade-team-card__image {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
+  transform: scale(var(--comrade-team-photo-zoom, 1));
+  transform-origin: var(--comrade-team-photo-focus, 50% 30%);
+  transition: transform var(--comrade-transition-hover);
 }
 
-.comrade-team-card--lead .comrade-team-card__photo {
-  width: 200px;
+/* Calm, premium hover: a hair of further zoom, nothing dramatic, and
+   it can't crop anything new -- the container's own size is
+   untouched, only the image inside it scales up fractionally. No
+   fade, no mask, no filter, on either variant: portraits stay sharp
+   and fully visible edge to edge, at rest and on hover alike. */
+.comrade-team-card:hover .comrade-team-card__image {
+  transform: scale(calc(var(--comrade-team-photo-zoom, 1) * 1.02));
 }
 
-.comrade-team-card--lead .comrade-team-card__photo svg {
-  width: 64px;
-  height: 64px;
-}
-
-.comrade-team-card--exec .comrade-team-card__photo {
-  width: 128px;
-}
-
-.comrade-team-card--exec .comrade-team-card__photo svg {
-  width: 44px;
-  height: 44px;
-}
-
-.comrade-team-card__info {
-  flex: 1;
+.comrade-team-card__body {
   min-width: 0;
 }
 
@@ -284,21 +288,10 @@
 
 .comrade-team-card__name {
   margin-top: 0.3rem;
-  font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: -0.01em;
   line-height: 1.2;
   color: var(--comrade-text);
-}
-
-.comrade-team-card--exec .comrade-team-card__name {
-  font-size: 1.15rem;
-}
-
-.comrade-team-card__name--pending {
-  font-weight: 700;
-  font-style: italic;
-  color: var(--comrade-text-muted);
 }
 
 .comrade-team-card__contacts {
@@ -327,27 +320,255 @@
   height: 15px;
 }
 
-.comrade-team-card__contact-link:not(.comrade-team-card__contact-link--pending):hover {
+.comrade-team-card__contact-link:hover {
   border-color: var(--comrade-primary);
   transform: translateY(-2px);
 }
 
-/* No real link yet: shown so the design reads correctly today, but
-   deliberately not styled as if it were clickable. */
-.comrade-team-card__contact-link--pending {
-  color: var(--comrade-text-muted);
-  opacity: 0.45;
-  cursor: default;
+/* One message component for every member -- a clearly-labeled signed
+   note rather than a generic pasted quote, with a hairline divider
+   above it so it reads as its own section. The founder's plain
+   paragraphs and the CTO's Sanskrit/transliteration/title/paragraph
+   mix both go through this same block; only the per-line type (see
+   about-team.html) picks a different treatment below. Renders only
+   when a member actually has a message -- there is no empty/
+   "coming soon" state, so the CMO's card simply ends after her
+   contact icons until a message is added for her. */
+.comrade-team-card__message {
+  margin-top: var(--comrade-space-md);
+  padding-top: var(--comrade-space-md);
+  border-top: 1px solid var(--comrade-border);
 }
 
-.comrade-team-card__message {
+.comrade-team-card__message-heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--comrade-primary);
+}
+
+.comrade-team-card__message-text {
   margin-top: var(--comrade-space-sm);
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--comrade-text-muted);
 }
 
-.comrade-team-card__message--pending {
+.comrade-team-card__message-text + .comrade-team-card__message-text {
+  margin-top: 0.85rem;
+}
+
+.comrade-team-card__message-signoff {
+  margin-top: var(--comrade-space-sm);
+  font-size: 0.95rem;
+  font-weight: 700;
   font-style: italic;
-  opacity: 0.75;
+  line-height: 1.5;
+  color: var(--comrade-text);
+}
+
+/* CTO-message-specific line types: the Sanskrit line is the most
+   visually prominent (largest, boldest), the transliteration sits
+   just under it in a smaller italic, and the English title sits
+   below that at a weight between the two -- a clear read order
+   without any one line competing with the heading above it. */
+.comrade-team-card__message-sanskrit {
+  margin-top: var(--comrade-space-sm);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--comrade-text);
+}
+
+.comrade-team-card__message-translit {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--comrade-text-muted);
+}
+
+.comrade-team-card__message-title {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--comrade-text);
+}
+
+/* ---- Featured variant: the founder. Wide editorial card, photo
+   left, text right. ---- */
+.comrade-team-card--featured {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--comrade-space-lg);
+  padding: var(--comrade-space-lg);
+}
+
+/* The founder portrait is shown at its own intrinsic aspect ratio
+   (970 / 1622 -- a tall, fully-composed studio shot) rather than
+   cropped into a fixed box: the container's aspect-ratio is set to
+   match the source file exactly, so there's nothing left to crop
+   away. If this photo is ever swapped again, update the aspect-ratio
+   to the new file's own width/height first (see about-team.html's
+   comment) rather than reusing this value.
+
+   object-fit: cover, not contain: the container's aspect-ratio is
+   set to match the image exactly, so in principle contain would
+   never need to letterbox -- but the browser rounds aspect-ratio's
+   computed height to a real pixel, which won't land on the image's
+   exact ratio to the sub-pixel, so contain was leaving a hairline
+   gap (revealing the container's own background) at the top and
+   bottom edge. cover always fills the box completely, so that gap
+   can't appear -- and since the two ratios already match almost
+   exactly, it crops nothing perceptible in exchange. */
+.comrade-team-card--featured .comrade-team-card__visual {
+  flex-shrink: 0;
+  width: 300px;
+  aspect-ratio: 970 / 1622;
+  border-radius: var(--comrade-radius-md);
+  border: 1px solid var(--comrade-border);
+}
+
+.comrade-team-card--featured .comrade-team-card__body {
+  flex: 1;
+  /* Caps the message's line length to an editorial reading width
+     instead of letting it stretch the full remaining card width --
+     the leftover space beside it is intentional, not a layout bug. */
+  max-width: 620px;
+}
+
+.comrade-team-card--featured .comrade-team-card__name {
+  font-size: 1.4rem;
+}
+
+/* ---- Standard variant: CTO / CMO. Same anatomy as the featured
+   founder card -- visual on the LEFT, role/name/contacts/message on
+   the RIGHT -- just at half the width and a smaller, tighter scale.
+   Both cards fill their grid column edge to edge, so the only space
+   between the CTO and CMO cards is the grid's own gap token, not a
+   card padded out with its own centering margin. ---- */
+.comrade-team-card--standard {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--comrade-space-md);
+  padding: var(--comrade-space-md);
+}
+
+/* Portrait, not square -- matches the founder photo's own 970:1622
+   ratio (≈ 3:5) so all three cards share one visual language instead
+   of the founder being tall and the execs being a stubby square with
+   a visible gap of card surface below it once the card's own height
+   (driven by role/name/social, or the CTO's message) exceeds a
+   square image's height. A 3:5 frame is tall enough to reach close
+   to the CTO card's actual content height on its own, closing that
+   gap without any fixed/forced height. Still 200px wide -- clearly
+   smaller than the founder's 300px, keeping "founder = largest,
+   CTO/CMO = secondary."
+
+   The CTO source photo is currently square (1254x1254), so until
+   it's replaced with a native 3:5 portrait crop (recommended --
+   object-fit: cover on a mismatched source always costs some of the
+   frame either as crop or as compromise), --comrade-team-photo-zoom/
+   -focus below scale and reposition it to approximate one. Once a
+   properly-composed 3:5 photo replaces it, drop the zoom back to 1
+   and the focus to center -- cover will then need no correction at
+   all, the same way the founder's photo already doesn't. No edge
+   fade either way: the photo stays sharp and fully visible within
+   its frame. */
+.comrade-team-card--standard .comrade-team-card__visual {
+  flex-shrink: 0;
+  width: 200px;
+  aspect-ratio: 3 / 5;
+  border-radius: var(--comrade-radius-md);
+  border: 1px solid var(--comrade-border);
+  /* Only ever affects an actual <img> (the CTO's) -- the CMO's
+     monogram ignores it entirely, so no per-member modifier class is
+     needed here. */
+  --comrade-team-photo-zoom: 1.2;
+  --comrade-team-photo-focus: 50% 20%;
+}
+
+.comrade-team-card--standard .comrade-team-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.comrade-team-card--standard .comrade-team-card__name {
+  font-size: 1.15rem;
+}
+
+/* ---- CMO branded identity visual: there is no CMO photograph, and
+   this is deliberately not a "missing image" placeholder -- a warm
+   gradient, two thin concentric rings and a pair of small orbit dots
+   (the same motif as the hero/about safety-orbit graphics elsewhere
+   on the site) frame a neumorphic monogram disc. aria-hidden because
+   it's decorative brand flourish, not information -- the member's
+   name and role are already in the text right below it. ---- */
+.comrade-team-monogram {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    160deg,
+    var(--comrade-surface-soft),
+    var(--comrade-primary-light-strong)
+  );
+}
+
+/* The visual is a plain square now (matching the CTO photo's own
+   frame), so the ring can use the same generous proportions on both
+   axes without running out of vertical room the way it did in the
+   card's previous landscape layout. */
+.comrade-team-monogram__ring {
+  position: absolute;
+  width: 50%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 1px solid var(--comrade-border-strong);
+}
+
+.comrade-team-monogram__ring::before {
+  content: "";
+  position: absolute;
+  inset: -16%;
+  border-radius: 50%;
+  border: 1px solid var(--comrade-primary-light-strong);
+}
+
+.comrade-team-monogram__orbit-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--comrade-primary);
+}
+
+.comrade-team-monogram__orbit-dot--a {
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.comrade-team-monogram__orbit-dot--b {
+  bottom: 18%;
+  right: 20%;
+}
+
+.comrade-team-monogram__text {
+  position: relative;
+  width: 32%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--comrade-surface-soft);
+  box-shadow: var(--comrade-neumo-raised);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: var(--comrade-primary);
 }

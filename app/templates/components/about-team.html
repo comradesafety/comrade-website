@@ -1,56 +1,89 @@
 {#
   about-team.html
-  Founder & CEO gets the full card width; CTO and CMO sit side by side
-  below at half width each, using the exact same internal layout so the
-  only real difference is size, not concept. Each card: a square,
-  rounded-corner photo on the left, then to its right the role, name,
-  a row of contact icons (LinkedIn/Instagram/email), and the person's
-  own short message underneath the name.
+  One reusable team-card component (team_card, below) in two variants:
+  "featured" for the founder (full-width, largest portrait, longest
+  message) and "standard" for the CTO/CMO (half-width siblings). Both
+  variants share the same markup structure and the same underlying
+  CSS classes (.comrade-team-card__*) -- the visual difference is
+  scale and layout direction (see about.css), not a different design.
 
-  Real names/photos/links/messages are not set yet (see
-  ABOUT_TEAM_LEAD/ABOUT_TEAM_EXECS in routes/pages.py); every field
-  degrades to a clearly-a-placeholder state until they are: a generic
-  person icon instead of a photo, "Name coming soon", a short "Message
-  coming soon." line, and contact icons rendered as inert (unlinked)
-  until a real URL/address exists, rather than pointing anywhere
-  misleading. Sits on the "deep" band, alternating with philosophy
-  above.
+  All content is real (see ABOUT_TEAM_LEAD/ABOUT_TEAM_EXECS in
+  routes/pages.py). Every optional field (email, message, photo)
+  renders only when present -- no "coming soon" placeholder text and
+  no empty containers reserved for data that doesn't exist for that
+  person. The CMO has no photo asset and no message yet; her card
+  renders a small branded monogram instead of a photo, and no message
+  section at all until one is added to her data.
 #}
 {% from "macros/icons.html" import icon %}
 
 {% macro contact_icon(url, icon_name, label) %}
 {%- if url -%}
 <a href="{{ url }}" class="comrade-team-card__contact-link" aria-label="{{ label }}" target="_blank" rel="noopener noreferrer">{{ icon(icon_name) }}</a>
-{%- else -%}
-<span class="comrade-team-card__contact-link comrade-team-card__contact-link--pending" aria-hidden="true">{{ icon(icon_name) }}</span>
 {%- endif -%}
 {%- endmacro %}
 
-{% macro team_card(member, size) %}
-<div class="comrade-team-card comrade-team-card--{{ size }} reveal-on-scroll reveal-up">
-  <div class="comrade-team-card__photo">
-    {% if member.photo %}
-      <img src="{{ url_for('static', filename=member.photo) }}" alt="{{ member.name }}">
+{% macro member_contacts(member) %}
+<div class="comrade-team-card__contacts">
+  {{ contact_icon(member.linkedin, "linkedin", member.name ~ " on LinkedIn") }}
+  {{ contact_icon(member.instagram, "instagram", member.name ~ " on Instagram") }}
+  {% if member.email %}
+    {{ contact_icon("mailto:" ~ member.email, "mail", "Email " ~ member.name) }}
+  {% endif %}
+</div>
+{%- endmacro %}
+
+{# One line-rendering macro shared by every member's message, so the
+   founder's plain paragraphs and the CTO's Sanskrit/transliteration/
+   title/paragraph mix use the exact same component -- only the
+   per-line "type" changes which typographic treatment is applied. #}
+{% macro member_message(message) %}
+{% if message %}
+<div class="comrade-team-card__message">
+  <p class="comrade-team-card__message-heading">{{ message.heading }}</p>
+  {% for line in message.lines %}
+    {% if line.type == "sanskrit" %}
+    <p class="comrade-team-card__message-sanskrit" lang="sa">{{ line.text }}</p>
+    {% elif line.type == "transliteration" %}
+    <p class="comrade-team-card__message-translit">{{ line.text }}</p>
+    {% elif line.type == "title" %}
+    <p class="comrade-team-card__message-title">{{ line.text }}</p>
     {% else %}
-      {{ icon("person") }}
+    <p class="comrade-team-card__message-text">{{ line.text }}</p>
+    {% endif %}
+  {% endfor %}
+  {% if message.signoff %}
+  <p class="comrade-team-card__message-signoff">{{ message.signoff }}</p>
+  {% endif %}
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% macro team_card(member, variant) %}
+<div class="comrade-team-card comrade-team-card--{{ variant }} reveal-on-scroll reveal-up">
+  <div class="comrade-team-card__visual">
+    {% if member.photo %}
+      <img class="comrade-team-card__image" src="{{ url_for('static', filename=member.photo) }}" alt="{{ member.alt }}" {{ 'loading="lazy"' if variant != "featured" else 'loading="eager"' }}>
+    {% else %}
+      {# No photo asset for this member: a deliberate branded
+         monogram, not a "missing image" placeholder. Decorative only
+         -- the name/role text right below already carries the
+         information, so this is hidden from assistive tech rather
+         than given alt text that would misrepresent it as a photo. #}
+      <div class="comrade-team-monogram" aria-hidden="true">
+        <span class="comrade-team-monogram__ring"></span>
+        <span class="comrade-team-monogram__orbit-dot comrade-team-monogram__orbit-dot--a"></span>
+        <span class="comrade-team-monogram__orbit-dot comrade-team-monogram__orbit-dot--b"></span>
+        <span class="comrade-team-monogram__text">{{ member.initials }}</span>
+      </div>
     {% endif %}
   </div>
 
-  <div class="comrade-team-card__info">
+  <div class="comrade-team-card__body">
     <p class="comrade-team-card__role">{{ member.role }}</p>
-    <h3 class="comrade-team-card__name{{ ' comrade-team-card__name--pending' if not member.name }}">
-      {{ member.name or "Name coming soon" }}
-    </h3>
-
-    <div class="comrade-team-card__contacts">
-      {{ contact_icon(member.linkedin, "linkedin", member.name ~ " on LinkedIn" if member.name else "LinkedIn") }}
-      {{ contact_icon(member.instagram, "instagram", member.name ~ " on Instagram" if member.name else "Instagram") }}
-      {{ contact_icon("mailto:" ~ member.email if member.email else none, "mail", "Email " ~ (member.name or "")) }}
-    </div>
-
-    <p class="comrade-team-card__message{{ ' comrade-team-card__message--pending' if not member.message }}">
-      {{ member.message or "Message coming soon." }}
-    </p>
+    <h3 class="comrade-team-card__name">{{ member.name }}</h3>
+    {{ member_contacts(member) }}
+    {{ member_message(member.message) }}
   </div>
 </div>
 {%- endmacro %}
@@ -63,12 +96,12 @@
     </div>
 
     <div class="comrade-about-team__lead">
-      {{ team_card(team_lead, "lead") }}
+      {{ team_card(team_lead, "featured") }}
     </div>
 
     <div class="comrade-about-team__execs">
       {% for member in team_execs %}
-        {{ team_card(member, "exec") }}
+        {{ team_card(member, "standard") }}
       {% endfor %}
     </div>
   </div>
