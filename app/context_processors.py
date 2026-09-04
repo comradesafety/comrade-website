@@ -5,9 +5,10 @@ loop over the same data instead of each hardcoding their own copy.
 """
 
 from datetime import datetime, timezone
-from urllib.parse import quote
 
 from flask import Flask
+
+from app.email_links import COMRADE_EMAIL, gmail_compose_url
 
 MAIN_NAV_ITEMS = [
     ("home.index", "Home"),
@@ -18,16 +19,16 @@ MAIN_NAV_ITEMS = [
     ("pages.contact", "Contact"),
 ]
 
-# The waitlist is a mailto invitation, not a website form -- there is
-# no backend endpoint, no database, no Google Sheet for it. This is
-# the one place the recipient/subject/body are defined; the navbar's
+# The waitlist is a Gmail-compose invitation, not a website form --
+# there is no backend endpoint, no database, no Google Sheet for it.
+# This is the one place the subject/body are defined; the navbar's
 # global "Join Waitlist" CTA (the site's only waitlist entry point)
-# builds its href from WAITLIST_MAILTO_HREF below rather than
-# hardcoding the mailto string, so it can't drift from this source.
+# builds its href from WAITLIST_EMAIL_HREF below rather than
+# hardcoding the URL, so it can't drift from this source.
 #
 # Same recipient address already shown on the Contact page's Email
-# card and in the footer -- never a second address.
-WAITLIST_EMAIL = "comradessafety@gmail.com"
+# card (app/routes/pages.py) and in the footer -- never a second one;
+# all three come from COMRADE_EMAIL in app/email_links.py.
 WAITLIST_SUBJECT = "I'd like to join the Comrade waitlist"
 WAITLIST_BODY = (
     "Hi Comrade Team,\n\n"
@@ -35,16 +36,14 @@ WAITLIST_BODY = (
     "you're building.\n\n"
     "Thanks!"
 )
-# quote(), not manual string concatenation: percent-encodes spaces,
-# newlines (-> %0A), apostrophes, and everything else that isn't a
-# bare unreserved character, which is what makes the prefilled subject
-# and multi-line body actually well-formed in every mail client
-# instead of silently truncating at the first special character.
-WAITLIST_MAILTO_HREF = (
-    f"mailto:{WAITLIST_EMAIL}"
-    f"?subject={quote(WAITLIST_SUBJECT, safe='')}"
-    f"&body={quote(WAITLIST_BODY, safe='')}"
-)
+WAITLIST_EMAIL_HREF = gmail_compose_url(COMRADE_EMAIL, WAITLIST_SUBJECT, WAITLIST_BODY)
+
+# The plain "just get in touch" link -- recipient only, no subject or
+# body -- shared by the footer's Email row. The Contact page's Email
+# card builds its own copy of this same value directly in pages.py
+# (it isn't rendered through a context processor), but both call
+# gmail_compose_url() with the same COMRADE_EMAIL, so they can't drift.
+COMRADE_EMAIL_HREF = gmail_compose_url(COMRADE_EMAIL)
 
 
 def register_context_processors(app: Flask) -> None:
@@ -58,4 +57,7 @@ def register_context_processors(app: Flask) -> None:
 
     @app.context_processor
     def inject_waitlist_cta():
-        return {"waitlist_mailto_href": WAITLIST_MAILTO_HREF}
+        return {
+            "waitlist_email_href": WAITLIST_EMAIL_HREF,
+            "comrade_email_href": COMRADE_EMAIL_HREF,
+        }

@@ -41,7 +41,12 @@
       <div class="comrade-footer__contact" aria-label="Get in touch">
         <p class="comrade-footer__heading">Connect</p>
         <div class="comrade-footer__contact-list">
-          <a href="mailto:comradessafety@gmail.com" class="comrade-footer__contact-row">
+          <a
+            href="{{ comrade_email_href }}"
+            class="comrade-footer__contact-row"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="comrade-footer__contact-icon">{{ icon("mail") }}</span>
             <span class="comrade-footer__contact-text">comradessafety@gmail.com</span>
           </a>

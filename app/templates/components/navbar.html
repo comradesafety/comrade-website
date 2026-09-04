@@ -32,14 +32,15 @@
     </nav>
 
     <div class="comrade-navbar__actions">
-      {# waitlist_mailto_href comes from context_processors.py's
+      {# waitlist_email_href comes from context_processors.py's
          inject_waitlist_cta — the one place the recipient/subject/
          body are defined. This is the site's only "Join Waitlist" CTA
-         (there is no separate one on the Contact page). A plain
-         mailto: link, not a route: clicking it opens the visitor's
-         own email client, no page navigation and no JavaScript
-         involved. #}
-      {{ comrade_button("Join Waitlist", waitlist_mailto_href, "secondary", aria_label="Join the Comrade waitlist by email") }}
+         (there is no separate one on the Contact page). Opens Gmail's
+         own web compose UI in a new tab with the address, subject,
+         and body already filled in, rather than a mailto: handoff
+         that silently does nothing on a visitor with no default mail
+         app registered. #}
+      {{ comrade_button("Join Waitlist", waitlist_email_href, "secondary", aria_label="Join the Comrade waitlist by email (opens Gmail in a new tab)", external=True) }}
 
       <button
         type="button"
@@ -83,7 +84,7 @@
         </a>
       </nav>
       <div class="comrade-navbar__mobile-cta-wrapper">
-        {{ comrade_button("Join Waitlist", waitlist_mailto_href, "secondary", "comrade-navbar__mobile-cta", aria_label="Join the Comrade waitlist by email") }}
+        {{ comrade_button("Join Waitlist", waitlist_email_href, "secondary", "comrade-navbar__mobile-cta", aria_label="Join the Comrade waitlist by email (opens Gmail in a new tab)", external=True) }}
       </div>
     </div>
   </div>

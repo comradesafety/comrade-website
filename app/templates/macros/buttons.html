@@ -9,8 +9,8 @@
    different local name to avoid the parameter shadowing it. #}
 {% from "macros/icons.html" import icon as render_icon %}
 
-{% macro comrade_button(text, href, variant="primary", extra_classes="", icon="arrow-up-right", aria_label=None) %}
-<a href="{{ href }}" class="comrade-btn comrade-btn--{{ variant }} {{ extra_classes }}"{% if aria_label %} aria-label="{{ aria_label }}"{% endif %}>
+{% macro comrade_button(text, href, variant="primary", extra_classes="", icon="arrow-up-right", aria_label=None, external=False) %}
+<a href="{{ href }}" class="comrade-btn comrade-btn--{{ variant }} {{ extra_classes }}"{% if aria_label %} aria-label="{{ aria_label }}"{% endif %}{% if external %} target="_blank" rel="noopener noreferrer"{% endif %}>
   <span>{{ text }}</span>
   <span class="comrade-btn__icon">{{ render_icon(icon) }}</span>
 </a>

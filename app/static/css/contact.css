@@ -2,8 +2,8 @@
   contact.css
   Styles for the whole Contact page: hero (headline, description, the
   contact visual) and the contact methods panel. That's the entire
-  page now -- the waitlist is a mailto: link on the navbar's global
-  CTA (see context_processors.py's WAITLIST_MAILTO_HREF), not a
+  page now -- the waitlist is a Gmail-compose link on the navbar's
+  global CTA (see context_processors.py's WAITLIST_EMAIL_HREF), not a
   section here at all.
 */
 

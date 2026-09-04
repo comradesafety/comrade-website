@@ -11,6 +11,7 @@ page needs a "coming soon" state again.
 
 from flask import Blueprint, render_template
 
+from app.email_links import COMRADE_EMAIL, gmail_compose_url
 from app.routes.recruitment import (
     ACK_FIELDS,
     FORM_STEPS,
@@ -369,7 +370,9 @@ CONTACT_HERO = {
 # Both values are exactly what's already live in footer.html — never a
 # second, possibly-drifting copy of the same contact details. "icon"
 # names a branch in macros/icons.html; "external" adds target="_blank"
-# rel="noopener noreferrer" for the one link that leaves the site.
+# rel="noopener noreferrer" -- true for both rows now, since Email
+# opens Gmail's own web compose in a new tab rather than a mailto:
+# handoff (see app/email_links.py for why).
 CONTACT_METHODS_HEADING = "Contact"
 
 CONTACT_METHODS = [
@@ -377,8 +380,8 @@ CONTACT_METHODS = [
         "label": "Email",
         "icon": "mail",
         "value": "comradessafety@gmail.com",
-        "href": "mailto:comradessafety@gmail.com",
-        "external": False,
+        "href": gmail_compose_url(COMRADE_EMAIL),
+        "external": True,
     },
     {
         "label": "Instagram",
@@ -389,8 +392,8 @@ CONTACT_METHODS = [
     },
 ]
 
-# The waitlist is a mailto invitation, not a page section — see
-# context_processors.py's WAITLIST_MAILTO_HREF, which drives the
+# The waitlist is a Gmail-compose invitation, not a page section — see
+# context_processors.py's WAITLIST_EMAIL_HREF, which drives the
 # navbar's global "Join Waitlist" CTA on every page including this
 # one. No Contact-page-specific waitlist copy/section to pass here.
 @pages_bp.route("/contact", methods=["GET"])

@@ -4,8 +4,9 @@
  * and sends Comrade-branded HTML email notifications.
  *
  * The Contact page's "Join Waitlist" CTA does NOT use this script (or
- * any backend) -- it's a plain mailto: link (see
- * app/context_processors.py's WAITLIST_MAILTO_HREF). This file is
+ * any backend) -- it's a Gmail web-compose link opened in a new tab
+ * (see app/email_links.py's gmail_compose_url() and
+ * app/context_processors.py's WAITLIST_EMAIL_HREF). This file is
  * recruitment-only.
  */
 
