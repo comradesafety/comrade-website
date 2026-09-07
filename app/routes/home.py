@@ -6,7 +6,7 @@ its content lives in templates; this route only supplies the data.
 
 import os
 
-from flask import Blueprint, current_app, render_template, send_from_directory
+from flask import Blueprint, Response, current_app, render_template, send_from_directory
 
 home_bp = Blueprint("home", __name__)
 
@@ -34,3 +34,37 @@ def favicon():
     # tags in base.html, so this avoids a spurious 404 on every visit.
     images_dir = os.path.join(current_app.root_path, "static", "images")
     return send_from_directory(images_dir, "favicon.ico", mimetype="image/x-icon")
+
+
+@home_bp.route("/robots.txt", methods=["GET"])
+def robots():
+    content = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Sitemap: https://www.comradesafety.com/sitemap.xml\n"
+    )
+    return Response(content, mimetype="text/plain")
+
+
+@home_bp.route("/sitemap.xml", methods=["GET"])
+def sitemap():
+    pages = [
+        "https://www.comradesafety.com/",
+        "https://www.comradesafety.com/about",
+        "https://www.comradesafety.com/vision",
+        "https://www.comradesafety.com/products",
+        "https://www.comradesafety.com/contact",
+        "https://www.comradesafety.com/careers",
+    ]
+    xml_entries = "".join(
+        f"<url><loc>{url}</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>"
+        for url in pages
+    )
+    xml_content = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{xml_entries}\n"
+        "</urlset>"
+    )
+    return Response(xml_content, mimetype="application/xml")
+

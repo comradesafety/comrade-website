@@ -344,7 +344,6 @@
      shape the featured card already switches to above. The image
      also shrinks a little further, matching the reduced card width. */
   .comrade-team-card--standard {
-    flex-direction: column;
     align-items: center;
     text-align: center;
   }
@@ -354,7 +353,8 @@
   }
 
   .comrade-team-card--standard .comrade-team-card__visual {
-    width: 160px;
+    width: 100%;
+    max-width: 260px;
   }
 }
 

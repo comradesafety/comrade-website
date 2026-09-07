@@ -115,14 +115,14 @@ ABOUT_TEAM_LEAD = {
     "initials": None,
     "linkedin": "https://www.linkedin.com/in/yuvraj-kumar-2244b3345/",
     "instagram": "https://www.instagram.com/ifeelyuvraj/",
-    "email": None,
+    "email": "Kumar.yuvraj2804@gmail.com",
     "message": {
         "heading": "A Message From The Founder",
         "lines": [
             {
                 "type": "paragraph",
                 "text": (
-                    "At Comrade, our vision is simple yet powerful: we "
+                    "At Comrade, our vision is simple yet powerful, we "
                     "believe every woman deserves to move through the "
                     "world with confidence free from fear."
                 ),
@@ -130,7 +130,7 @@ ABOUT_TEAM_LEAD = {
             {
                 "type": "paragraph",
                 "text": (
-                    "My commitment as founder is unwavering: to keep "
+                    "My commitment as founder is unwavering to keep "
                     "evolving our products based on real feedback, "
                     "ensuring Comrade remains at the frontier of "
                     "women’s safety tech. We’re here not only to "
@@ -160,24 +160,7 @@ ABOUT_TEAM_EXECS = [
         "linkedin": "https://www.linkedin.com/in/divya-prakash-5b564b273/",
         "instagram": "https://www.instagram.com/divy.prakash9521",
         "email": "24f3004288@ds.study.iitm.ac.in",
-        "message": {
-            "heading": "A Message From The CTO",
-            "lines": [
-                {"type": "sanskrit", "text": "अन्तः अस्ति प्रारम्भः"},
-                {
-                    "type": "paragraph",
-                    "text": "When you think it’s over, that’s where we begin.",
-                },
-                {
-                    "type": "paragraph",
-                    "text": (
-                        "Because every moment of vulnerability is a "
-                        "chance for a Comrade to rise."
-                    ),
-                },
-            ],
-            "signoff": None,
-        },
+        "message": None,
     },
     {
         "role": "Chief Marketing Officer",
@@ -195,6 +178,17 @@ ABOUT_TEAM_EXECS = [
         # with placeholder copy. Add a message dict here (same shape
         # as the founder's/CTO's above) once one is provided; the
         # card will pick it up automatically.
+        "message": None,
+    },
+    {
+        "role": "Product Engineer",
+        "name": "Bhumika Kakade",
+        "photo": "team_images/Bhumika.png",
+        "alt": "Portrait of Bhumika Kakade, Product Engineer of Comrade",
+        "initials": None,
+        "linkedin": "https://www.linkedin.com/in/bhumika-kakde-42724a391",
+        "instagram": "https://www.instagram.com/bhumikaa_1729",
+        "email": "kakdebhumikabharat@gmail.com",
         "message": None,
     },
 ]
