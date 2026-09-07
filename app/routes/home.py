@@ -68,3 +68,10 @@ def sitemap():
     )
     return Response(xml_content, mimetype="application/xml")
 
+
+@home_bp.route("/google84a6bfa9f8bc09a1.html", methods=["GET"])
+def google_verification():
+    project_root = os.path.abspath(os.path.join(current_app.root_path, ".."))
+    return send_from_directory(project_root, "google84a6bfa9f8bc09a1.html", mimetype="text/html")
+
+
